@@ -1,0 +1,40 @@
+{
+  "name": "action-spigotmc",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/SpraxDev/Action-SpigotMC#readme",
+  "main": "build/index.js",
+  "private": false,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node --enable-source-maps build/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "author": {
+    "name": "Christian Koop",
+    "url": "https://Sprax2013.de",
+    "email": "developer@sprax2013.de"
+  },
+  "contributors": [],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SpraxDev/Action-SpigotMC.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SpraxDev/Action-SpigotMC/issues"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
