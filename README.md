@@ -1,0 +1,1 @@
+# actions-spigotmc-test
