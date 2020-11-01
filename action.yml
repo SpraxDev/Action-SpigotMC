@@ -1,0 +1,37 @@
+name: Compile Minecraft Spigot (BuildTools)
+description: Makes it easier to compile multiple Spigot versions at the same time and speed up clean builds
+author: Christian Koop
+
+inputs:
+  versions:
+    required: false
+    default: latest
+    description: Versions to build (sperate multiple with ',')
+  target:
+    required: false
+    default: Spigot
+    description: Select what exactly you want to compile (none, Spigot, CraftBukkit) (sperate multiple with ',')
+  forceRun:
+    required: false
+    default: 'false'
+    description: Disables the check for existing files in the local maven repository
+  generateSrc:
+    required: false
+    default: 'false'
+    description: Should sources be generated?
+  generateDoc:
+    required: false
+    default: 'false'
+    description: Should the documentation be generated?
+  disableJavaCheck:
+    required: false
+    default: 'false'
+    description: Should we disable the BuildTools's Java-Version-Check
+  threads:
+    required: false
+    default: '-1'
+    description: The amount of builds allowed to run at a time, set to '-1' to use system's cpu count
+
+runs:
+  using: node12
+  main: dist/index.js

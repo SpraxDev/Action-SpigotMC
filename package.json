@@ -1,0 +1,47 @@
+{
+  "name": "action-spigotmc",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/SpraxDev/Action-SpigotMC#readme",
+  "main": "dist/index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build src/index.ts -s -m",
+    "start": "node dist/index.js",
+    "dev": "ncc run src/index.ts"
+  },
+  "author": {
+    "name": "Christian Koop",
+    "url": "https://Sprax2013.de",
+    "email": "developer@sprax2013.de"
+  },
+  "contributors": [],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SpraxDev/Action-SpigotMC.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SpraxDev/Action-SpigotMC/issues"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "async": "^3.2.0",
+    "fs-extra": "^9.0.1",
+    "read-last-lines": "^1.7.2"
+  },
+  "devDependencies": {
+    "@tsconfig/node12": "^1.0.7",
+    "@types/async": "^3.2.3",
+    "@types/fs-extra": "^9.0.2",
+    "@types/node": "~12.19.2",
+    "@vercel/ncc": "^0.24.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5"
+  }
+}

@@ -1,0 +1,34 @@
+name: 'Build & Run'
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  # Make sure clean build works properly
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          npm i
+          npm run build
+
+  # Make sure the action works on a clean machine without building
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          versions: latest, 1.8
+
+  # Run the original BuildTools in GitHub Actions to easily compare the build times etc.
+  original-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run original Spigot-BuildTools
+        run: |
+          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar
+          java -jar BuildTools.jar --rev latest --compile Spigot
+          java -jar BuildTools.jar --rev 1.8 --compile Spigot
