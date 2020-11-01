@@ -2,6 +2,10 @@ name: Compile Minecraft Spigot (BuildTools)
 description: Makes it easier to compile multiple Spigot versions at the same time and speed up clean builds
 author: Christian Koop
 
+branding:
+  icon: arrow-down-circle
+  color: orange
+
 inputs:
   versions:
     required: false
