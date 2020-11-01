@@ -42,7 +42,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
       try {
         await core.group('Prepare BuildTools', async (): Promise<void> => {
-          return runCmd('java', ['-jar', 'BuildTools.jar', '--compile', 'NONE'],
+          return runCmd('java', ['-jar', 'BuildTools.jar', '--compile', 'NONE', (disableJavaCheck ? '--disable-java-check' : '')],
               workingDir.cache, appLogFile);
         });
       } catch (err) {
