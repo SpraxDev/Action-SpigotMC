@@ -11,10 +11,6 @@ inputs:
     required: false
     default: Spigot
     description: Select what exactly you want to compile (none, Spigot, CraftBukkit) (sperate multiple with ',')
-  forceRun:
-    required: false
-    default: 'false'
-    description: Disables the check for existing files in the local maven repository
   generateSrc:
     required: false
     default: 'false'
@@ -27,6 +23,10 @@ inputs:
     required: false
     default: 'false'
     description: Should we disable the BuildTools's Java-Version-Check
+  forceRun:
+    required: false
+    default: 'false'
+    description: Disables the check for existing files in the local maven repository
   threads:
     required: false
     default: '-1'
