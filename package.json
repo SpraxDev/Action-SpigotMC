@@ -38,7 +38,7 @@
   "devDependencies": {
     "@tsconfig/node12": "^1.0.7",
     "@types/async": "^3.2.3",
-    "@types/fs-extra": "^9.0.2",
+    "@types/fs-extra": "^9.0.3",
     "@types/node": "~12.19.2",
     "@vercel/ncc": "^0.24.1",
     "ts-node": "^9.0.0",
