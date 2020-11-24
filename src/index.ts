@@ -34,110 +34,116 @@ const workingDir = resetWorkingDir();
 
 async function run(): Promise<{ code: number, msg?: string }> {
   return new Promise(async (resolve, reject): Promise<void> => {
-    if (versions.length == 0) return resolve({code: 0, msg: 'No version(s) provided to build'});
-    if (target.length == 0) return resolve({code: 0, msg: 'No target(s) provided to build'});
+    try {
+      if (versions.length == 0) return resolve({code: 0, msg: 'No version(s) provided to build'});
+      if (target.length == 0) return resolve({code: 0, msg: 'No target(s) provided to build'});
 
-    if (!Object.keys(supportedBuildTools).includes(buildToolProvider)) {
-      return reject(new Error(`'${buildToolProvider}' is not a valid BuildTool-Provider (${Object.keys(supportedBuildTools).join(', ')})`));
-    }
-
-    const buildTool = supportedBuildTools[buildToolProvider];
-    const appLogFile = joinPath(workingDir.logs, 'SpraxDev_Actions-SpigotMC.log');
-
-    console.log('Installed Java-Version:');
-    await runCmd('java', ['-version'], workingDir.base, appLogFile);
-
-    console.log(`Downloading '${buildTool.url}'...`);
-    await downloadFile(buildTool.url, joinPath(workingDir.cache, 'BuildTools.jar'));
-
-    const gotTemplateDirectory = versions.length != 1;
-
-    // Prepare template directory if more than one version is provided
-    if (gotTemplateDirectory) {
-      console.log('Prepare for future tasks by running BuildTools...');
-
-      try {
-        await core.group('Prepare BuildTools', async (): Promise<void> => {
-          return runCmd('java', ['-jar', 'BuildTools.jar', (disableJavaCheck ? '--disable-java-check' : ''), ...buildTool.prepareArgs],
-              workingDir.cache, appLogFile);
-        });
-      } catch (err) {
-        console.error(err);
-
-        console.error(`\nPrinting last 25 lines from '${resolvePath(appLogFile)}':`);
-        for (const line of (await rll.read(appLogFile, 25))) {
-          console.error(line);
-        }
-
-        return exit(1);
+      if (!Object.keys(supportedBuildTools).includes(buildToolProvider)) {
+        return reject(new Error(`'${buildToolProvider}' is not a valid BuildTool-Provider (${Object.keys(supportedBuildTools).join(', ')})`));
       }
-    }
 
-    const buildToolsArgs = ['-jar', 'BuildTools.jar', '--compile', target.join(',')];
+      const buildTool = supportedBuildTools[buildToolProvider];
+      const appLogFile = joinPath(workingDir.logs, 'SpraxDev_Actions-SpigotMC.log');
 
-    if (generateSrc) {
-      buildToolsArgs.push('--generate-source');
-    }
+      console.log('Installed Java-Version:');
+      await runCmd('java', ['-version'], workingDir.base, appLogFile);
 
-    if (generateDoc) {
-      buildToolsArgs.push('--generate-docs');
-    }
+      console.log(`Downloading '${buildTool.url}'...`);
+      await downloadFile(buildTool.url, joinPath(workingDir.cache, 'BuildTools.jar'));
 
-    if (disableJavaCheck) {
-      buildToolsArgs.push('--disable-java-check');
-    }
+      const gotTemplateDirectory = versions.length != 1;
 
-    const tasks = [];
-    for (const ver of versions) {
-      tasks.push((callback: (err?: Error, result?: unknown) => void) => {
+      // Prepare template directory if more than one version is provided
+      if (gotTemplateDirectory) {
+        console.log('Prepare for future tasks by running BuildTools...');
+
         try {
-          const start = Date.now();
-
-          const logFile = joinPath(workingDir.logs, `${ver}.log`);
-
-          console.log(`Building version '${ver}'...`);
-
-          // If there is only one version to build, the cache directory is used instead of copying it first
-          const versionDir = gotTemplateDirectory ? joinPath(workingDir.base, `${ver}`) : workingDir.cache;
-
-          if (gotTemplateDirectory) {
-            copy(workingDir.cache, versionDir)
-                .then(() => {
-                  runCmd('java', [...buildToolsArgs, '--rev', ver],
-                      versionDir, logFile, true)  // set to silent because multiple builds can run at once
-                      .then(() => {
-                        rmdirSync(versionDir, {recursive: true}); // delete our task dir
-
-                        const end = Date.now();
-
-                        console.log(`Finished building '${ver}' in ${((end - start) / 60_000)} minutes`);
-                        callback();
-                      });
-                })
-                .catch((err) => {
-                  console.log(`An error occurred while building '${ver}'`);
-                  console.error(err);
-
-                  console.error(`\nPrinting last 25 lines from '${resolvePath(logFile)}':`);
-                  rll.read(logFile, 25)
-                      .then((lines: string[]) => {
-                        for (const line of lines) {
-                          console.error(line);
-                        }
-                      })
-                      .catch(console.error)
-                      .finally(() => callback(err));
-                });
-          }
+          await core.group('Prepare BuildTools', async (): Promise<void> => {
+            return runCmd('java', ['-jar', 'BuildTools.jar', (disableJavaCheck ? '--disable-java-check' : ''), ...buildTool.prepareArgs],
+                workingDir.cache, appLogFile);
+          });
         } catch (err) {
-          callback(err);
-        }
-      });
-    }
+          console.error(err);
 
-    (parallelLimit(tasks, threadCount) as unknown as Promise<unknown[]>)  // Valid according to docs - types outdated?
-        .then(() => resolve({code: 0}))
-        .catch(reject);
+          console.error(`\nPrinting last 25 lines from '${resolvePath(appLogFile)}':`);
+          for (const line of (await rll.read(appLogFile, 25))) {
+            console.error(line);
+          }
+
+          return exit(1);
+        }
+      }
+
+      const buildToolsArgs = ['-jar', 'BuildTools.jar', '--compile', target.join(',')];
+
+      if (generateSrc) {
+        buildToolsArgs.push('--generate-source');
+      }
+
+      if (generateDoc) {
+        buildToolsArgs.push('--generate-docs');
+      }
+
+      if (disableJavaCheck) {
+        buildToolsArgs.push('--disable-java-check');
+      }
+
+      const tasks = [];
+      for (const ver of versions) {
+        tasks.push((callback: (err?: Error, result?: unknown) => void) => {
+          try {
+            const start = Date.now();
+
+            const logFile = joinPath(workingDir.logs, `${ver}.log`);
+
+            console.log(`Building version '${ver}'...`);
+
+            // If there is only one version to build, the cache directory is used instead of copying it first
+            const versionDir = gotTemplateDirectory ? joinPath(workingDir.base, `${ver}`) : workingDir.cache;
+
+            if (gotTemplateDirectory) {
+              copy(workingDir.cache, versionDir)
+                  .then(() => {
+                    runCmd('java', [...buildToolsArgs, '--rev', ver],
+                        versionDir, logFile, true)  // set to silent because multiple builds can run at once
+                        .then(() => {
+                          rmdirSync(versionDir, {recursive: true}); // delete our task dir
+
+                          const end = Date.now();
+
+                          console.log(`Finished building '${ver}' in ${((end - start) / 60_000)} minutes`);
+                          callback();
+                        });
+                  })
+                  .catch((err) => {
+                    console.log(`An error occurred while building '${ver}'`);
+                    console.error(err);
+
+                    console.error(`\nPrinting last 25 lines from '${resolvePath(logFile)}':`);
+                    rll.read(logFile, 25)
+                        .then((lines: string[]) => {
+                          for (const line of lines) {
+                            console.error(line);
+                          }
+                        })
+                        .catch(console.error)
+                        .finally(() => callback(err));
+                  });
+            }
+          } catch (err) {
+            callback(err);
+          }
+        });
+      }
+
+      parallelLimit(tasks, threadCount, ((err, results) => {
+        if (err) return reject(err);
+
+        resolve({code: 0});
+      }));
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
