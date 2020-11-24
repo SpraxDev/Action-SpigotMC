@@ -60,33 +60,41 @@ export async function runCmd(cmd: string, args: string[], workingDir: string, lo
   });
 }
 
-export async function downloadFile(url: string, dest: string): Promise<void> {
-  const getURL = url.toLowerCase().startsWith('http://') ? httpGet : httpsGet;
+export async function downloadFile(url: string, dest: string, currRedirectDepth: number = 0): Promise<void> {
+  const doGetRequest = url.toLowerCase().startsWith('http://') ? httpGet : httpsGet;
 
   return new Promise((resolve, reject) => {
     let writeStream: WriteStream | null = null;
 
-    const done = function (err: boolean) {
+    const done = function (errored: boolean) {
       if (writeStream) {
         writeStream.close();
         writeStream = null;
 
-        if (err) {
+        if (errored) {
           rmdirSync(dest, {recursive: true});
         }
       }
     };
 
-    // TODO
-    getURL(url, {
+    doGetRequest(url, {
       headers: {
         'User-Agent': userAgent
       }
     }, (httpRes) => {
       if (httpRes.statusCode != 200) {
-        done(true);
+        // Follow redirect
+        if (currRedirectDepth < 12 &&
+            (httpRes.statusCode == 301 || httpRes.statusCode == 302 || httpRes.statusCode == 303 ||
+                httpRes.statusCode == 307 || httpRes.statusCode == 308)) {
+          return downloadFile(url, dest, ++currRedirectDepth)
+              .then(resolve)
+              .catch(reject);
+        } else {
+          done(true);
 
-        return reject(new Error(`Server responded with ${httpRes.statusCode}`));
+          return reject(new Error(`Server responded with ${httpRes.statusCode}`));
+        }
       }
 
       writeStream = createWriteStream(dest, {encoding: 'binary'})
