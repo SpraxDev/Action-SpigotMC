@@ -72,4 +72,9 @@ as they are set automatically.
     # The amount of builds allowed to run at the same time
     # Set to '-1' to use system's cpu core count
     threads: -1
+
+    # You can choose between different BuildTools to be used by this action
+    # 'SpraxDev' is my fork of SpigotMC's that introduces some changes (https://github.com/SpraxDev/Spigot-BuildTools/#breaking-changes)
+    # Available: SpraxDev, SpigotMC
+    buildToolProvider: SpraxDev
 ```

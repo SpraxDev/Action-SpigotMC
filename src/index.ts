@@ -2,14 +2,25 @@ import * as core from '@actions/core';
 import { join as joinPath, resolve as resolvePath } from 'path';
 import { copy } from 'fs-extra';
 import { rmdirSync } from 'fs';
-
-import { cpuCount, downloadFile, exit, fixArgArr, isNumeric, resetWorkingDir, runCmd } from './utils';
 import { parallelLimit } from 'async';
 
+import { cpuCount, downloadFile, exit, fixArgArr, isNumeric, resetWorkingDir, runCmd } from './utils';
 
 const rll = require('read-last-lines');
 
+const supportedBuildTools: { [key: string]: { url: string, prepareArgs: string[] } } = {
+  spraxdev: {
+    url: 'https://github.com/SpraxDev/Spigot-BuildTools/releases/latest/download/BuildTools.jar',
+    prepareArgs: ['--exit-after-fetch']
+  },
+  spigotmc: {
+    url: 'https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar',
+    prepareArgs: ['--compile', 'None']
+  }
+};
+
 /* GitHub Actions inputs */
+const buildToolProvider: string = (core.getInput('buildToolProvider') || 'SpraxDev').toLowerCase();
 const versions: string[] = fixArgArr((core.getInput('versions') || 'latest').split(','));
 const target: string[] = fixArgArr((core.getInput('target') || 'Spigot').toUpperCase().split(','));
 const generateSrc: boolean = core.getInput('generateSrc') == 'true';
@@ -22,17 +33,22 @@ const threadCount: number = isNumeric(core.getInput('threads')) ? parseInt(core.
 const workingDir = resetWorkingDir();
 
 async function run(): Promise<{ code: number, msg?: string }> {
-  return new Promise<{ code: number, msg?: string }>(async (resolve, reject): Promise<void> => {
+  return new Promise(async (resolve, reject): Promise<void> => {
     if (versions.length == 0) return resolve({code: 0, msg: 'No version(s) provided to build'});
     if (target.length == 0) return resolve({code: 0, msg: 'No target(s) provided to build'});
 
+    if (!Object.keys(supportedBuildTools).includes(buildToolProvider)) {
+      return reject(new Error(`'${buildToolProvider}' is not a valid BuildTool-Provider (${Object.keys(supportedBuildTools).join(', ')})`));
+    }
+
+    const buildTool = supportedBuildTools[buildToolProvider];
     const appLogFile = joinPath(workingDir.logs, 'SpraxDev_Actions-SpigotMC.log');
 
     console.log('Installed Java-Version:');
     await runCmd('java', ['-version'], workingDir.base, appLogFile);
 
-    console.log(`Downloading BuildTools.jar from 'hub.spigotmc.org'...`);
-    await downloadFile('https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar', joinPath(workingDir.cache, 'BuildTools.jar'));
+    console.log(`Downloading '${buildTool.url}'...`);
+    await downloadFile(buildTool.url, joinPath(workingDir.cache, 'BuildTools.jar'));
 
     const gotTemplateDirectory = versions.length != 1;
 
@@ -42,7 +58,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
       try {
         await core.group('Prepare BuildTools', async (): Promise<void> => {
-          return runCmd('java', ['-jar', 'BuildTools.jar', '--compile', 'NONE', (disableJavaCheck ? '--disable-java-check' : '')],
+          return runCmd('java', ['-jar', 'BuildTools.jar', (disableJavaCheck ? '--disable-java-check' : ''), ...buildTool.prepareArgs],
               workingDir.cache, appLogFile);
         });
       } catch (err) {

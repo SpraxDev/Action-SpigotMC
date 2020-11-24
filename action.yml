@@ -35,6 +35,10 @@ inputs:
     required: false
     default: '-1'
     description: The amount of builds allowed to run at a time, set to '-1' to use system's cpu count
+  buildToolProvider:
+    required: false
+    default: SpraxDev
+    description: Whose BuildTool should be used? (SpraxDev [default], SpigotMC)
 
 runs:
   using: node12
