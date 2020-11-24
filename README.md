@@ -19,7 +19,7 @@
 </p>
 
 # Action-SpigotMC
-This Action allows you to easily compile Minecraft Spigot
+This Action allows you to easily compile Minecraft Spigot or Paper
 and install it in your runners local maven repository.
 
 Supported:
@@ -48,13 +48,6 @@ as they are set automatically.
     #
     # Example: latest, 1.14.4, 1.8.8
     versions: latest
-
-    # A comma-separated list of build targets
-    # This value is later given to the BuildTools.jar as '--compile' argument
-    #
-    # Available: None, Spigot, CraftBukkit
-    # Example: Spigot, CraftBukkit
-    target: Spigot
 
     # Should sources be generated?
     # If enabled, BuildTools is provided the '--generate-source' argument

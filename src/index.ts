@@ -31,7 +31,6 @@ const supportedBuildTools: { [key: string]: { url: string, prepareArgs: string[]
 /* GitHub Actions inputs */
 const buildToolProvider: string = (core.getInput('buildToolProvider') || 'SpraxDev').toLowerCase();
 let versions: string[] = fixArgArr((core.getInput('versions') || 'latest').toLowerCase().split(','));
-const target: string[] = fixArgArr((core.getInput('target') || 'Spigot').toUpperCase().split(','));
 const generateSrc: boolean = core.getInput('generateSrc') == 'true';
 const generateDoc: boolean = core.getInput('generateDoc') == 'true';
 const disableJavaCheck: boolean = core.getInput('disableJavaCheck') == 'true';
@@ -45,7 +44,6 @@ async function run(): Promise<{ code: number, msg?: string }> {
   return new Promise(async (resolve, reject): Promise<void> => {
     try {
       if (versions.length == 0) return resolve({code: 0, msg: 'No version(s) provided to build'});
-      if (target.length == 0) return resolve({code: 0, msg: 'No target(s) provided to build'});
 
       if (!Object.keys(supportedBuildTools).includes(buildToolProvider)) {
         return reject(new Error(`'${buildToolProvider}' is not a valid BuildTool-Provider (${Object.keys(supportedBuildTools).join(', ')})`));
@@ -91,7 +89,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
         });
       }
 
-      const buildToolsArgs = ['-jar', 'BuildTools.jar', '--compile', target.join(',')];
+      const buildToolsArgs = ['-jar', 'BuildTools.jar', '--compile', 'Spigot'];
 
       if (generateSrc) {
         buildToolsArgs.push('--generate-source');
