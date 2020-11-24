@@ -47,31 +47,31 @@ as they are set automatically.
     # These values are later given to the BuildTools.jar as '--rev' argument
     #
     # Example: latest, 1.14.4, 1.8.8
-    versions: latest
+    versions: latest # Optional
 
     # Should sources be generated?
     # If enabled, BuildTools is provided the '--generate-source' argument
-    generateSrc: false
+    generateSrc: false # Optional
 
     # Should the documentation be generated?
     # If enabled, BuildTools is provided the '--generate-docs' argument
-    generateDoc: false
+    generateDoc: false # Optional
 
     # Should we disable the BuildTools's Java-Version-Check?
     # If enabled, BuildTools is provided the '--disable-java-check' argument
-    disableJavaCheck: false
+    disableJavaCheck: false # Optional
 
     # Disables the check for existing files in the local maven repository
     # Normally, a version is skipped if it is already installed
     # in the local maven repository to speed up build time
-    forceRun: false
+    forceRun: false # Optional
 
     # The amount of builds allowed to run at the same time
     # Set to '-1' to use system's cpu core count
-    threads: -1
+    threads: -1 # Optional
 
     # You can choose between different BuildTools to be used by this action
     # 'SpraxDev' is my fork of SpigotMC's that introduces some changes (https://github.com/SpraxDev/Spigot-BuildTools/#breaking-changes)
     # Available: SpraxDev, SpigotMC
-    buildToolProvider: SpraxDev
+    buildToolProvider: SpraxDev # Optional
 ```
