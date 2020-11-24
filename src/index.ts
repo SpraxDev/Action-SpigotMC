@@ -48,7 +48,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
       console.log('Installed Java-Version:');
       await runCmd('java', ['-version'], workingDir.base, appLogFile);
 
-      console.log(`Downloading '${buildTool.url}'...`);
+      console.log(`\nDownloading '${buildTool.url}'...`);
       await downloadFile(buildTool.url, joinPath(workingDir.cache, 'BuildTools.jar'));
 
       const gotTemplateDirectory = versions.length != 1;
@@ -90,8 +90,8 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
       const tasks = [];
       for (const ver of versions) {
-        tasks.push((callback: (err?: Error, result?: unknown) => void) => {
-          try {
+        tasks.push(async (): Promise<void> => {
+          return new Promise(async (resolveTask, rejectTask): Promise<void> => {
             const start = Date.now();
 
             const logFile = joinPath(workingDir.logs, `${ver}.log`);
@@ -102,45 +102,44 @@ async function run(): Promise<{ code: number, msg?: string }> {
             const versionDir = gotTemplateDirectory ? joinPath(workingDir.base, `${ver}`) : workingDir.cache;
 
             if (gotTemplateDirectory) {
-              copy(workingDir.cache, versionDir)
-                  .then(() => {
-                    runCmd('java', [...buildToolsArgs, '--rev', ver],
-                        versionDir, logFile, true)  // set to silent because multiple builds can run at once
-                        .then(() => {
-                          rmdirSync(versionDir, {recursive: true}); // delete our task dir
-
-                          const end = Date.now();
-
-                          console.log(`Finished building '${ver}' in ${((end - start) / 60_000)} minutes`);
-                          callback();
-                        });
-                  })
-                  .catch((err) => {
-                    console.log(`An error occurred while building '${ver}'`);
-                    console.error(err);
-
-                    console.error(`\nPrinting last 25 lines from '${resolvePath(logFile)}':`);
-                    rll.read(logFile, 25)
-                        .then((lines: string[]) => {
-                          for (const line of lines) {
-                            console.error(line);
-                          }
-                        })
-                        .catch(console.error)
-                        .finally(() => callback(err));
-                  });
+              await copy(workingDir.cache, versionDir);
             }
-          } catch (err) {
-            callback(err);
-          }
+
+            try {
+              // set to silent because multiple builds can run at once
+              await runCmd('java', [...buildToolsArgs, '--rev', ver], versionDir, logFile, true);
+
+              if (gotTemplateDirectory) {
+                rmdirSync(versionDir, {recursive: true}); // delete our task dir
+              }
+
+              const end = Date.now();
+
+              console.log(`Finished '${ver}' in ${((end - start) / 60_000).toFixed(2)} minutes`);
+              resolveTask();
+            } catch (err) {
+              console.log(`An error occurred while building '${ver}'`);
+              console.error(err);
+
+              console.error(`\nPrinting last 25 lines from '${resolvePath(logFile)}':`);
+              rll.read(logFile, 25)
+                  .then((lines: string[]) => {
+                    for (const line of lines) {
+                      console.error(line);
+                    }
+                  })
+                  .catch(console.error)
+                  .finally(() => rejectTask(err));
+            }
+          });
         });
       }
 
-      parallelLimit(tasks, threadCount, ((err, results) => {
+      parallelLimit(tasks, threadCount, (err) => {
         if (err) return reject(err);
 
         resolve({code: 0});
-      }));
+      });
     } catch (err) {
       reject(err);
     }

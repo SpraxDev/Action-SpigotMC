@@ -83,11 +83,19 @@ export async function downloadFile(url: string, dest: string, currRedirectDepth:
       }
     }, (httpRes) => {
       if (httpRes.statusCode != 200) {
+        const locHeader = httpRes.headers.location;
+
         // Follow redirect
-        if (currRedirectDepth < 12 &&
+        if (currRedirectDepth < 12 && locHeader &&
             (httpRes.statusCode == 301 || httpRes.statusCode == 302 || httpRes.statusCode == 303 ||
                 httpRes.statusCode == 307 || httpRes.statusCode == 308)) {
-          return downloadFile(url, dest, ++currRedirectDepth)
+          done(false);
+
+          if (!/https?:\/\//g.test(locHeader)) {
+            return reject(new Error(`Server responded with ${httpRes.statusCode} and a relative Location-Header value (${locHeader})`));
+          }
+
+          return downloadFile(locHeader, dest, ++currRedirectDepth)
               .then(resolve)
               .catch(reject);
         } else {
