@@ -30,6 +30,12 @@ jobs:
         with:
           # These versions should match the ones above
           versions: latest, 1.8
+      - name: Upload logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: /tmp/SpraxDev-Action-SpigotMC/logs/
 
   # Run the original BuildTools in GitHub Actions to easily compare the build times etc.
   original-run:
