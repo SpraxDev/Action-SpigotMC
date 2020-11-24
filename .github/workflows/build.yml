@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: Install dependencies and build
+        run: |
           npm i
           npm run build
 
@@ -20,16 +21,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Compile 2 spigot versions
-      - uses: ./
+      - name: Compile 2 spigot version
+        uses: ./
         with:
           versions: latest, 1.8
 
       # Run again. The Action should detect that the requested versions are already inside the local maven repo
-      - uses: ./
+      - name: Compile the same versions agains
+        uses: ./
         with:
           # These versions should match the ones above
           versions: latest, 1.8
+
       - name: Upload logs
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
