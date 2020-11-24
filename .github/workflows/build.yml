@@ -10,24 +10,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: Install dependencies and build
+        run: |
           npm i
           npm run build
 
-  # Make sure the action works on a clean machine without building
+  # Make sure the action works on a clean machine without building it
   run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./
+
+      - name: Compile 2 spigot version
+        uses: ./
         with:
           versions: latest, 1.8
+
+      # Run again. The Action should detect that the requested versions are already inside the local maven repo
+      - name: Compile the same versions agains
+        uses: ./
+        with:
+          # These versions should match the ones above
+          versions: latest, 1.8
+
+      - name: Upload logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: /tmp/SpraxDev-Action-SpigotMC/logs/
 
   # Run the original BuildTools in GitHub Actions to easily compare the build times etc.
   original-run:
     runs-on: ubuntu-latest
     steps:
       - name: Run original Spigot-BuildTools
+        # These versions should match the ones from the 'run'-job
+        # Using '--compile Spigot' as this action does the same by default
         run: |
           wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar
           java -jar BuildTools.jar --rev latest --compile Spigot

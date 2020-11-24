@@ -1,14 +1,17 @@
 import { spawn as spawnProcess } from 'child_process';
-import { join as joinPath } from 'path';
+import { createWriteStream, mkdirSync, readFileSync, rmdirSync, WriteStream } from 'fs';
 import { get as httpGet } from 'http';
 import { get as httpsGet } from 'https';
-import { cpus, tmpdir } from 'os';
-import { createWriteStream, mkdirSync, readFileSync, rmdirSync, WriteStream } from 'fs';
+import readLines from 'n-readlines';
+import { cpus, homedir, tmpdir } from 'os';
+import { join as joinPath } from 'path';
+import { logError, logInfo } from './index';
 
 const packageJson = JSON.parse(readFileSync(joinPath(__dirname, '..', 'package.json'), 'utf-8'));
-const userAgent = `${packageJson.name || 'Action-SpigotMC'}/${packageJson.version || 'UNKNOWN_VERSION'} (+${packageJson.homepage || 'https://github.com/SpraxDev/'})`;
+const userAgent = `${packageJson.name || 'Action-SpigotMC'}/${packageJson.version || 'UNKNOWN_VERSION'} (+${packageJson.homepage || 'https://github.com/SpraxDev/Action-SpigotMC'})`;
 
 export const cpuCount = cpus().length;
+export const userHomeDir = homedir();
 
 export function fixArgArr(arr: string[]): string[] {
   const result: string[] = [];
@@ -28,9 +31,12 @@ export function isNumeric(str: string): boolean {
   return /^[0-9]+$/.test(str);
 }
 
-export async function runCmd(cmd: string, args: string[], workingDir: string, logFile: string, silent: boolean = false): Promise<void> {
+export async function runCmd(cmd: string, args: string[], workingDir: string, logStreamOrFile: string | WriteStream, silent: boolean = false): Promise<void> {
   return new Promise((resolve, reject) => {
-    const logStream = createWriteStream(logFile, {encoding: 'utf-8', flags: 'a'});  // Use UTF-8 and append when file exists
+    const closeLogStream = typeof logStreamOrFile == 'string';
+    const logStream = typeof logStreamOrFile != 'string' ? logStreamOrFile :
+        createWriteStream(logStreamOrFile, {encoding: 'utf-8', flags: 'a' /* append */});
+
     const runningProcess = spawnProcess(cmd, args, {shell: true, cwd: workingDir, env: process.env});
 
     runningProcess.stdout.on('data', (data) => {
@@ -49,7 +55,9 @@ export async function runCmd(cmd: string, args: string[], workingDir: string, lo
     });
 
     runningProcess.on('close', (code) => {
-      logStream.close();
+      if (closeLogStream) {
+        logStream.close();
+      }
 
       if (code != 0) {
         return reject({err: new Error(`process exited with code ${code}`), cmd, workingDir});
@@ -60,48 +68,81 @@ export async function runCmd(cmd: string, args: string[], workingDir: string, lo
   });
 }
 
-export async function downloadFile(url: string, dest: string): Promise<void> {
-  const getURL = url.toLowerCase().startsWith('http://') ? httpGet : httpsGet;
+/**
+ * @param url The URL to fetch the data from
+ * @param dest Set to `null` to get an Buffer instead of writing it to the file system
+ * @param currRedirectDepth Internally used to track how often the function has been redirected
+ */
+export async function downloadFile(url: string, dest: string | null, currRedirectDepth: number = 0): Promise<Buffer | void> {
+  const doGetRequest = url.toLowerCase().startsWith('http://') ? httpGet : httpsGet;
 
   return new Promise((resolve, reject) => {
     let writeStream: WriteStream | null = null;
 
-    const done = function (err: boolean) {
+    const done = function (errored: boolean) {
       if (writeStream) {
         writeStream.close();
         writeStream = null;
 
-        if (err) {
+        if (errored && dest != null) {
           rmdirSync(dest, {recursive: true});
         }
       }
     };
 
-    // TODO
-    getURL(url, {
+    doGetRequest(url, {
       headers: {
         'User-Agent': userAgent
       }
     }, (httpRes) => {
       if (httpRes.statusCode != 200) {
-        done(true);
+        const locHeader = httpRes.headers.location;
 
-        return reject(new Error(`Server responded with ${httpRes.statusCode}`));
+        // Follow redirect
+        if (currRedirectDepth < 12 && locHeader &&
+            (httpRes.statusCode == 301 || httpRes.statusCode == 302 || httpRes.statusCode == 303 ||
+                httpRes.statusCode == 307 || httpRes.statusCode == 308)) {
+          done(false);
+
+          if (!/https?:\/\//g.test(locHeader)) {
+            return reject(new Error(`Server responded with ${httpRes.statusCode} and a relative Location-Header value (${locHeader})`));
+          }
+
+          return downloadFile(locHeader, dest, ++currRedirectDepth)
+              .then(resolve)
+              .catch(reject);
+        } else {
+          done(true);
+
+          return reject(new Error(`Server responded with ${httpRes.statusCode}`));
+        }
       }
 
-      writeStream = createWriteStream(dest, {encoding: 'binary'})
-          .on('finish', () => {
-            done(false);
+      if (dest != null) {
+        writeStream = createWriteStream(dest, {encoding: 'binary'})
+            .on('finish', () => {
+              done(false);
 
-            return resolve();
-          })
-          .on('error', (err) => {
-            done(true);
+              return resolve();
+            })
+            .on('error', (err) => {
+              done(true);
 
-            return reject(err);
-          });
+              return reject(err);
+            });
 
-      httpRes.pipe(writeStream);
+        httpRes.pipe(writeStream);
+      } else {
+        const chunks: Buffer[] = [];
+
+        httpRes.on('data', (chunk) => {
+          chunks.push(Buffer.from(chunk, 'binary'));
+        });
+
+        httpRes.on('end', () => {
+          resolve(Buffer.concat(chunks));
+        });
+      }
     })
         .on('error', (err) => {
           done(true);
@@ -109,6 +150,23 @@ export async function downloadFile(url: string, dest: string): Promise<void> {
           return reject(err);
         });
   });
+}
+
+export function readLastLines(file: string, lineCount: number, encoding: string = 'utf-8'): string[] {
+  const result = [];
+
+  const reader = new readLines(file);
+
+  let line;
+  while (line = reader.next()) {
+    result.push(line.toString(encoding));
+
+    if (result.length > lineCount) {
+      result.shift();
+    }
+  }
+
+  return result;
 }
 
 export function resetWorkingDir(): { base: string, cache: string, logs: string } {
@@ -128,9 +186,9 @@ export function resetWorkingDir(): { base: string, cache: string, logs: string }
 export function exit(code: number, msg?: string | Error): never {
   if (msg) {
     if (typeof msg == 'string') {
-      console.log(msg);
+      logInfo(msg);
     } else {
-      console.error(msg);
+      logError(msg);
     }
   }
 

@@ -18,9 +18,13 @@
   </a>
 </p>
 
-# Action-Spigot
-This Action allows you to easily compile Minecraft Spigot
+# Action-SpigotMC
+This Action allows you to easily compile Minecraft Spigot or Paper
 and install it in your runners local maven repository.
+
+Supported:
+* SpigotMC (using official BuildTools or my modified one)
+* ~~PaperMC~~ (coming soon #26)
 
 You configure all the versions you want, and it'll compile all the missing versions automatically.
 By checking for a file in the local maven repository beforehand, build times can be reduces drastically.
@@ -37,20 +41,13 @@ If you don't change them, you can remove them from your workflow,
 as they are set automatically.
 
 ```YAML
-- uses: SpraxDev/Action-Spigot@v1
+- uses: SpraxDev/Action-SpigotMC@v1
   with:
     # A comma-separated list of Spigot version that should be compiled
     # These values are later given to the BuildTools.jar as '--rev' argument
     #
     # Example: latest, 1.14.4, 1.8.8
     versions: latest
-
-    # A comma-separated list of build targets
-    # This value is later given to the BuildTools.jar as '--compile' argument
-    #
-    # Available: None, Spigot, CraftBukkit
-    # Example: Spigot, CraftBukkit
-    target: Spigot
 
     # Should sources be generated?
     # If enabled, BuildTools is provided the '--generate-source' argument
@@ -72,4 +69,9 @@ as they are set automatically.
     # The amount of builds allowed to run at the same time
     # Set to '-1' to use system's cpu core count
     threads: -1
+
+    # You can choose between different BuildTools to be used by this action
+    # 'SpraxDev' is my fork of SpigotMC's that introduces some changes (https://github.com/SpraxDev/Spigot-BuildTools/#breaking-changes)
+    # Available: SpraxDev, SpigotMC
+    buildToolProvider: SpraxDev
 ```
