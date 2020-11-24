@@ -14,13 +14,21 @@ jobs:
           npm i
           npm run build
 
-  # Make sure the action works on a clean machine without building
+  # Make sure the action works on a clean machine without building it
   run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      # Compile 2 spigot versions
       - uses: ./
         with:
+          versions: latest, 1.8
+
+      # Run again. The Action should detect that the requested versions are already inside the local maven repo
+      - uses: ./
+        with:
+          # These versions should match the ones above
           versions: latest, 1.8
 
   # Run the original BuildTools in GitHub Actions to easily compare the build times etc.
@@ -28,6 +36,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run original Spigot-BuildTools
+        # These versions should match the ones from the 'run'-job
+        # Using '--compile Spigot' as this action does the same by default
         run: |
           wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar
           java -jar BuildTools.jar --rev latest --compile Spigot
