@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import { parallelLimit } from 'async';
-import { existsSync, rmdirSync } from 'fs';
+import { createWriteStream, existsSync, rmdirSync } from 'fs';
 import { copy } from 'fs-extra';
 import { join as joinPath, resolve as resolvePath } from 'path';
 import { xml2js } from 'xml-js';
@@ -35,10 +35,12 @@ const generateSrc: boolean = core.getInput('generateSrc') == 'true';
 const generateDoc: boolean = core.getInput('generateDoc') == 'true';
 const disableJavaCheck: boolean = core.getInput('disableJavaCheck') == 'true';
 
-const forceRun: boolean = core.getInput('forceRun') == 'true';  // TODO
+const forceRun: boolean = core.getInput('forceRun') == 'true';
 const threadCount: number = isNumeric(core.getInput('threads')) ? parseInt(core.getInput('threads')) : cpuCount;
 
 const workingDir = resetWorkingDir();
+const appLogFile = joinPath(workingDir.logs, 'SpraxDev_Actions-SpigotMC.log');
+const appLogStream = createWriteStream(appLogFile, {encoding: 'utf-8', flags: 'a' /* append */});
 
 async function run(): Promise<{ code: number, msg?: string }> {
   return new Promise(async (resolve, reject): Promise<void> => {
@@ -51,37 +53,36 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
       if (!forceRun) {
         versions = await removeExistingVersions(versions, (ver, jarPath) => {
-          console.log(`Skipping version '${ver}' because it has been found in the local maven repository: ${jarPath}`);
+          logInfo(`Skipping version '${ver}' because it has been found in the local maven repository: ${jarPath}`);
         });
 
-        if (versions.length == 0) return exit(0);
+        if (versions.length == 0) return resolve({code: 0, msg: 'No new versions to build'});
       }
 
       const buildTool = supportedBuildTools[buildToolProvider];
-      const appLogFile = joinPath(workingDir.logs, 'SpraxDev_Actions-SpigotMC.log');
 
-      console.log('Installed Java-Version:');
-      await runCmd('java', ['-version'], workingDir.base, appLogFile);
+      logInfo('Installed Java-Version:');
+      await runCmd('java', ['-version'], workingDir.base, appLogStream);
 
-      console.log(`\nDownloading '${buildTool.url}'...`);
+      logInfo(`\nDownloading '${buildTool.url}'...`);
       await downloadFile(buildTool.url, joinPath(workingDir.cache, 'BuildTools.jar'));
 
       const gotTemplateDirectory = versions.length != 1;
 
       // Prepare template directory if more than one version is provided
       if (gotTemplateDirectory) {
-        console.log('Prepare for future tasks by running BuildTools...');
+        logInfo('Prepare for future tasks by running BuildTools...');
 
         await core.group('Prepare BuildTools', async (): Promise<void> => {
           try {
             return runCmd('java', ['-jar', 'BuildTools.jar', (disableJavaCheck ? '--disable-java-check' : ''), ...buildTool.prepareArgs],
-                workingDir.cache, appLogFile);
+                workingDir.cache, appLogStream);
           } catch (err) {
-            console.error(err);
+            logError(err);
 
-            console.error(`\nPrinting last 30 lines from '${resolvePath(appLogFile)}':`);
+            logError(`\nPrinting last 30 lines from '${resolvePath(appLogFile)}':`);
             for (const line of readLastLines(appLogFile, 30)) {
-              console.error(line);
+              logError(line);
             }
 
             return exit(1);
@@ -111,7 +112,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
             const logFile = joinPath(workingDir.logs, `${ver}.log`);
 
-            console.log(`Building version '${ver}'...`);
+            logInfo(`Building version '${ver}'...`);
 
             // If there is only one version to build, the cache directory is used instead of copying it first
             const versionDir = gotTemplateDirectory ? joinPath(workingDir.base, `${ver}`) : workingDir.cache;
@@ -130,16 +131,16 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
               const end = Date.now();
 
-              console.log(`Finished '${ver}' in ${((end - start) / 60_000).toFixed(2)} minutes`);
+              logInfo(`Finished '${ver}' in ${((end - start) / 60_000).toFixed(2)} minutes`);
               resolveTask();
             } catch (err) {
-              console.log(`An error occurred while building '${ver}'`);
-              console.error(err);
+              logInfo(`An error occurred while building '${ver}'`);
+              logError(err);
 
-              console.error(`\nPrinting last 25 lines from '${resolvePath(logFile)}':`);
+              logError(`\nPrinting last 30 lines from '${resolvePath(logFile)}':`);
 
-              for (const line of readLastLines(logFile, 25)) {
-                console.error(line);
+              for (const line of readLastLines(logFile, 30)) {
+                logError(line);
               }
 
               rejectTask(err);
@@ -186,7 +187,7 @@ async function removeExistingVersions(versionArr: string[], onExist: (ver: strin
           }
         }
       } catch (err) {
-        console.error(err);
+        logError(err);
       }
 
       const jarPath = resolvePath(joinPath(userHomeDir, `/.m2/repository/org/spigotmc/spigot/${versionToCheck}/spigot-${versionToCheck}.jar`));
@@ -203,6 +204,20 @@ async function removeExistingVersions(versionArr: string[], onExist: (ver: strin
 
     resolve(result);
   });
+}
+
+export function logInfo(msg?: string): void {
+  console.log(msg);
+  appLogStream.write(msg + '\n');
+}
+
+export function logError(msg?: string | object): void {
+  if (typeof msg != 'string') {
+    msg = JSON.stringify(msg, null, 2);
+  }
+
+  console.error(msg);
+  appLogStream.write(msg + '\n');
 }
 
 run()

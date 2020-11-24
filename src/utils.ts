@@ -5,6 +5,7 @@ import { get as httpsGet } from 'https';
 import readLines from 'n-readlines';
 import { cpus, homedir, tmpdir } from 'os';
 import { join as joinPath } from 'path';
+import { logError, logInfo } from './index';
 
 const packageJson = JSON.parse(readFileSync(joinPath(__dirname, '..', 'package.json'), 'utf-8'));
 const userAgent = `${packageJson.name || 'Action-SpigotMC'}/${packageJson.version || 'UNKNOWN_VERSION'} (+${packageJson.homepage || 'https://github.com/SpraxDev/Action-SpigotMC'})`;
@@ -30,10 +31,11 @@ export function isNumeric(str: string): boolean {
   return /^[0-9]+$/.test(str);
 }
 
-export async function runCmd(cmd: string, args: string[], workingDir: string, logFile: string, silent: boolean = false): Promise<void> {
+export async function runCmd(cmd: string, args: string[], workingDir: string, logStreamOrFile: string | WriteStream, silent: boolean = false): Promise<void> {
   return new Promise((resolve, reject) => {
-    const logStream = createWriteStream(logFile, {encoding: 'utf-8', flags: 'a'});  // Use UTF-8 and append when file exists
     const runningProcess = spawnProcess(cmd, args, {shell: true, cwd: workingDir, env: process.env});
+    const logStream = typeof logStreamOrFile != 'string' ? logStreamOrFile :
+        createWriteStream(logStreamOrFile, {encoding: 'utf-8', flags: 'a' /* append */});
 
     runningProcess.stdout.on('data', (data) => {
       logStream.write(data);
@@ -180,9 +182,9 @@ export function resetWorkingDir(): { base: string, cache: string, logs: string }
 export function exit(code: number, msg?: string | Error): never {
   if (msg) {
     if (typeof msg == 'string') {
-      console.log(msg);
+      logInfo(msg);
     } else {
-      console.error(msg);
+      logError(msg);
     }
   }
 
