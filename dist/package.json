@@ -33,12 +33,13 @@
     "@actions/core": "^1.2.6",
     "async": "^3.2.0",
     "fs-extra": "^9.0.1",
-    "read-last-lines": "^1.7.2"
+    "n-readlines": "^1.0.1"
   },
   "devDependencies": {
     "@tsconfig/node12": "^1.0.7",
     "@types/async": "^3.2.4",
     "@types/fs-extra": "^9.0.4",
+    "@types/n-readlines": "^1.0.1",
     "@types/node": "~12.19.6",
     "@vercel/ncc": "^0.25.1",
     "ts-node": "^9.0.0",

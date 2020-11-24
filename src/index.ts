@@ -4,9 +4,7 @@ import { copy } from 'fs-extra';
 import { rmdirSync } from 'fs';
 import { parallelLimit } from 'async';
 
-import { cpuCount, downloadFile, exit, fixArgArr, isNumeric, resetWorkingDir, runCmd } from './utils';
-
-const rll = require('read-last-lines');
+import { cpuCount, downloadFile, exit, fixArgArr, isNumeric, readLastLines, resetWorkingDir, runCmd } from './utils';
 
 const supportedBuildTools: { [key: string]: { url: string, prepareArgs: string[] } } = {
   spraxdev: {
@@ -66,7 +64,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
           console.error(err);
 
           console.error(`\nPrinting last 25 lines from '${resolvePath(appLogFile)}':`);
-          for (const line of (await rll.read(appLogFile, 25))) {
+          for (const line of readLastLines(appLogFile, 25)) {
             console.error(line);
           }
 
@@ -122,14 +120,12 @@ async function run(): Promise<{ code: number, msg?: string }> {
               console.error(err);
 
               console.error(`\nPrinting last 25 lines from '${resolvePath(logFile)}':`);
-              rll.read(logFile, 25)
-                  .then((lines: string[]) => {
-                    for (const line of lines) {
-                      console.error(line);
-                    }
-                  })
-                  .catch(console.error)
-                  .finally(() => rejectTask(err));
+
+              for (const line of readLastLines(logFile, 25)) {
+                console.error(line);
+              }
+
+              rejectTask(err);
             }
           });
         });

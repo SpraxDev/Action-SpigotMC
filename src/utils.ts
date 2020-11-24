@@ -4,6 +4,7 @@ import { get as httpGet } from 'http';
 import { get as httpsGet } from 'https';
 import { cpus, tmpdir } from 'os';
 import { createWriteStream, mkdirSync, readFileSync, rmdirSync, WriteStream } from 'fs';
+import readLines from 'n-readlines';
 
 const packageJson = JSON.parse(readFileSync(joinPath(__dirname, '..', 'package.json'), 'utf-8'));
 const userAgent = `${packageJson.name || 'Action-SpigotMC'}/${packageJson.version || 'UNKNOWN_VERSION'} (+${packageJson.homepage || 'https://github.com/SpraxDev/'})`;
@@ -125,6 +126,23 @@ export async function downloadFile(url: string, dest: string, currRedirectDepth:
           return reject(err);
         });
   });
+}
+
+export function readLastLines(file: string, lineCount: number, encoding: string = 'utf-8'): string[] {
+  const result = [];
+
+  const reader = new readLines(file);
+
+  let line;
+  while (line = reader.next()) {
+    result.push(line.toString(encoding));
+
+    if (result.length > lineCount) {
+      result.shift();
+    }
+  }
+
+  return result;
 }
 
 export function resetWorkingDir(): { base: string, cache: string, logs: string } {
