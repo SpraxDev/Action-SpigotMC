@@ -33,7 +33,8 @@
     "@actions/core": "^1.2.6",
     "async": "^3.2.0",
     "fs-extra": "^9.0.1",
-    "n-readlines": "^1.0.1"
+    "n-readlines": "^1.0.1",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@tsconfig/node12": "^1.0.7",

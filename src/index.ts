@@ -1,10 +1,21 @@
 import * as core from '@actions/core';
-import { join as joinPath, resolve as resolvePath } from 'path';
-import { copy } from 'fs-extra';
-import { rmdirSync } from 'fs';
 import { parallelLimit } from 'async';
+import { existsSync, rmdirSync } from 'fs';
+import { copy } from 'fs-extra';
+import { join as joinPath, resolve as resolvePath } from 'path';
+import { xml2js } from 'xml-js';
 
-import { cpuCount, downloadFile, exit, fixArgArr, isNumeric, readLastLines, resetWorkingDir, runCmd } from './utils';
+import {
+  cpuCount,
+  downloadFile,
+  exit,
+  fixArgArr,
+  isNumeric,
+  readLastLines,
+  resetWorkingDir,
+  runCmd,
+  userHomeDir
+} from './utils';
 
 const supportedBuildTools: { [key: string]: { url: string, prepareArgs: string[] } } = {
   spraxdev: {
@@ -19,7 +30,7 @@ const supportedBuildTools: { [key: string]: { url: string, prepareArgs: string[]
 
 /* GitHub Actions inputs */
 const buildToolProvider: string = (core.getInput('buildToolProvider') || 'SpraxDev').toLowerCase();
-const versions: string[] = fixArgArr((core.getInput('versions') || 'latest').split(','));
+let versions: string[] = fixArgArr((core.getInput('versions') || 'latest').toLowerCase().split(','));
 const target: string[] = fixArgArr((core.getInput('target') || 'Spigot').toUpperCase().split(','));
 const generateSrc: boolean = core.getInput('generateSrc') == 'true';
 const generateDoc: boolean = core.getInput('generateDoc') == 'true';
@@ -40,6 +51,14 @@ async function run(): Promise<{ code: number, msg?: string }> {
         return reject(new Error(`'${buildToolProvider}' is not a valid BuildTool-Provider (${Object.keys(supportedBuildTools).join(', ')})`));
       }
 
+      if (!forceRun) {
+        versions = await removeExistingVersions(versions, (ver, jarPath) => {
+          console.log(`Skipping version '${ver}' because it has been found in the local maven repository: ${jarPath}`);
+        });
+
+        if (versions.length == 0) return exit(0);
+      }
+
       const buildTool = supportedBuildTools[buildToolProvider];
       const appLogFile = joinPath(workingDir.logs, 'SpraxDev_Actions-SpigotMC.log');
 
@@ -55,21 +74,21 @@ async function run(): Promise<{ code: number, msg?: string }> {
       if (gotTemplateDirectory) {
         console.log('Prepare for future tasks by running BuildTools...');
 
-        try {
-          await core.group('Prepare BuildTools', async (): Promise<void> => {
+        await core.group('Prepare BuildTools', async (): Promise<void> => {
+          try {
             return runCmd('java', ['-jar', 'BuildTools.jar', (disableJavaCheck ? '--disable-java-check' : ''), ...buildTool.prepareArgs],
                 workingDir.cache, appLogFile);
-          });
-        } catch (err) {
-          console.error(err);
+          } catch (err) {
+            console.error(err);
 
-          console.error(`\nPrinting last 25 lines from '${resolvePath(appLogFile)}':`);
-          for (const line of readLastLines(appLogFile, 25)) {
-            console.error(line);
+            console.error(`\nPrinting last 30 lines from '${resolvePath(appLogFile)}':`);
+            for (const line of readLastLines(appLogFile, 30)) {
+              console.error(line);
+            }
+
+            return exit(1);
           }
-
-          return exit(1);
-        }
+        });
       }
 
       const buildToolsArgs = ['-jar', 'BuildTools.jar', '--compile', target.join(',')];
@@ -139,6 +158,52 @@ async function run(): Promise<{ code: number, msg?: string }> {
     } catch (err) {
       reject(err);
     }
+  });
+}
+
+async function removeExistingVersions(versionArr: string[], onExist: (ver: string, jarPath: string) => void): Promise<string[]> {
+  return new Promise(async (resolve, _reject): Promise<void> => {
+    const result = [];
+
+    for (const ver of versionArr) {
+      let skipVersion = false;
+      let versionToCheck: string | null = ver != 'latest' ? ver : null;
+
+      try {
+        const verJsonBuff = await downloadFile(`https://hub.spigotmc.org/versions/${ver}.json`, null);
+        const verJson = verJsonBuff instanceof Buffer ? JSON.parse(verJsonBuff.toString('utf-8')) : null;
+        const bukkitRef: undefined | string = verJson?.refs?.Bukkit;
+
+        if (bukkitRef) {
+          const verPomBuff = await downloadFile(`https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/raw/pom.xml?at=${bukkitRef}`, null);
+
+          if (verPomBuff instanceof Buffer) {
+            const result = xml2js(verPomBuff.toString('utf-8'), {
+              compact: true,
+              ignoreComment: true,
+              ignoreAttributes: true
+            }) as any;
+
+            versionToCheck = result.project?.version?._text;
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+
+      const jarPath = resolvePath(joinPath(userHomeDir, `/.m2/repository/org/spigotmc/spigot/${versionToCheck}/spigot-${versionToCheck}.jar`));
+      if (versionToCheck) {
+        skipVersion = existsSync(jarPath);
+      }
+
+      if (skipVersion) {
+        onExist(ver, jarPath);
+      } else {
+        result.push(ver);
+      }
+    }
+
+    resolve(result);
   });
 }
 

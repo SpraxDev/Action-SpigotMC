@@ -1,15 +1,16 @@
 import { spawn as spawnProcess } from 'child_process';
-import { join as joinPath } from 'path';
+import { createWriteStream, mkdirSync, readFileSync, rmdirSync, WriteStream } from 'fs';
 import { get as httpGet } from 'http';
 import { get as httpsGet } from 'https';
-import { cpus, tmpdir } from 'os';
-import { createWriteStream, mkdirSync, readFileSync, rmdirSync, WriteStream } from 'fs';
 import readLines from 'n-readlines';
+import { cpus, homedir, tmpdir } from 'os';
+import { join as joinPath } from 'path';
 
 const packageJson = JSON.parse(readFileSync(joinPath(__dirname, '..', 'package.json'), 'utf-8'));
-const userAgent = `${packageJson.name || 'Action-SpigotMC'}/${packageJson.version || 'UNKNOWN_VERSION'} (+${packageJson.homepage || 'https://github.com/SpraxDev/'})`;
+const userAgent = `${packageJson.name || 'Action-SpigotMC'}/${packageJson.version || 'UNKNOWN_VERSION'} (+${packageJson.homepage || 'https://github.com/SpraxDev/Action-SpigotMC'})`;
 
 export const cpuCount = cpus().length;
+export const userHomeDir = homedir();
 
 export function fixArgArr(arr: string[]): string[] {
   const result: string[] = [];
@@ -61,7 +62,12 @@ export async function runCmd(cmd: string, args: string[], workingDir: string, lo
   });
 }
 
-export async function downloadFile(url: string, dest: string, currRedirectDepth: number = 0): Promise<void> {
+/**
+ * @param url The URL to fetch the data from
+ * @param dest Set to `null` to get an Buffer instead of writing it to the file system
+ * @param currRedirectDepth Internally used to track how often the function has been redirected
+ */
+export async function downloadFile(url: string, dest: string | null, currRedirectDepth: number = 0): Promise<Buffer | void> {
   const doGetRequest = url.toLowerCase().startsWith('http://') ? httpGet : httpsGet;
 
   return new Promise((resolve, reject) => {
@@ -72,7 +78,7 @@ export async function downloadFile(url: string, dest: string, currRedirectDepth:
         writeStream.close();
         writeStream = null;
 
-        if (errored) {
+        if (errored && dest != null) {
           rmdirSync(dest, {recursive: true});
         }
       }
@@ -106,19 +112,31 @@ export async function downloadFile(url: string, dest: string, currRedirectDepth:
         }
       }
 
-      writeStream = createWriteStream(dest, {encoding: 'binary'})
-          .on('finish', () => {
-            done(false);
+      if (dest != null) {
+        writeStream = createWriteStream(dest, {encoding: 'binary'})
+            .on('finish', () => {
+              done(false);
 
-            return resolve();
-          })
-          .on('error', (err) => {
-            done(true);
+              return resolve();
+            })
+            .on('error', (err) => {
+              done(true);
 
-            return reject(err);
-          });
+              return reject(err);
+            });
 
-      httpRes.pipe(writeStream);
+        httpRes.pipe(writeStream);
+      } else {
+        const chunks: Buffer[] = [];
+
+        httpRes.on('data', (chunk) => {
+          chunks.push(Buffer.from(chunk, 'binary'));
+        });
+
+        httpRes.on('end', () => {
+          resolve(Buffer.concat(chunks));
+        });
+      }
     })
         .on('error', (err) => {
           done(true);
