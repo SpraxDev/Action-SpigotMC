@@ -33,9 +33,11 @@ export function isNumeric(str: string): boolean {
 
 export async function runCmd(cmd: string, args: string[], workingDir: string, logStreamOrFile: string | WriteStream, silent: boolean = false): Promise<void> {
   return new Promise((resolve, reject) => {
-    const runningProcess = spawnProcess(cmd, args, {shell: true, cwd: workingDir, env: process.env});
+    const closeLogStream = typeof logStreamOrFile == 'string';
     const logStream = typeof logStreamOrFile != 'string' ? logStreamOrFile :
         createWriteStream(logStreamOrFile, {encoding: 'utf-8', flags: 'a' /* append */});
+
+    const runningProcess = spawnProcess(cmd, args, {shell: true, cwd: workingDir, env: process.env});
 
     runningProcess.stdout.on('data', (data) => {
       logStream.write(data);
@@ -53,7 +55,9 @@ export async function runCmd(cmd: string, args: string[], workingDir: string, lo
     });
 
     runningProcess.on('close', (code) => {
-      logStream.close();
+      if (closeLogStream) {
+        logStream.close();
+      }
 
       if (code != 0) {
         return reject({err: new Error(`process exited with code ${code}`), cmd, workingDir});
