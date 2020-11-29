@@ -35,6 +35,8 @@ to introduce some improvements in *system compatibility* and *speed*.
 
 
 ## Usage
+**Note:** Use `actions/cache` as described [here](https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-java-with-maven#caching-dependencies) to save some additional time by caching between runs!
+
 All the values already provided below are their default values.
 
 If you don't change them, you can remove them from your workflow,
