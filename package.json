@@ -48,7 +48,7 @@
     "@types/fs-extra": "^9.0.6",
     "@types/n-readlines": "^1.0.1",
     "@vercel/ncc": "^0.26.1",
-    "@types/node": "~12.19.11",
+    "@types/node": "~12.19.14",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   }
