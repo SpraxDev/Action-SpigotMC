@@ -21,6 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # Setup JDK version
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '8'
+          java-package: jdk
+
       - name: Compile 2 spigot version
         uses: ./
         with:
@@ -44,6 +50,13 @@ jobs:
   original-run:
     runs-on: ubuntu-latest
     steps:
+      # Setup JDK version
+      - uses: actions/setup-java@v1
+        with:
+          # This version should probably match the ones from the 'run'-job
+          java-version: '8'
+          java-package: jdk
+
       - name: Run original Spigot-BuildTools
         # These versions should match the ones from the 'run'-job
         # Using '--compile Spigot' as this action does the same by default
