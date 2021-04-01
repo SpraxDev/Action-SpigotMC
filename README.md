@@ -73,7 +73,8 @@ as they are set automatically.
     threads: -1 # Optional
 
     # You can choose between different BuildTools to be used by this action
-    # 'SpraxDev' is my fork of SpigotMC's that introduces some changes (https://github.com/SpraxDev/Spigot-BuildTools/#breaking-changes)
+    # ~~'SpraxDev' is my fork of SpigotMC's that introduces some changes (https://github.com/SpraxDev/Spigot-BuildTools/#breaking-changes)~~
+    # My (SpraxDev) provider is causing some builds to fail depending on the build environment
     # Available: SpraxDev, SpigotMC
-    buildToolProvider: SpraxDev # Optional
+    buildToolProvider: SpigotMC # Optional
 ```
