@@ -43,7 +43,7 @@ If you don't change them, you can remove them from your workflow,
 as they are set automatically.
 
 ```YAML
-- uses: SpraxDev/Action-SpigotMC@v1
+- uses: SpraxDev/Action-SpigotMC@v3
   with:
     # A comma-separated list of Spigot version that should be compiled
     # These values are later given to the BuildTools.jar as '--rev' argument
