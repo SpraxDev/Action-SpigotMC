@@ -24,7 +24,7 @@ const supportedBuildTools: { [key: string]: { url: string, prepareArgs: string[]
     },
     spigotmc: {
         url: 'https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar',
-        prepareArgs: ['--compile', 'None']
+        prepareArgs: ['--compile', 'None', '--rev', '1.16.5'] // Using 1.16.5 as the last release still supporting Java 8
     }
 };
 
