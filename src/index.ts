@@ -34,6 +34,7 @@ let versions: string[] = fixArgArr((core.getInput('versions') || 'latest').toLow
 const generateSrc: boolean = core.getInput('generateSrc') == 'true';
 const generateDoc: boolean = core.getInput('generateDoc') == 'true';
 const disableJavaCheck: boolean = core.getInput('disableJavaCheck') == 'true';
+const remapped: boolean = core.getInput('remapped') == 'true';
 
 const forceRun: boolean = core.getInput('forceRun') == 'true';
 const threadCount: number = isNumeric(core.getInput('threads')) ? parseInt(core.getInput('threads')) : cpuCount;
@@ -104,6 +105,10 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
             if (disableJavaCheck) {
                 buildToolsArgs.push('--disable-java-check');
+            }
+
+            if (remapped) {
+                buildToolsArgs.push('--remapped')
             }
 
             const tasks = [];
