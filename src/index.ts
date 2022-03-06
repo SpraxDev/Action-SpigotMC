@@ -107,10 +107,9 @@ async function run(): Promise<{ code: number, msg?: string }> {
                 buildToolsArgs.push('--disable-java-check');
             }
 
-            logInfo('Remapped is ' + remapped);
-            // if (remapped) {
-            //     buildToolsArgs.push('--remapped')
-            // }
+            if (remapped) {
+                buildToolsArgs.push('--remapped')
+            }
 
             const tasks = [];
             for (const ver of versions) {
@@ -131,7 +130,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
                         try {
                             // set to silent because multiple builds can run at once
-                            await runCmd('java', [...buildToolsArgs, '--rev', ver, remapped ? '--remapped' : ''], versionDir, logFile, true);
+                            await runCmd('java', [...buildToolsArgs, '--rev', ver], versionDir, logFile, true);
 
                             if (gotTemplateDirectory) {
                                 rmdirSync(versionDir, {recursive: true}); // delete our task dir
