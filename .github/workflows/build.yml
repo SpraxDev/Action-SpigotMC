@@ -34,7 +34,7 @@ jobs:
 
       - uses: actions/setup-java@v2
         with:
-          java-version: 16
+          java-version: 17
           distribution: adopt
 
       - name: Compile latest spigot version
@@ -88,7 +88,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           # This version should probably match the ones from the 'run'-job
-          java-version: 16
+          java-version: 17
           distribution: adopt
 
       - name: Run original Spigot-BuildTools (latest)
