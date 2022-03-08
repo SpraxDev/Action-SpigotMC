@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           java-version: 8
-          distribution: adopt
+          distribution: temurin
 
       - name: Compile 1.8 spigot version
         uses: ./
@@ -34,8 +34,8 @@ jobs:
 
       - uses: actions/setup-java@v2
         with:
-          java-version: 16
-          distribution: adopt
+          java-version: 17
+          distribution: temurin
 
       - name: Compile latest spigot version
         uses: ./
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           java-version: 8
-          distribution: adopt
+          distribution: temurin
 
       - name: Compile the same version again (1.8)
         uses: ./
@@ -76,7 +76,7 @@ jobs:
         with:
           # This version should probably match the ones from the 'run'-job
           java-version: 8
-          distribution: adopt
+          distribution: temurin
 
       - name: Run original Spigot-BuildTools (1.8)
         # These versions should match the ones from the 'run'-job
@@ -88,8 +88,8 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           # This version should probably match the ones from the 'run'-job
-          java-version: 16
-          distribution: adopt
+          java-version: 17
+          distribution: temurin
 
       - name: Run original Spigot-BuildTools (latest)
         # These versions should match the ones from the 'run'-job
