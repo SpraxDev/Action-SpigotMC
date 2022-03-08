@@ -18,10 +18,6 @@ import {
 } from './utils';
 
 const supportedBuildTools: { [key: string]: { url: string, prepareArgs: string[] } } = {
-    spraxdev: {
-        url: 'https://github.com/SpraxDev/Spigot-BuildTools/releases/latest/download/BuildTools.jar',
-        prepareArgs: ['--exit-after-fetch']
-    },
     spigotmc: {
         url: 'https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar',
         prepareArgs: ['--compile', 'None', '--rev', '1.16.5'] // Using 1.16.5 as the last release still supporting Java 8
@@ -49,8 +45,6 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
             if (!Object.keys(supportedBuildTools).includes(buildToolProvider)) {
                 return reject(new Error(`'${buildToolProvider}' is not a valid BuildTool-Provider (${Object.keys(supportedBuildTools).join(', ')})`));
-            } else if (buildToolProvider == 'spraxdev') {
-                logError(`SpraxDev's BuildTool has known issues causing builds to fail, please use 'SpigotMC' if you encounter any problems`);
             }
 
             if (!forceRun) {

@@ -34,7 +34,7 @@ inputs:
   buildToolProvider:
     required: false
     default: SpigotMC
-    description: Whose BuildTool should be used? (SpigotMC [default], SpraxDev)
+    description: Whose BuildTool should be used? (SpigotMC [default])
 
 runs:
   using: node12

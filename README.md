@@ -23,15 +23,11 @@ This Action allows you to easily compile Minecraft Spigot or Paper
 and install it in your runners local maven repository.
 
 Supported:
-* SpigotMC (using official BuildTools or my modified one)
+* SpigotMC (using the latest version of the official BuildTools)
 * ~~PaperMC~~ (coming soon #26)
 
 You configure all the versions you want, and it'll compile all the missing versions automatically.
 By checking for a file in the local maven repository beforehand, build times can be reduces drastically.
-
-By default, this Action uses [a fork](https://github.com/SpraxDev/Spigot-BuildTools#readme) of the
-[original BuildTools](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/buildtools/browse)
-to introduce some improvements in *system compatibility* and *speed*.
 
 
 ## Usage
@@ -73,8 +69,6 @@ as they are set automatically.
     threads: -1 # Optional
 
     # You can choose between different BuildTools to be used by this action
-    # ~~'SpraxDev' is my fork of SpigotMC's that introduces some changes (https://github.com/SpraxDev/Spigot-BuildTools/#breaking-changes)~~
-    # My (SpraxDev) provider is causing some builds to fail depending on the build environment
-    # Available: SpraxDev, SpigotMC
+    # Available: SpigotMC
     buildToolProvider: SpigotMC # Optional
 ```
