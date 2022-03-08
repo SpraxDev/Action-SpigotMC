@@ -17,10 +17,9 @@ import {
     userHomeDir
 } from './utils';
 
-const supportedBuildTools: { [key: string]: { url: string, prepareArgs: string[] } } = {
+const supportedBuildTools: { [key: string]: { url: string } } = {
     spigotmc: {
-        url: 'https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar',
-        prepareArgs: ['--compile', 'None', '--rev', '1.16.5'] // Using 1.16.5 as the last release still supporting Java 8
+        url: 'https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar'
     }
 };
 
@@ -64,28 +63,6 @@ async function run(): Promise<{ code: number, msg?: string }> {
             await downloadFile(buildTool.url, joinPath(workingDir.cache, 'BuildTools.jar'));
 
             const gotTemplateDirectory = versions.length != 1;
-
-            // Prepare template directory if more than one version is provided
-            if (gotTemplateDirectory) {
-                logInfo('Prepare for future tasks by running BuildTools...');
-
-                await core.group('Prepare BuildTools', async (): Promise<void> => {
-                    try {
-                        return runCmd('java', ['-jar', 'BuildTools.jar', (disableJavaCheck ? '--disable-java-check' : ''), ...buildTool.prepareArgs],
-                                workingDir.cache, appLogStream);
-                    } catch (err: any) {
-                        logError(err);
-
-                        logError(`\nPrinting last 30 lines from '${resolvePath(appLogFile)}':`);
-                        for (const line of readLastLines(appLogFile, 30)) {
-                            logError(line);
-                        }
-
-                        return exit(1);
-                    }
-                });
-            }
-
             const buildToolsArgs = ['-jar', 'BuildTools.jar', '--compile', 'Spigot'];
 
             if (generateSrc) {
