@@ -41,5 +41,5 @@ inputs:
     description: Whose BuildTool should be used? (SpigotMC [default])
 
 runs:
-  using: node12
+  using: node16
   main: dist/index.js
