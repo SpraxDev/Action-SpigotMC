@@ -14,7 +14,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ncc build src/index.ts -s -m",
+    "build": "ncc build src/index.ts --source-map --minify",
     "start": "node dist/index.js",
     "dev": "npm run build && npm run start"
   },
