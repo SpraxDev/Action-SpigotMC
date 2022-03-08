@@ -1,5 +1,5 @@
 import { spawn as spawnProcess } from 'child_process';
-import { createWriteStream, mkdirSync, readFileSync, rmdirSync, WriteStream } from 'fs';
+import { createWriteStream, mkdirSync, readFileSync, rmdirSync, rmSync, WriteStream } from 'fs';
 import { get as httpGet } from 'http';
 import { get as httpsGet } from 'https';
 import readLines from 'n-readlines';
@@ -152,7 +152,7 @@ export async function downloadFile(url: string, dest: string | null, currRedirec
   });
 }
 
-export function readLastLines(file: string, lineCount: number, encoding: string = 'utf-8'): string[] {
+export function readLastLines(file: string, lineCount: number, encoding: BufferEncoding = 'utf-8'): string[] {
   const result = [];
 
   const reader = new readLines(file);
@@ -174,11 +174,11 @@ export function resetWorkingDir(): { base: string, cache: string, logs: string }
   const cacheDir = joinPath(baseDir, 'cache');
   const logDir = joinPath(baseDir, 'logs');
 
-  rmdirSync(baseDir, {recursive: true}); // delete dir
+  rmSync(baseDir, {recursive: true, force:true}); // delete dir
 
   // create directories
   mkdirSync(cacheDir, {recursive: true});
-  mkdirSync(logDir);
+  mkdirSync(logDir, {recursive: true});
 
   return {base: baseDir, cache: cacheDir, logs: logDir};
 }

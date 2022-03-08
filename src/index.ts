@@ -73,7 +73,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
                     try {
                         return runCmd('java', ['-jar', 'BuildTools.jar', (disableJavaCheck ? '--disable-java-check' : ''), ...buildTool.prepareArgs],
                                 workingDir.cache, appLogStream);
-                    } catch (err) {
+                    } catch (err: any) {
                         logError(err);
 
                         logError(`\nPrinting last 30 lines from '${resolvePath(appLogFile)}':`);
@@ -129,7 +129,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
                             logInfo(`Finished '${ver}' in ${((end - start) / 60_000).toFixed(2)} minutes`);
                             resolveTask();
-                        } catch (err) {
+                        } catch (err: any) {
                             logInfo(`An error occurred while building '${ver}'`);
                             logError(err);
 
@@ -182,7 +182,7 @@ async function removeExistingVersions(versionArr: string[], onExist: (ver: strin
                         versionToCheck = result.project?.version?._text;
                     }
                 }
-            } catch (err) {
+            } catch (err: any) {
                 logError(err);
             }
 
