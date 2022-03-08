@@ -1,6 +1,6 @@
 {
   "name": "action-spigotmc",
-  "version": "1.0.2",
+  "version": "4.0.0",
   "description": "This GitHub Action allows you to easily compile Minecraft Spigot or Paper and install it in your runners local maven repository.",
   "keywords": [
     "github-actions",
@@ -14,7 +14,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ncc build src/index.ts --source-map --minify --asset-builds",
+    "build": "ncc build src/index.ts --source-map --minify --license LICENSE",
     "start": "node dist/index.js",
     "dev": "npm run build && npm run start"
   },
