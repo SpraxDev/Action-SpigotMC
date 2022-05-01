@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",
-    "@types/async": "^3.2.12",
+    "@types/async": "^3.2.13",
     "@types/fs-extra": "^9.0.13",
     "@types/n-readlines": "^1.0.3",
     "@types/node": "^16.11.26",
