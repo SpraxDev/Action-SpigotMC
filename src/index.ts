@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import { parallelLimit } from 'async';
+import { spawnSync } from 'child_process';
 import { createWriteStream, existsSync, rmSync } from 'fs';
 import { copy } from 'fs-extra';
 import { join as joinPath, resolve as resolvePath } from 'path';
@@ -198,6 +199,52 @@ export function logError(msg?: string | object): void {
     appLogStream.write(msg + '\n');
 }
 
+let originalGitUserName: string | null = null;
+let originalGitUserEmail: string | null = null;
+
+function setGitUserAndBackupCurrent(): void {
+    let gitProcess = spawnSync('git', ['config', '--global', 'user.name']);
+    if (gitProcess.status == 0) {
+        originalGitUserName = gitProcess.stdout.toString();
+    }
+
+    gitProcess = spawnSync('git', ['config', '--global', 'user.email']);
+    if (gitProcess.status == 0) {
+        originalGitUserEmail = gitProcess.stdout.toString();
+    }
+
+    const gitUserName = `GitHub Runner on ${process.env['GITHUB_REPOSITORY'] || 'Unknown_Repository'} (id=${process.env['GITHUB_RUN_ID']})`;
+    const gitUserEmail = 'no-reply@example.com';
+    spawnSync('git', ['config', '--global', 'user.name', gitUserName]);
+    spawnSync('git', ['config', '--global', 'user.email', gitUserEmail]);
+
+    console.log(`Configured git user set to '${gitUserName} <${gitUserEmail}>' (was '${originalGitUserName} <${originalGitUserEmail}>')`);
+}
+
+function restoreGitUser(): void {
+    if (originalGitUserName != null) {
+        spawnSync('git', ['config', '--global', 'user.name', originalGitUserName]);
+    }
+
+    if (originalGitUserEmail != null) {
+        spawnSync('git', ['config', '--global', 'user.email', originalGitUserEmail]);
+    }
+
+    console.log(`Configured git user restored to '${originalGitUserName} <${originalGitUserEmail}>'`);
+}
+
+let exitCode = 2;
+let exitMessage: string | Error | undefined;
 run()
-        .then((result) => exit(result.code, result.msg))
-        .catch((err) => exit(1, err));
+    .then((result) => {
+        exitCode = result.code;
+        exitMessage = result.msg;
+    })
+    .catch((err) => {
+        exitCode = 1;
+        exitMessage = err;
+    })
+    .finally(() => {
+        restoreGitUser();
+        exit(exitCode, exitMessage);
+    });
