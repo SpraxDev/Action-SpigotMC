@@ -1,6 +1,6 @@
 {
   "name": "action-spigotmc",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "This GitHub Action allows you to easily compile Minecraft Spigot and install it in your runners local maven repository.",
   "keywords": [
     "github-actions",
