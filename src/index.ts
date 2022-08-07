@@ -229,6 +229,8 @@ function restoreGitUser(): void {
 
 let exitCode = 2;
 let exitMessage: string | Error | undefined;
+
+setGitUserAndBackupCurrent();
 run()
     .then((result) => {
         exitCode = result.code;
