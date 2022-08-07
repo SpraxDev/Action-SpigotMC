@@ -1,12 +1,11 @@
 {
   "name": "action-spigotmc",
   "version": "4.0.0",
-  "description": "This GitHub Action allows you to easily compile Minecraft Spigot or Paper and install it in your runners local maven repository.",
+  "description": "This GitHub Action allows you to easily compile Minecraft Spigot and install it in your runners local maven repository.",
   "keywords": [
     "github-actions",
     "minecraft",
     "spigot",
-    "papermc",
     "continuous-integration"
   ],
   "homepage": "https://github.com/SpraxDev/Action-SpigotMC#readme",

@@ -19,12 +19,11 @@
 </p>
 
 # Action-SpigotMC
-This Action allows you to easily compile Minecraft Spigot or Paper
+This Action allows you to easily compile Minecraft Spigot
 and install it in your runners local maven repository.
 
 Supported:
 * SpigotMC (using the latest version of the official BuildTools)
-* ~~PaperMC~~ (coming soon #26)
 
 You configure all the versions you want, and it'll compile all the missing versions automatically.
 By checking for a file in the local maven repository beforehand, build times can be reduces drastically.

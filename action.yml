@@ -1,5 +1,5 @@
-name: Compile Minecraft Spigot or Paper (BuildTools)
-description: Makes it easier to compile multiple Spigot/Paper versions at the same time and speed up clean builds
+name: Compile Minecraft Spigot (via BuildTools)
+description: Makes it easier to compile multiple Spigot versions at the same time and speed up clean builds
 author: Christian Koop
 
 branding:
