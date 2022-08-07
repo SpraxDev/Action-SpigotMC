@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import { parallelLimit } from 'async';
-import { createWriteStream, existsSync, rmdirSync } from 'fs';
+import { createWriteStream, existsSync, rmSync } from 'fs';
 import { copy } from 'fs-extra';
 import { join as joinPath, resolve as resolvePath } from 'path';
 import { xml2js } from 'xml-js';
@@ -104,7 +104,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
                             await runCmd('java', [...buildToolsArgs, '--rev', ver], versionDir, logFile, true);
 
                             if (gotTemplateDirectory) {
-                                rmdirSync(versionDir, {recursive: true}); // delete our task dir
+                                rmSync(versionDir, {recursive: true}); // delete our task dir
                             }
 
                             const end = Date.now();

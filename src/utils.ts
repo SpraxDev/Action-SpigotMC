@@ -1,5 +1,5 @@
 import { spawn as spawnProcess } from 'child_process';
-import { createWriteStream, mkdirSync, readFileSync, rmdirSync, rmSync, WriteStream } from 'fs';
+import { createWriteStream, mkdirSync, readFileSync, rmSync, WriteStream } from 'fs';
 import { get as httpGet } from 'http';
 import { get as httpsGet } from 'https';
 import readLines from 'n-readlines';
@@ -85,7 +85,7 @@ export async function downloadFile(url: string, dest: string | null, currRedirec
         writeStream = null;
 
         if (errored && dest != null) {
-          rmdirSync(dest, {recursive: true});
+          rmSync(dest, {recursive: true});
         }
       }
     };
