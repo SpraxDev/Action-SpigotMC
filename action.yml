@@ -10,7 +10,7 @@ inputs:
   versions:
     required: false
     default: latest
-    description: Versions to build (sperate multiple with ',')
+    description: Versions to build (separate multiple with ',')
   generateSrc:
     required: false
     default: 'false'

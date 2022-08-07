@@ -43,7 +43,7 @@ as they are set automatically.
     # A comma-separated list of Spigot version that should be compiled
     # These values are later given to the BuildTools.jar as '--rev' argument
     #
-    # Example: latest, 1.14.4, 1.8.8
+    # Example: latest, 1.19.2, 1.8.8
     versions: latest # Optional
 
     # Should sources be generated?
