@@ -35,7 +35,7 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "@actions/core": "^1.9.1",
+    "@actions/core": "^1.10.0",
     "async": "^3.2.4",
     "fs-extra": "^10.1.0",
     "n-readlines": "^1.0.1",
