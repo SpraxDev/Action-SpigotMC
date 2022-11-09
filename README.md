@@ -58,8 +58,8 @@ as they are set automatically.
     # If enabled, BuildTools is provided the '--disable-java-check' argument
     disableJavaCheck: false # Optional
 
-    # Should we use the SpecialSource-Plugin to deobfuscate Mojang-NMS?
-    # If enabled, BuildTools will install the SpecialSource-Plugin and 'remapped'-Version of Spigot without obfuscation
+    # Should we download additional files to deobfucate CraftBukkit and NMS?
+    # If enabled, BuildTools will also install additional files that are required to deobfuscate CraftBukkit and NMS with the SpecialSource-Plugin
     remapped: false # Optional
 
     # Disables the check for existing files in the local maven repository
