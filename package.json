@@ -37,7 +37,7 @@
   "dependencies": {
     "@actions/core": "^1.9.1",
     "async": "^3.2.4",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "n-readlines": "^1.0.1",
     "xml-js": "^1.6.11"
   },
