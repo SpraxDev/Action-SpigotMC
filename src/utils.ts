@@ -1,10 +1,10 @@
-import { spawn as spawnProcess } from 'child_process';
-import { createWriteStream, mkdirSync, readFileSync, rmSync, WriteStream } from 'fs';
-import { get as httpGet } from 'http';
-import { get as httpsGet } from 'https';
 import readLines from 'n-readlines';
-import { cpus, homedir, tmpdir } from 'os';
-import { join as joinPath } from 'path';
+import { spawn as spawnProcess } from 'node:child_process';
+import { createWriteStream, mkdirSync, readFileSync, rmSync, WriteStream } from 'node:fs';
+import { get as httpGet } from 'node:http';
+import { get as httpsGet } from 'node:https';
+import { cpus, homedir, tmpdir } from 'node:os';
+import { join as joinPath } from 'node:path';
 import { logError, logInfo } from './index';
 
 // Using require() here for ncc to detect the usage of the module when compiling

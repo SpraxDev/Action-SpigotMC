@@ -1,11 +1,10 @@
 import * as core from '@actions/core';
 import { parallelLimit } from 'async';
-import { spawnSync } from 'child_process';
-import { createWriteStream, existsSync, rmSync } from 'fs';
 import { copy } from 'fs-extra';
-import { join as joinPath, resolve as resolvePath } from 'path';
+import { spawnSync } from 'node:child_process';
+import { createWriteStream, existsSync, rmSync } from 'node:fs';
+import { join as joinPath, resolve as resolvePath } from 'node:path';
 import { xml2js } from 'xml-js';
-
 import {
     cpuCount,
     downloadFile,
