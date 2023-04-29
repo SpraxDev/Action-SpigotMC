@@ -19,8 +19,8 @@
   },
   "author": {
     "name": "Christian Koop",
-    "url": "https://Sprax2013.de",
-    "email": "developer@sprax2013.de"
+    "url": "https://github.com/SpraxDev",
+    "email": "contact@sprax2013.de"
   },
   "contributors": [],
   "license": "MIT",
@@ -32,23 +32,24 @@
     "url": "https://github.com/SpraxDev/Action-SpigotMC/issues"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0",
+    "npm": ">=9.0.0"
   },
   "dependencies": {
-    "@actions/core": "^1.9.0",
+    "@actions/core": "^1.10.0",
     "async": "^3.2.4",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.1",
     "n-readlines": "^1.0.1",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
-    "@types/async": "^3.2.15",
-    "@types/fs-extra": "^9.0.13",
+    "@types/async": "^3.2.20",
+    "@types/fs-extra": "^11.0.1",
     "@types/n-readlines": "^1.0.3",
-    "@types/node": "^16.11.47",
-    "@vercel/ncc": "^0.34.0",
+    "@types/node": "^16.18.25",
+    "@vercel/ncc": "^0.36.1",
     "ts-node": "^10.9.1",
-    "typescript": "^4.7.4"
+    "typescript": "^5.0.4"
   }
 }
