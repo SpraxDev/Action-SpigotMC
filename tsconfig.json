@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "moduleResolution": "Node"
+    "isolatedModules": true
   },
   "include": [
     "src/**/*.ts"

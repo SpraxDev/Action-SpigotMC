@@ -8,7 +8,7 @@ import { join as joinPath } from 'path';
 import { logError, logInfo } from './index';
 
 // Using require() here for ncc to detect the usage of the module when compiling
-const packageJson = JSON.parse(readFileSync(require('path').join(__dirname, '..', 'package.json'), 'utf-8'));
+const packageJson = JSON.parse(readFileSync(joinPath(__dirname, '..', 'package.json'), 'utf-8'));
 const userAgent = `${packageJson.name || 'Action-SpigotMC'}/${packageJson.version || 'UNKNOWN_VERSION'} (+${packageJson.homepage || 'https://github.com/SpraxDev/Action-SpigotMC'})`;
 
 export const cpuCount = cpus().length;
@@ -175,7 +175,7 @@ export function resetWorkingDir(): { base: string, cache: string, logs: string }
   const cacheDir = joinPath(baseDir, 'cache');
   const logDir = joinPath(baseDir, 'logs');
 
-  rmSync(baseDir, {recursive: true, force:true}); // delete dir
+  rmSync(baseDir, {recursive: true, force: true}); // delete dir
 
   // create directories
   mkdirSync(cacheDir, {recursive: true});
