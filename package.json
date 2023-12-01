@@ -50,6 +50,6 @@
     "@types/node": "^16.18.25",
     "esbuild": "^0.19.5",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   }
 }
