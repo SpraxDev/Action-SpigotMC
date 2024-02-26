@@ -31,8 +31,8 @@
     "url": "https://github.com/SpraxDev/Action-SpigotMC/issues"
   },
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=9.0.0"
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   },
   "dependencies": {
     "@actions/core": "^1.10.1",
@@ -42,11 +42,11 @@
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "@tsconfig/node16": "^16.1.1",
+    "@tsconfig/node20": "^20.1.2",
     "@types/async": "^3.2.24",
     "@types/fs-extra": "^11.0.4",
     "@types/n-readlines": "^1.0.6",
-    "@types/node": "^16.18.83",
+    "@types/node": "^20.11.20",
     "esbuild": "^0.20.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
