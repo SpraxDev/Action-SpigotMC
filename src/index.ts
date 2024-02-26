@@ -64,7 +64,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
             await downloadFile(buildTool.url, joinPath(workingDir.cache, 'BuildTools.jar'));
 
             const gotTemplateDirectory = versions.length != 1;
-            const buildToolsArgs = ['-jar', 'BuildTools.jar', '--compile', 'Spigot'];
+            const buildToolsArgs = ['-jar', 'BuildTools.jar', '--compile', 'Spigot', '--nogui'];
 
             if (generateSrc) {
                 buildToolsArgs.push('--generate-source');
