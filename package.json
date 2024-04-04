@@ -42,13 +42,13 @@
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.2",
+    "@tsconfig/node20": "^20.1.4",
     "@types/async": "^3.2.24",
     "@types/fs-extra": "^11.0.4",
     "@types/n-readlines": "^1.0.6",
-    "@types/node": "^20.11.20",
-    "esbuild": "^0.20.1",
+    "@types/node": "^20.12.4",
+    "esbuild": "^0.20.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.3"
   }
 }
