@@ -7,7 +7,6 @@ import { cpus, homedir, tmpdir } from 'node:os';
 import { join as joinPath } from 'node:path';
 import { logError, logInfo } from './index';
 
-// Using require() here for ncc to detect the usage of the module when compiling
 const packageJson = JSON.parse(readFileSync(joinPath(__dirname, '..', 'package.json'), 'utf-8'));
 const userAgent = `${packageJson.name || 'Action-SpigotMC'}/${packageJson.version || 'UNKNOWN_VERSION'} (+${packageJson.homepage || 'https://github.com/SpraxDev/Action-SpigotMC'})`;
 
