@@ -48,7 +48,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
             }
 
             if (!forceRun) {
-                versions = await removeExistingVersions(versions, (ver, jarPath) => {
+                versions = await removeExistingVersions(versions, remapped, (ver, jarPath) => {
                     logInfo(`Skipping version '${ver}' because it has been found in the local maven repository: ${jarPath}`);
                 });
 
@@ -138,7 +138,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
     });
 }
 
-async function removeExistingVersions(versionArr: string[], onExist: (ver: string, jarPath: string) => void): Promise<string[]> {
+async function removeExistingVersions(versionArr: string[], remapped: boolean, onExist: (ver: string, jarPath: string) => void): Promise<string[]> {
     return new Promise(async (resolve, _reject): Promise<void> => {
         const result = [];
 
@@ -168,7 +168,7 @@ async function removeExistingVersions(versionArr: string[], onExist: (ver: strin
                 logError(err);
             }
 
-            const jarPath = resolvePath(joinPath(userHomeDir, `/.m2/repository/org/spigotmc/spigot/${versionToCheck}/spigot-${versionToCheck}.jar`));
+            const jarPath = resolvePath(joinPath(userHomeDir, `/.m2/repository/org/spigotmc/spigot/${versionToCheck}/spigot-${versionToCheck}${remapped ? '-remapped-mojang' : ''}.jar`));
             if (versionToCheck) {
                 skipVersion = existsSync(jarPath);
             }
