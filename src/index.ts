@@ -217,13 +217,13 @@ function setGitUserAndBackupCurrent(): void {
     spawnSync('git', ['config', '--global', 'user.name', gitUserName]);
     spawnSync('git', ['config', '--global', 'user.email', gitUserEmail]);
 
-    console.log(`Configured git user set to '${gitUserName} <${gitUserEmail}>' (was '${originalGitUserName} <${originalGitUserEmail}>')`);
+    logInfo(`Configured git user set to '${gitUserName} <${gitUserEmail}>' (was '${originalGitUserName} <${originalGitUserEmail}>')`);
 }
 
 function restoreGitUser(): void {
     spawnSync('git', ['config', '--global', 'user.name', originalGitUserName ?? '']);
     spawnSync('git', ['config', '--global', 'user.email', originalGitUserEmail ?? '']);
-    console.log(`Configured git user restored to '${originalGitUserName ?? ''} <${originalGitUserEmail ?? ''}>'`);
+    logInfo(`Configured git user restored to '${originalGitUserName ?? ''} <${originalGitUserEmail ?? ''}>'`);
 }
 
 let exitCode = 2;
