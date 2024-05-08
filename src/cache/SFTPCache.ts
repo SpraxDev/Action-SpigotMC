@@ -1,7 +1,6 @@
 import Path from 'node:path';
 
 import Ssh2SftpClient from 'ssh2-sftp-client';
-import SpigotArtifactArchiver from './SpigotArtifactArchiver';
 
 export default class SFTPCache {
   private static readonly CACHE_DIR = 'SpraxDev_Action-SpigotMC-Cache';
