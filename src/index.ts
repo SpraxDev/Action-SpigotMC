@@ -45,6 +45,7 @@ const appLogFile = joinPath(workingDir.logs, 'SpraxDev_Actions-SpigotMC.log');
 const appLogStream = createWriteStream(appLogFile, {encoding: 'utf-8', flags: 'a' /* append */});
 
 let spigotArtifactCache: SpigotArtifactCache;
+const requestedVersionToArtifactVersionMap = new Map<string, string>();
 
 async function run(): Promise<{ code: number, msg?: string }> {
     spigotArtifactCache = new SpigotArtifactCache(sftpCacheHost, sftpCachePort, sftpCacheUser, sftpCachePrivateKey);
@@ -124,11 +125,12 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
                             const end = Date.now();
 
-                            logInfo(`Finished '${ver}' in ${((end - start) / 60_000).toFixed(2)} minutes`);
+                            logInfo(`Finished '${ver}' (${requestedVersionToArtifactVersionMap.get(ver)}) in ${((end - start) / 60_000).toFixed(2)} minutes`);
 
-                            if (spigotArtifactCache.isSftpAvailable()) {
-                                if (await spigotArtifactCache.createAndUploadCacheForVersion(ver, workingDir.cache, logError)) {
-                                    logInfo(`Uploaded cache for version '${ver}' to SFTP-Server`);
+                            if (spigotArtifactCache.isSftpAvailable() && requestedVersionToArtifactVersionMap.has(ver)) {
+                                const artifactVersion = requestedVersionToArtifactVersionMap.get(ver)!;
+                                if (await spigotArtifactCache.createAndUploadCacheForVersion(artifactVersion, workingDir.cache, logError)) {
+                                    logInfo(`Uploaded cache for version '${ver}' (${artifactVersion}) to SFTP-Server`);
                                 }
                             }
 
@@ -184,6 +186,9 @@ async function removeExistingVersionsAndRestoreFromSftpCacheIfPossible(versionAr
                         }) as any;
 
                         versionToCheck = result.project?.version?._text;
+                        if (versionToCheck != null) {
+                            requestedVersionToArtifactVersionMap.set(ver, versionToCheck);
+                        }
                     }
                 }
             } catch (err: any) {
