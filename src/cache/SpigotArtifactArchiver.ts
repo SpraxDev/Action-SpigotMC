@@ -37,6 +37,7 @@ export default class SpigotArtifactArchiver {
     }
 
     const localMavenRepo = SpigotArtifactArchiver.determineLocalMavenRepositoryPath();
+    await Fs.promises.mkdir(localMavenRepo, {recursive: true});
     await Tar.extract({
       file: filePath,
       cwd: localMavenRepo
