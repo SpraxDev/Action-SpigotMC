@@ -58,7 +58,7 @@ as they are set automatically.
     # If enabled, BuildTools is provided the '--disable-java-check' argument
     disableJavaCheck: false # Optional
 
-    # Should we download additional files to deobfucate CraftBukkit and NMS?
+    # Should we download additional files to deobfuscate CraftBukkit and NMS?
     # If enabled, BuildTools will also install additional files that are required to deobfuscate CraftBukkit and NMS with the SpecialSource-Plugin
     remapped: false # Optional
 
