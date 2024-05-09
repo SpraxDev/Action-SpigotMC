@@ -73,7 +73,7 @@ export default class SFTPCache {
         retries: 0,
         hostVerifier: (key: Buffer) => {
           const expectedHostKeyHash = this.expectedHostKey?.split(' ')[1];
-          return expectedHostKeyHash == null || key.toString('base64') === this.expectedHostKey!.split(' ')[1];
+          return expectedHostKeyHash == null || key.toString('base64') === expectedHostKeyHash;
         }
       });
     } catch (err: any) {
