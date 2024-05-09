@@ -1,5 +1,6 @@
 import Fs from 'node:fs';
 import Path from 'node:path';
+import {prettifyFileSize} from '../utils';
 import SFTPCache from './SFTPCache';
 import SpigotArtifactArchiver from './SpigotArtifactArchiver';
 
@@ -23,13 +24,18 @@ export default class SpigotArtifactCache {
     return this.sftpCache != null;
   }
 
-  async fetchAndExtractCacheForVersionIfExists(version: string, tmpDir: string, logError: (msg: string) => void): Promise<boolean> {
+  async fetchAndExtractCacheForVersionIfExists(version: string, tmpDir: string, logInfo: (msg: string) => void, logError: (msg: string) => void): Promise<boolean> {
     if (this.sftpCache == null) {
       throw new Error('Cache is not available');
     }
 
     const cacheTmpFile = Path.join(tmpDir, `cache-${version}`);
     try {
+      const cacheFileSize = await this.sftpCache.getSizeOfCacheForVersion(version);
+      if (cacheFileSize !== null) {
+        logInfo(`Downloading cache for version ${version} from SFTP-Server (${prettifyFileSize(cacheFileSize)})...`);
+      }
+
       if (await this.sftpCache.fetchCacheForVersion(version, cacheTmpFile)) {
         await this.artifactArchiver.extractCacheArchive(cacheTmpFile);
         return true;

@@ -17,6 +17,18 @@ export default class SFTPCache {
     await this.sftpClient.end();
   }
 
+  async getSizeOfCacheForVersion(version: string): Promise<number | null> {
+    await this.ensureInit();
+
+    const remotePath = SFTPCache.constructRemoteCacheFilePath(version);
+    if (await this.sftpClient.exists(remotePath) !== '-') {
+      return null;
+    }
+
+    const stat = await this.sftpClient.stat(remotePath);
+    return stat.size;
+  }
+
   async fetchCacheForVersion(version: string, destFilePath: string): Promise<boolean> {
     await this.ensureInit();
 

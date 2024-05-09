@@ -201,7 +201,7 @@ async function removeExistingVersionsAndRestoreFromSftpCacheIfPossible(versionAr
             }
 
             if (!skipVersion && spigotArtifactCache.isSftpAvailable()) {
-                if (await spigotArtifactCache.fetchAndExtractCacheForVersionIfExists(versionToCheck ?? ver, workingDir.cache, logError)) {
+                if (await spigotArtifactCache.fetchAndExtractCacheForVersionIfExists(versionToCheck ?? ver, workingDir.cache, logInfo, logError)) {
                     logInfo(`Restored version '${versionToCheck ?? ver}' (${ver}) from SFTP-Cache`);
                     skipVersion = existsSync(jarPath);
                 } else {
