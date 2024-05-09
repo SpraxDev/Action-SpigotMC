@@ -84,7 +84,7 @@ export default class SFTPCache {
 
     const privateKeyTmpPath = await Fs.promises.mkdtemp(Path.join(Os.tmpdir(), '/'));
     try {
-      await Fs.promises.writeFile(Path.join(privateKeyTmpPath, 'id'), this.privateKey, {mode: 0o600});
+      await Fs.promises.writeFile(Path.join(privateKeyTmpPath, 'id'), this.privateKey + '\n', {mode: 0o600});
       await new Promise<void>((resolve, reject) => {
         const scpCommandArgs = [
           '-B', // batch mode (prevents asking for passwords or passphrases)
