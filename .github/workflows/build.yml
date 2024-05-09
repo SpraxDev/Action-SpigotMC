@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           npm ci
-          npm run build
+          npm run build --  --loader:.node=file
 
   # Make sure the action works on a clean machine without building it
   run:
