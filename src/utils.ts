@@ -1,17 +1,14 @@
-import readLines from 'n-readlines';
-import { spawn as spawnProcess } from 'node:child_process';
-import { createWriteStream, mkdirSync, readFileSync, rmSync, WriteStream } from 'node:fs';
-import { get as httpGet } from 'node:http';
-import { get as httpsGet } from 'node:https';
-import { cpus, homedir, tmpdir } from 'node:os';
-import { join as joinPath } from 'node:path';
-import { logError, logInfo } from './index';
+import NReadLines from 'n-readlines';
+import ChildProcess from 'node:child_process';
+import Fs from 'node:fs';
+import Http from 'node:http';
+import Https from 'node:https';
+import Os from 'node:os';
+import Path from 'node:path';
+import {logError, logInfo} from './index';
 
-const packageJson = JSON.parse(readFileSync(joinPath(__dirname, '..', 'package.json'), 'utf-8'));
+const packageJson = JSON.parse(Fs.readFileSync(Path.join(__dirname, '..', 'package.json'), 'utf-8'));
 const userAgent = `${packageJson.name || 'Action-SpigotMC'}/${packageJson.version || 'UNKNOWN_VERSION'} (+${packageJson.homepage || 'https://github.com/SpraxDev/Action-SpigotMC'})`;
-
-export const cpuCount = cpus().length;
-export const userHomeDir = homedir();
 
 export function fixArgArr(arr: string[]): string[] {
   const result: string[] = [];
@@ -31,13 +28,13 @@ export function isNumeric(str: string): boolean {
   return /^[0-9]+$/.test(str);
 }
 
-export async function runCmd(cmd: string, args: string[], workingDir: string, logStreamOrFile: string | WriteStream, silent: boolean = false): Promise<void> {
+export async function runCmd(cmd: string, args: string[], workingDir: string, logStreamOrFile: string | Fs.WriteStream, silent: boolean = false): Promise<void> {
   return new Promise((resolve, reject) => {
     const closeLogStream = typeof logStreamOrFile == 'string';
     const logStream = typeof logStreamOrFile != 'string' ? logStreamOrFile :
-        createWriteStream(logStreamOrFile, {encoding: 'utf-8', flags: 'a' /* append */});
+      Fs.createWriteStream(logStreamOrFile, {encoding: 'utf-8', flags: 'a'});
 
-    const runningProcess = spawnProcess(cmd, args, {shell: true, cwd: workingDir, env: process.env});
+    const runningProcess = ChildProcess.spawn(cmd, args, {shell: true, cwd: workingDir, env: process.env});
 
     runningProcess.stdout.on('data', (data) => {
       logStream.write(data);
@@ -74,10 +71,10 @@ export async function runCmd(cmd: string, args: string[], workingDir: string, lo
  * @param currRedirectDepth Internally used to track how often the function has been redirected
  */
 export async function downloadFile(url: string, dest: string | null, currRedirectDepth: number = 0): Promise<Buffer | void> {
-  const doGetRequest = url.toLowerCase().startsWith('http://') ? httpGet : httpsGet;
+  const doGetRequest = url.toLowerCase().startsWith('http://') ? Http.get : Https.get;
 
   return new Promise((resolve, reject) => {
-    let writeStream: WriteStream | null = null;
+    let writeStream: Fs.WriteStream | null = null;
 
     const done = function (errored: boolean) {
       if (writeStream) {
@@ -85,7 +82,7 @@ export async function downloadFile(url: string, dest: string | null, currRedirec
         writeStream = null;
 
         if (errored && dest != null) {
-          rmSync(dest, {recursive: true});
+          Fs.rmSync(dest, {recursive: true});
         }
       }
     };
@@ -100,8 +97,8 @@ export async function downloadFile(url: string, dest: string | null, currRedirec
 
         // Follow redirect
         if (currRedirectDepth < 12 && locHeader &&
-            (httpRes.statusCode == 301 || httpRes.statusCode == 302 || httpRes.statusCode == 303 ||
-                httpRes.statusCode == 307 || httpRes.statusCode == 308)) {
+          (httpRes.statusCode == 301 || httpRes.statusCode == 302 || httpRes.statusCode == 303 ||
+            httpRes.statusCode == 307 || httpRes.statusCode == 308)) {
           done(false);
 
           if (!/https?:\/\//g.test(locHeader)) {
@@ -109,8 +106,8 @@ export async function downloadFile(url: string, dest: string | null, currRedirec
           }
 
           return downloadFile(locHeader, dest, ++currRedirectDepth)
-              .then(resolve)
-              .catch(reject);
+            .then(resolve)
+            .catch(reject);
         } else {
           done(true);
 
@@ -119,17 +116,17 @@ export async function downloadFile(url: string, dest: string | null, currRedirec
       }
 
       if (dest != null) {
-        writeStream = createWriteStream(dest, {encoding: 'binary'})
-            .on('finish', () => {
-              done(false);
+        writeStream = Fs.createWriteStream(dest, {encoding: 'binary'})
+          .on('finish', () => {
+            done(false);
 
-              return resolve();
-            })
-            .on('error', (err) => {
-              done(true);
+            return resolve();
+          })
+          .on('error', (err) => {
+            done(true);
 
-              return reject(err);
-            });
+            return reject(err);
+          });
 
         httpRes.pipe(writeStream);
       } else {
@@ -144,18 +141,18 @@ export async function downloadFile(url: string, dest: string | null, currRedirec
         });
       }
     })
-        .on('error', (err) => {
-          done(true);
+      .on('error', (err) => {
+        done(true);
 
-          return reject(err);
-        });
+        return reject(err);
+      });
   });
 }
 
 export function readLastLines(file: string, lineCount: number, encoding: BufferEncoding = 'utf-8'): string[] {
   const result = [];
 
-  const reader = new readLines(file);
+  const reader = new NReadLines(file);
 
   let line;
   while (line = reader.next()) {
@@ -170,15 +167,15 @@ export function readLastLines(file: string, lineCount: number, encoding: BufferE
 }
 
 export function resetWorkingDir(): { base: string, cache: string, logs: string } {
-  const baseDir = joinPath(tmpdir(), 'SpraxDev-Action-SpigotMC');
-  const cacheDir = joinPath(baseDir, 'cache');
-  const logDir = joinPath(baseDir, 'logs');
+  const baseDir = Path.join(Os.tmpdir(), 'SpraxDev-Action-SpigotMC');
+  const cacheDir = Path.join(baseDir, 'cache');
+  const logDir = Path.join(baseDir, 'logs');
 
-  rmSync(baseDir, {recursive: true, force: true}); // delete dir
+  Fs.rmSync(baseDir, {recursive: true, force: true}); // delete dir
 
   // create directories
-  mkdirSync(cacheDir, {recursive: true});
-  mkdirSync(logDir, {recursive: true});
+  Fs.mkdirSync(cacheDir, {recursive: true});
+  Fs.mkdirSync(logDir, {recursive: true});
 
   return {base: baseDir, cache: cacheDir, logs: logDir};
 }
