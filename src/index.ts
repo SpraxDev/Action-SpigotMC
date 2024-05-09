@@ -5,6 +5,7 @@ import { spawnSync } from 'node:child_process';
 import { createWriteStream, existsSync, rmSync } from 'node:fs';
 import { join as joinPath, resolve as resolvePath } from 'node:path';
 import { xml2js } from 'xml-js';
+import SpigotArtifactCache from './cache/SpigotArtifactCache';
 import {
     cpuCount,
     downloadFile,
@@ -32,13 +33,29 @@ const disableJavaCheck: boolean = core.getInput('disableJavaCheck') == 'true';
 const remapped: boolean = core.getInput('remapped') == 'true';
 
 const forceRun: boolean = core.getInput('forceRun') == 'true';
-const threadCount: number = isNumeric(core.getInput('threads')) ? parseInt(core.getInput('threads')) : cpuCount;
+const threadCount: number = isNumeric(core.getInput('threads')) ? parseInt(core.getInput('threads'), 10) : cpuCount;
+
+const sftpCacheHost: string = core.getInput('sftpCacheHost') || '';
+const sftpCachePort: number = isNumeric(core.getInput('sftpCachePort')) ? parseInt(core.getInput('sftpCachePort'), 10) : 22;
+const sftpCacheUser: string = core.getInput('sftpCacheUser') || '';
+const sftpCachePrivateKey: string = core.getInput('sftpCachePrivateKey') || '';
+const sftpCacheExpectedHostKey: string | null = core.getInput('sftpCacheExpectedHostKey')?.trim() || null;
 
 const workingDir = resetWorkingDir();
 const appLogFile = joinPath(workingDir.logs, 'SpraxDev_Actions-SpigotMC.log');
 const appLogStream = createWriteStream(appLogFile, {encoding: 'utf-8', flags: 'a' /* append */});
 
+let spigotArtifactCache: SpigotArtifactCache;
+const requestedVersionToArtifactVersionMap = new Map<string, string>();
+
 async function run(): Promise<{ code: number, msg?: string }> {
+    spigotArtifactCache = new SpigotArtifactCache(sftpCacheHost, sftpCachePort, sftpCacheUser, sftpCachePrivateKey, sftpCacheExpectedHostKey);
+    if (spigotArtifactCache.isSftpAvailable()) {
+        logInfo('SFTP-Cache is configured and will be used');
+    } else {
+        logInfo('SFTP-Cache is not configured and will not be used');
+    }
+
     return new Promise(async (resolve, reject): Promise<void> => {
         try {
             if (versions.length == 0) return resolve({code: 0, msg: 'No version(s) provided to build'});
@@ -48,7 +65,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
             }
 
             if (!forceRun) {
-                versions = await removeExistingVersions(versions, remapped, (ver, jarPath) => {
+                versions = await removeExistingVersionsAndRestoreFromSftpCacheIfPossible(versions, remapped, (ver, jarPath) => {
                     logInfo(`Skipping version '${ver}' because it has been found in the local maven repository: ${jarPath}`);
                 });
 
@@ -109,7 +126,15 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
                             const end = Date.now();
 
-                            logInfo(`Finished '${ver}' in ${((end - start) / 60_000).toFixed(2)} minutes`);
+                            logInfo(`Finished '${ver}' (${requestedVersionToArtifactVersionMap.get(ver)}) in ${((end - start) / 60_000).toFixed(2)} minutes`);
+
+                            if (spigotArtifactCache.isSftpAvailable() && requestedVersionToArtifactVersionMap.has(ver)) {
+                                const artifactVersion = requestedVersionToArtifactVersionMap.get(ver)!;
+                                if (await spigotArtifactCache.createAndUploadCacheForVersion(artifactVersion, workingDir.cache, logInfo, logError)) {
+                                    logInfo(`Uploaded cache for version '${ver}' (${artifactVersion}) to SFTP-Server`);
+                                }
+                            }
+
                             resolveTask();
                         } catch (err: any) {
                             logInfo(`An error occurred while building '${ver}'`);
@@ -138,7 +163,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
     });
 }
 
-async function removeExistingVersions(versionArr: string[], remapped: boolean, onExist: (ver: string, jarPath: string) => void): Promise<string[]> {
+async function removeExistingVersionsAndRestoreFromSftpCacheIfPossible(versionArr: string[], remapped: boolean, onExist: (ver: string, jarPath: string) => void): Promise<string[]> {
     return new Promise(async (resolve, _reject): Promise<void> => {
         const result = [];
 
@@ -162,6 +187,9 @@ async function removeExistingVersions(versionArr: string[], remapped: boolean, o
                         }) as any;
 
                         versionToCheck = result.project?.version?._text;
+                        if (versionToCheck != null) {
+                            requestedVersionToArtifactVersionMap.set(ver, versionToCheck);
+                        }
                     }
                 }
             } catch (err: any) {
@@ -171,6 +199,15 @@ async function removeExistingVersions(versionArr: string[], remapped: boolean, o
             const jarPath = resolvePath(joinPath(userHomeDir, `/.m2/repository/org/spigotmc/spigot/${versionToCheck}/spigot-${versionToCheck}${remapped ? '-remapped-mojang' : ''}.jar`));
             if (versionToCheck) {
                 skipVersion = existsSync(jarPath);
+            }
+
+            if (!skipVersion && spigotArtifactCache.isSftpAvailable()) {
+                if (await spigotArtifactCache.fetchAndExtractCacheForVersionIfExists(versionToCheck ?? ver, workingDir.cache, logInfo, logError)) {
+                    logInfo(`Restored version '${versionToCheck ?? ver}' (${ver}) from SFTP-Cache`);
+                    skipVersion = existsSync(jarPath);
+                } else {
+                    logInfo(`Version '${versionToCheck ?? ver}' (${ver}) not found in SFTP-Cache`);
+                }
             }
 
             if (skipVersion) {
@@ -239,7 +276,8 @@ run()
         exitCode = 1;
         exitMessage = err;
     })
-    .finally(() => {
+    .finally(async () => {
+        await spigotArtifactCache?.shutdown();
         restoreGitUser();
         exit(exitCode, exitMessage);
     });

@@ -39,6 +39,26 @@ inputs:
     required: false
     default: SpigotMC
     description: Whose BuildTool should be used? (SpigotMC [default])
+  sftpCacheHost:
+    required: false
+    default: ''
+    description: The host of the SFTP-Server to use as dedicated artifact cache
+  sftpCachePort:
+    required: false
+    default: '22'
+    description: The port of the SFTP-Server to use as dedicated artifact cache
+  sftpCacheUser:
+    required: false
+    default: ''
+    description: The user of the SFTP-Server to use as dedicated artifact cache
+  sftpCachePrivateKey:
+    required: false
+    default: ''
+    description: The private key of the SFTP-Server to use as dedicated artifact cache
+  sftpCacheExpectedHostKey:
+    required: false
+    default: ''
+    description: Setting this to the server's host key, will enable strictly checking the host key (something like `ssh-ed25519 [HASH]` is expected here)
 
 runs:
   using: node20
