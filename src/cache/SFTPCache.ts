@@ -90,6 +90,7 @@ export default class SFTPCache {
           '-B', // batch mode (prevents asking for passwords or passphrases)
           '-i', Path.join(privateKeyTmpPath, 'id'),
           '-o', 'StrictHostKeyChecking=no',
+          '-o', 'UserKnownHostsFile=/dev/null',
           this.constructScpRemoteUrl(remotePath),
           Path.resolve(destFilePath)
         ];
