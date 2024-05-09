@@ -77,7 +77,7 @@ export default class SFTPCache {
 
 
   private async downloadSftpFile(remotePath: string, destFilePath: string): Promise<void> {
-    if (!await this.doesScpBinaryExist()) {
+    if (!await this.doesSftpBinaryExist()) {
       await this.sftpClient.get(remotePath, destFilePath);
       return;
     }
@@ -86,15 +86,14 @@ export default class SFTPCache {
     try {
       await Fs.promises.writeFile(Path.join(privateKeyTmpPath, 'id'), this.privateKey + '\n', {mode: 0o600});
       await new Promise<void>((resolve, reject) => {
-        const scpCommandArgs = [
-          '-B', // batch mode (prevents asking for passwords or passphrases)
+        const sftpCommandArgs = [
           '-i', Path.join(privateKeyTmpPath, 'id'),
           '-o', 'StrictHostKeyChecking=no',
           '-o', 'UserKnownHostsFile=/dev/null',
-          this.constructScpRemoteUrl(remotePath),
+          this.constructSftpRemoteUrl(remotePath),
           Path.resolve(destFilePath)
         ];
-        const process = ChildProcess.spawn('scp', scpCommandArgs, {stdio: 'inherit'});
+        const process = ChildProcess.spawn('sftp', sftpCommandArgs, {stdio: ['ignore', 'inherit', 'inherit']});
         process.on('error', reject);
         process.on('exit', code => code === 0 ? resolve() : reject(new Error(`Exit code: ${code}`)));
       });
@@ -103,19 +102,20 @@ export default class SFTPCache {
     }
   }
 
-  private async doesScpBinaryExist(): Promise<boolean> {
+  private async doesSftpBinaryExist(): Promise<boolean> {
     return new Promise((resolve) => {
-      const process = ChildProcess.spawn('scp', ['-B'], {timeout: 5000, stdio: 'ignore'});
+      const process = ChildProcess.spawn('sftp', [], {timeout: 5000, stdio: 'ignore'});
       process.on('error', () => resolve(false));
       process.on('exit', code => resolve(code === 1));
     });
   }
 
-  private constructScpRemoteUrl(remotePath: string): string {
-    const url = new URL('scp://');
-    url.host = this.host;
+  private constructSftpRemoteUrl(remotePath: string): string {
+    const url = new URL('sftp://');
+    url.hostname = this.host;
     url.port = this.port.toString();
     url.pathname = remotePath;
+
     url.username = this.username;
 
     return url.toString();
