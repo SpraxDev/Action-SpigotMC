@@ -89,6 +89,7 @@ export default class SFTPCache {
         const scpCommandArgs = [
           '-B', // batch mode (prevents asking for passwords or passphrases)
           '-i', Path.join(privateKeyTmpPath, 'id'),
+          '-o', 'StrictHostKeyChecking=no',
           this.constructScpRemoteUrl(remotePath),
           Path.resolve(destFilePath)
         ];
