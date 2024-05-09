@@ -64,17 +64,25 @@ export default class SFTPCache {
   }
 
   private async init(): Promise<void> {
-    await this.sftpClient.connect({
-      host: this.host,
-      port: this.port,
-      username: this.username,
-      privateKey: this.privateKey,
-      retries: 0,
-      hostVerifier: (key: Buffer) => {
-        const expectedHostKeyHash = this.expectedHostKey?.split(' ')[1];
-        return expectedHostKeyHash == null || key.toString('base64') === this.expectedHostKey!.split(' ')[1];
+    try {
+      await this.sftpClient.connect({
+        host: this.host,
+        port: this.port,
+        username: this.username,
+        privateKey: this.privateKey,
+        retries: 0,
+        hostVerifier: (key: Buffer) => {
+          const expectedHostKeyHash = this.expectedHostKey?.split(' ')[1];
+          return expectedHostKeyHash == null || key.toString('base64') === this.expectedHostKey!.split(' ')[1];
+        }
+      });
+    } catch (err: any) {
+      let detail = err.toString();
+      if (detail.endsWith('Host denied (verification failed)')) {
+        detail = 'Host key verification failed';
       }
-    });
+      throw new Error(`Failed to connect to SFTP-Server: ${detail}`);
+    }
   }
 
   private async ensureInit(): Promise<void> {
