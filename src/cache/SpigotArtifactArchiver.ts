@@ -54,6 +54,11 @@ export default class SpigotArtifactArchiver {
       }
     }
 
+    const spigotParentArtifactDir = Path.join(localMavenRepo, 'org', 'spigotmc', 'spigot-parent', 'dev-SNAPSHOT');
+    if (Fs.existsSync(spigotParentArtifactDir)) {
+      files.push(spigotParentArtifactDir);
+    }
+
     return files;
   }
 
