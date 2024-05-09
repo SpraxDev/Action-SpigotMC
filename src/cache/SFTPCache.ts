@@ -14,7 +14,7 @@ export default class SFTPCache {
   private readonly expectedHostKey: string | null;
 
   private readonly sftpClient = new Ssh2SftpClient();
-  private readonly initPromise: Promise<void>;
+  private initPromise?: Promise<void>;
 
   constructor(host: string, port: number, username: string, privateKey: string, expectedHostKey: string | null) {
     this.host = host;
@@ -22,12 +22,12 @@ export default class SFTPCache {
     this.username = username;
     this.privateKey = privateKey;
     this.expectedHostKey = expectedHostKey;
-
-    this.initPromise = this.init();
   }
 
   async shutdown(): Promise<void> {
-    await this.ensureInit();
+    if (this.initPromise != null) {
+      await this.initPromise;
+    }
     await this.sftpClient.end();
   }
 
@@ -86,6 +86,9 @@ export default class SFTPCache {
   }
 
   private async ensureInit(): Promise<void> {
+    if (this.initPromise == null) {
+      this.initPromise = this.init();
+    }
     await this.initPromise;
   }
 
