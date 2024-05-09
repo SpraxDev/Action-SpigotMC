@@ -37,7 +37,7 @@ All the values already provided below are their default values.
 If you don't change them, you can remove them from your workflow,
 as they are set automatically.
 
-```YAML
+```yaml
 - uses: SpraxDev/Action-SpigotMC@v5
   with:
     # A comma-separated list of Spigot version that should be compiled
@@ -74,4 +74,32 @@ as they are set automatically.
     # You can choose between different BuildTools to be used by this action
     # Available: SpigotMC
     buildToolProvider: SpigotMC # Optional
+
+
+    # The host of the SFTP-Server to use as dedicated artifact cache
+    sftpCacheHost: '' # Optional
+    
+    # The port of the SFTP-Server to use as dedicated artifact cache
+    sftpCachePort: 22 # Optional
+    
+    # The username of the SFTP-Server to use as dedicated artifact cache
+    sftpCacheUser: '' # Optional
+    
+    # The private key of the SFTP-Server to use as dedicated artifact cache
+    # The configured value should start with `-----BEGIN OPENSSH PRIVATE KEY-----`
+    sftpCachePrivateKey: '' # Optional
+    
+    # Setting this to the server's host key, will enable strictly checking the host key
+    # something like `ssh-ed25519 [HASH]` is expected here
+    sftpCacheExpectedHostKey: '' # Optional
 ```
+
+## Cache Spigot artifacts on a dedicated SFTP-Server
+Using GitHub's `actions/cache` is already great but may not be enough for some use-cases,
+causing all those Spigot versions to be recompiled more often than necessary.
+
+To solve this, you are able to configure your own SFTP-Server that should be used to store and restore built Spigot artifacts.
+
+To be clear, we still recommend using `actions/cache` in addition to this feature – This is not aimed to be a replacement.
+
+In theory, using this feature allows you only build a version once and then share it across all your repositories and workflows.
