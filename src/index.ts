@@ -1,7 +1,6 @@
 import * as ActionsCore from '@actions/core';
 import Async from 'async';
 import FsExtra from 'fs-extra';
-import ChildProcess from 'node:child_process';
 import Fs from 'node:fs';
 import Os from 'node:os';
 import Path from 'node:path';
@@ -226,38 +225,9 @@ export function logError(msg?: string | object): void {
   appLogStream.write(msg + '\n');
 }
 
-let originalGitUserName: string | null = null;
-let originalGitUserEmail: string | null = null;
-
-function setGitUserAndBackupCurrent(): void {
-  let gitProcess = ChildProcess.spawnSync('git', ['config', '--global', 'user.name']);
-  if (gitProcess.status == 0) {
-    originalGitUserName = gitProcess.stdout.toString();
-  }
-
-  gitProcess = ChildProcess.spawnSync('git', ['config', '--global', 'user.email']);
-  if (gitProcess.status == 0) {
-    originalGitUserEmail = gitProcess.stdout.toString();
-  }
-
-  const gitUserName = `GitHub Runner on ${process.env['GITHUB_REPOSITORY'] || 'Unknown_Repository'} (id=${process.env['GITHUB_RUN_ID']})`;
-  const gitUserEmail = 'no-reply@example.com';
-  ChildProcess.spawnSync('git', ['config', '--global', 'user.name', gitUserName]);
-  ChildProcess.spawnSync('git', ['config', '--global', 'user.email', gitUserEmail]);
-
-  logInfo(`Configured git user set to '${gitUserName} <${gitUserEmail}>' (was '${originalGitUserName} <${originalGitUserEmail}>')`);
-}
-
-function restoreGitUser(): void {
-  ChildProcess.spawnSync('git', ['config', '--global', 'user.name', originalGitUserName ?? '']);
-  ChildProcess.spawnSync('git', ['config', '--global', 'user.email', originalGitUserEmail ?? '']);
-  logInfo(`Configured git user restored to '${originalGitUserName ?? ''} <${originalGitUserEmail ?? ''}>'`);
-}
-
 let exitCode = 2;
 let exitMessage: string | Error | undefined;
 
-setGitUserAndBackupCurrent();
 run()
   .then((result) => {
     exitCode = result.code;
@@ -269,6 +239,5 @@ run()
   })
   .finally(async () => {
     await spigotArtifactCache?.shutdown();
-    restoreGitUser();
     exit(exitCode, exitMessage);
   });
