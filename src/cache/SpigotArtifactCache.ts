@@ -1,6 +1,5 @@
 import Fs from 'node:fs';
 import Path from 'node:path';
-import {prettifyFileSize} from '../utils';
 import SFTPCache from './SFTPCache';
 import SpigotArtifactArchiver from './SpigotArtifactArchiver';
 
@@ -33,7 +32,7 @@ export default class SpigotArtifactCache {
     try {
       const cacheFileSize = await this.sftpCache.getSizeOfCacheForVersion(version);
       if (cacheFileSize !== null) {
-        logInfo(`Downloading cache for version ${version} from SFTP-Server (${prettifyFileSize(cacheFileSize)})...`);
+        logInfo(`Downloading cache for version ${version} from SFTP-Server (${SpigotArtifactCache.prettifyFileSize(cacheFileSize)})...`);
       }
 
       if (await this.sftpCache.fetchCacheForVersion(version, cacheTmpFile)) {
@@ -58,7 +57,7 @@ export default class SpigotArtifactCache {
     try {
       await this.artifactArchiver.createCacheArchiveForVersion(version, cacheTmpFile);
 
-      logInfo(`Uploading cache for version ${version} to SFTP-Server (${prettifyFileSize((await Fs.promises.stat(cacheTmpFile)).size)})...`);
+      logInfo(`Uploading cache for version ${version} to SFTP-Server (${SpigotArtifactCache.prettifyFileSize((await Fs.promises.stat(cacheTmpFile)).size)})...`);
       await this.sftpCache.uploadCacheForVersion(version, cacheTmpFile);
       return true;
     } catch (err) {
@@ -67,5 +66,23 @@ export default class SpigotArtifactCache {
     } finally {
       await Fs.promises.rm(cacheTmpFile, {force: true});
     }
+  }
+
+  private static prettifyFileSize(bytes: number): string {
+    if (bytes < 0 || !Number.isFinite(bytes)) {
+      throw new Error('The given bytes need to be a positive number');
+    }
+
+    const base = 1024;
+    const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+
+    let i = Math.floor(Math.log(bytes) / Math.log(base));
+    if (i < 0) {
+      i = 0;
+    } else if (i >= units.length) {
+      i = units.length - 1;
+    }
+
+    return (bytes / Math.pow(base, i)).toFixed(i > 0 ? 2 : 0) + ' ' + units[i];
   }
 }
