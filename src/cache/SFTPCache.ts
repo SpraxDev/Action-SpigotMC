@@ -2,7 +2,6 @@ import ChildProcess from 'node:child_process';
 import Fs from 'node:fs';
 import Os from 'node:os';
 import Path from 'node:path';
-
 import Ssh2SftpClient from 'ssh2-sftp-client';
 
 export default class SFTPCache {
@@ -12,15 +11,17 @@ export default class SFTPCache {
   private readonly port: number;
   private readonly username: string;
   private readonly privateKey: string;
+  private readonly expectedHostKey: string | null;
 
   private readonly sftpClient = new Ssh2SftpClient();
   private readonly initPromise: Promise<void>;
 
-  constructor(host: string, port: number, username: string, privateKey: string) {
+  constructor(host: string, port: number, username: string, privateKey: string, expectedHostKey: string | null) {
     this.host = host;
     this.port = port;
     this.username = username;
     this.privateKey = privateKey;
+    this.expectedHostKey = expectedHostKey;
 
     this.initPromise = this.init();
   }
@@ -67,14 +68,18 @@ export default class SFTPCache {
       host: this.host,
       port: this.port,
       username: this.username,
-      privateKey: this.privateKey
+      privateKey: this.privateKey,
+      retries: 0,
+      hostVerifier: (key: Buffer) => {
+        const expectedHostKeyHash = this.expectedHostKey?.split(' ')[1];
+        return expectedHostKeyHash == null || key.toString('base64') === this.expectedHostKey!.split(' ')[1];
+      }
     });
   }
 
   private async ensureInit(): Promise<void> {
     await this.initPromise;
   }
-
 
   private async downloadSftpFile(remotePath: string, destFilePath: string): Promise<void> {
     if (!await this.doesSftpBinaryExist()) {
@@ -84,12 +89,20 @@ export default class SFTPCache {
 
     const privateKeyTmpPath = await Fs.promises.mkdtemp(Path.join(Os.tmpdir(), '/'));
     try {
-      await Fs.promises.writeFile(Path.join(privateKeyTmpPath, 'id'), this.privateKey + '\n', {mode: 0o600});
+      const privateKeyFilePath = Path.join(privateKeyTmpPath, 'id');
+      await Fs.promises.writeFile(privateKeyFilePath, this.privateKey + '\n', {mode: 0o400});
+
+      const knownHostsFilePath = Path.join(privateKeyTmpPath, 'known_hosts');
+      if (this.expectedHostKey != null) {
+        await Fs.promises.writeFile(knownHostsFilePath, `[${this.host}]:${this.port} ${this.expectedHostKey}\n`);
+      }
+
       await new Promise<void>((resolve, reject) => {
         const sftpCommandArgs = [
-          '-i', Path.join(privateKeyTmpPath, 'id'),
-          '-o', 'StrictHostKeyChecking=no',
-          '-o', 'UserKnownHostsFile=/dev/null',
+          '-i', privateKeyFilePath,
+          '-o', 'BatchMode=yes',
+          '-o', `StrictHostKeyChecking=${this.expectedHostKey == null ? 'no' : 'yes'}`,
+          '-o', `UserKnownHostsFile=${knownHostsFilePath}`,
           this.constructSftpRemoteUrl(remotePath),
           Path.resolve(destFilePath)
         ];

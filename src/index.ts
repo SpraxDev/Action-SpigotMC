@@ -39,6 +39,7 @@ const sftpCacheHost: string = core.getInput('sftpCacheHost') || '';
 const sftpCachePort: number = isNumeric(core.getInput('sftpCachePort')) ? parseInt(core.getInput('sftpCachePort'), 10) : 22;
 const sftpCacheUser: string = core.getInput('sftpCacheUser') || '';
 const sftpCachePrivateKey: string = core.getInput('sftpCachePrivateKey') || '';
+const sftpCacheExpectedHostKey: string | null = core.getInput('sftpCacheExpectedHostKey')?.trim() || null;
 
 const workingDir = resetWorkingDir();
 const appLogFile = joinPath(workingDir.logs, 'SpraxDev_Actions-SpigotMC.log');
@@ -48,7 +49,7 @@ let spigotArtifactCache: SpigotArtifactCache;
 const requestedVersionToArtifactVersionMap = new Map<string, string>();
 
 async function run(): Promise<{ code: number, msg?: string }> {
-    spigotArtifactCache = new SpigotArtifactCache(sftpCacheHost, sftpCachePort, sftpCacheUser, sftpCachePrivateKey);
+    spigotArtifactCache = new SpigotArtifactCache(sftpCacheHost, sftpCachePort, sftpCacheUser, sftpCachePrivateKey, sftpCacheExpectedHostKey);
     if (spigotArtifactCache.isSftpAvailable()) {
         logInfo('SFTP-Cache is configured and will be used');
     } else {

@@ -8,11 +8,11 @@ export default class SpigotArtifactCache {
   private readonly artifactArchiver = new SpigotArtifactArchiver();
   private readonly sftpCache: SFTPCache | null;
 
-  constructor(host: string, port: number, username: string, privateKey: string) {
+  constructor(host: string, port: number, username: string, privateKey: string, expectedHostKey: string | null) {
     if (host === '') {
       this.sftpCache = null;
     } else {
-      this.sftpCache = new SFTPCache(host, port, username, privateKey);
+      this.sftpCache = new SFTPCache(host, port, username, privateKey, expectedHostKey);
     }
   }
 

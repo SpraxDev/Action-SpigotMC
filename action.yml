@@ -55,6 +55,10 @@ inputs:
     required: false
     default: ''
     description: The private key of the SFTP-Server to use as dedicated artifact cache
+  sftpCacheExpectedHostKey:
+    required: false
+    default: ''
+    description: Setting this to the server's host key, will enable strictly checking the host key (something like `ssh-ed25519 [HASH]` is expected here)
 
 runs:
   using: node20
