@@ -129,7 +129,7 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
                             if (spigotArtifactCache.isSftpAvailable() && requestedVersionToArtifactVersionMap.has(ver)) {
                                 const artifactVersion = requestedVersionToArtifactVersionMap.get(ver)!;
-                                if (await spigotArtifactCache.createAndUploadCacheForVersion(artifactVersion, workingDir.cache, logError)) {
+                                if (await spigotArtifactCache.createAndUploadCacheForVersion(artifactVersion, workingDir.cache, logInfo, logError)) {
                                     logInfo(`Uploaded cache for version '${ver}' (${artifactVersion}) to SFTP-Server`);
                                 }
                             }

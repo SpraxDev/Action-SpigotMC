@@ -49,7 +49,7 @@ export default class SpigotArtifactCache {
     return false;
   }
 
-  async createAndUploadCacheForVersion(version: string, tmpDir: string, logError: (msg: string) => void): Promise<boolean> {
+  async createAndUploadCacheForVersion(version: string, tmpDir: string, logInfo: (msg: string) => void, logError: (msg: string) => void): Promise<boolean> {
     if (this.sftpCache == null) {
       throw new Error('Cache is not available');
     }
@@ -57,6 +57,8 @@ export default class SpigotArtifactCache {
     const cacheTmpFile = Path.join(tmpDir, `cache-${version}`);
     try {
       await this.artifactArchiver.createCacheArchiveForVersion(version, cacheTmpFile);
+
+      logInfo(`Uploading cache for version ${version} to SFTP-Server (${prettifyFileSize((await Fs.promises.stat(cacheTmpFile)).size)})...`);
       await this.sftpCache.uploadCacheForVersion(version, cacheTmpFile);
       return true;
     } catch (err) {
