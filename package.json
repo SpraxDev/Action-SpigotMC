@@ -40,7 +40,7 @@
     "fs-extra": "^11.2.0",
     "n-readlines": "^1.0.1",
     "ssh2-sftp-client": "^10.0.3",
-    "tar": "^7.2.0",
+    "tar": "^7.4.0",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
