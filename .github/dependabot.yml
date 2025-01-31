@@ -6,7 +6,7 @@ updates:
     schedule:
       interval: monthly
     ignore:
-      - dependency-name: @types/*
+      - dependency-name: '@types/*'
 
   - package-ecosystem: github-actions
     directory: /
