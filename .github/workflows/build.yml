@@ -40,7 +40,7 @@ jobs:
 
       - uses: actions/setup-java@v4
         with:
-          java-version: 17
+          java-version: 23
           distribution: temurin
 
       - name: Compile latest spigot version
@@ -94,7 +94,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           # This version should probably match the ones from the 'run'-job
-          java-version: 17
+          java-version: 23
           distribution: temurin
 
       - name: Run original Spigot-BuildTools (latest)
