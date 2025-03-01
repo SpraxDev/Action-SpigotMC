@@ -5144,7 +5144,7 @@ var require_client = __commonJS({
       }
       onHeaderField(buf) {
         let len = this.headers.length;
-        len & 1 ? this.headers[len - 1] = Buffer.concat([this.headers[len - 1], buf]) : this.headers.push(buf), this.trackHeader(buf.length);
+        (len & 1) === 0 ? this.headers.push(buf) : this.headers[len - 1] = Buffer.concat([this.headers[len - 1], buf]), this.trackHeader(buf.length);
       }
       onHeaderValue(buf) {
         let len = this.headers.length;
@@ -18003,7 +18003,7 @@ var require_reader = __commonJS({
         return null;
       for (var values = [], value = 0, i = 0; i < b.length; i++) {
         var byte = b[i] & 255;
-        value <<= 7, value += byte & 127, byte & 128 || (values.push(value), value = 0);
+        value <<= 7, value += byte & 127, (byte & 128) === 0 && (values.push(value), value = 0);
       }
       return value = values.shift(), values.unshift(value % 40), values.unshift(value / 40 >> 0), values.join(".");
     };
@@ -18066,7 +18066,7 @@ var require_writer = __commonJS({
       if (typeof i != "number")
         throw new TypeError("argument must be a Number");
       typeof tag != "number" && (tag = ASN1.Integer);
-      for (var sz = 4; (!(i & 4286578688) || (i & 4286578688) === -8388608) && sz > 1; )
+      for (var sz = 4; ((i & 4286578688) === 0 || (i & 4286578688) === -8388608) && sz > 1; )
         sz--, i <<= 8;
       if (sz > 4)
         throw newInvalidAsn1Error("BER ints cannot be > 0xffffffff");
@@ -21267,7 +21267,7 @@ var require_crypto = __commonJS({
               this._len = (this._len << 8) + data[p++];
             if (this._lenBytes < 4)
               return;
-            if (this._len > MAX_PACKET_SIZE || this._len < 8 || 4 + this._len & 7)
+            if (this._len > MAX_PACKET_SIZE || this._len < 8 || (4 + this._len & 7) !== 0)
               throw new Error("Bad packet length");
             if (p >= dataLen)
               return;
@@ -21307,7 +21307,7 @@ var require_crypto = __commonJS({
               return;
             POLY1305_OUT_COMPUTE[0] = 0, writeUInt32BE(POLY1305_OUT_COMPUTE, this.inSeqno, 12);
             let decLenBytes = createDecipheriv("chacha20", this._decKeyPktLen, POLY1305_OUT_COMPUTE).update(this._lenBuf);
-            if (this._len = readUInt32BE(decLenBytes, 0), this._len > MAX_PACKET_SIZE || this._len < 8 || this._len & 7)
+            if (this._len = readUInt32BE(decLenBytes, 0), this._len > MAX_PACKET_SIZE || this._len < 8 || (this._len & 7) !== 0)
               throw new Error("Bad packet length");
           }
           if (this._pktLen < this._len) {
@@ -21373,7 +21373,7 @@ var require_crypto = __commonJS({
               this._lenBuf[this._lenPos++] = data[p++];
             if (this._lenPos < 4)
               return;
-            if (this._len = this._instance.decryptLen(this._lenBuf, this.inSeqno), this._len > MAX_PACKET_SIZE || this._len < 8 || this._len & 7)
+            if (this._len = this._instance.decryptLen(this._lenBuf, this.inSeqno), this._len > MAX_PACKET_SIZE || this._len < 8 || (this._len & 7) !== 0)
               throw new Error("Bad packet length");
             if (p >= dataLen)
               return;
@@ -21420,7 +21420,7 @@ var require_crypto = __commonJS({
               this._len = (this._len << 8) + data[p++];
             if (this._lenBytes < 4)
               return;
-            if (this._len + 20 > MAX_PACKET_SIZE || this._len < 16 || this._len & 15)
+            if (this._len + 20 > MAX_PACKET_SIZE || this._len < 16 || (this._len & 15) !== 0)
               throw new Error("Bad packet length");
             this._decipherInstance = createDecipheriv(
               this._decipherSSLName,
@@ -21482,7 +21482,7 @@ var require_crypto = __commonJS({
               this._len = (this._len << 8) + data[p++];
             if (this._lenBytes < 4)
               return;
-            if (this._len + 20 > MAX_PACKET_SIZE || this._len < 16 || this._len & 15)
+            if (this._len + 20 > MAX_PACKET_SIZE || this._len < 16 || (this._len & 15) !== 0)
               throw new Error(`Bad packet length: ${this._len}`);
           }
           if (this._pktLen < this._len) {
@@ -21542,7 +21542,7 @@ var require_crypto = __commonJS({
             ) : this._block.set(data, this._blockPos), p += nb, this._blockPos += nb, this._blockPos < this._block.length)
               return;
             let decrypted, need;
-            if (this._macETM ? this._len = need = readUInt32BE(this._block, 0) : (decrypted = this._decipherInstance.update(this._block), this._len = readUInt32BE(decrypted, 0), need = 4 + this._len - this._blockSize), this._len > MAX_PACKET_SIZE || this._len < 5 || need & this._blockSize - 1)
+            if (this._macETM ? this._len = need = readUInt32BE(this._block, 0) : (decrypted = this._decipherInstance.update(this._block), this._len = readUInt32BE(decrypted, 0), need = 4 + this._len - this._blockSize), this._len > MAX_PACKET_SIZE || this._len < 5 || (need & this._blockSize - 1) !== 0)
               throw new Error("Bad packet length");
             if (this._macInstance = createHmac(this._macSSLName, this._macKey), writeUInt32BE(BUF_INT, this.inSeqno, 0), this._macInstance.update(BUF_INT), this._macETM ? this._macInstance.update(this._block) : (this._macInstance.update(new Uint8Array(
               decrypted.buffer,
@@ -21622,7 +21622,7 @@ var require_crypto = __commonJS({
             ) : this._block.set(data, this._blockPos), p += nb, this._blockPos += nb, this._blockPos < this._block.length)
               return;
             let need;
-            if (this._macETM ? this._len = need = readUInt32BE(this._block, 0) : (this._instance.decryptBlock(this._block), this._len = readUInt32BE(this._block, 0), need = 4 + this._len - this._block.length), this._len > MAX_PACKET_SIZE || this._len < 5 || need & this._block.length - 1)
+            if (this._macETM ? this._len = need = readUInt32BE(this._block, 0) : (this._instance.decryptBlock(this._block), this._len = readUInt32BE(this._block, 0), need = 4 + this._len - this._block.length), this._len > MAX_PACKET_SIZE || this._len < 5 || (need & this._block.length - 1) !== 0)
               throw new Error("Bad packet length");
             if (this._macETM || (this._pktLen = this._block.length - 4, this._pktLen && (this._packet = Buffer.allocUnsafe(this._len), this._packet.set(
               new Uint8Array(
@@ -21839,7 +21839,7 @@ ${formatted}-----END ${type} KEY-----`;
       }
       function bigIntToBuffer(bn) {
         let hex = bn.toString(16);
-        if (hex.length & 1)
+        if ((hex.length & 1) !== 0)
           hex = `0${hex}`;
         else {
           let sigbit = hex.charCodeAt(0);
