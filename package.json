@@ -50,7 +50,7 @@
     "@types/n-readlines": "^1.0.6",
     "@types/node": "^20.17.22",
     "@types/ssh2-sftp-client": "^9.0.4",
-    "esbuild": "^0.25.0",
+    "esbuild": "^0.25.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }
