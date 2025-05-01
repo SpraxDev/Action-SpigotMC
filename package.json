@@ -52,6 +52,6 @@
     "@types/ssh2-sftp-client": "^9.0.4",
     "esbuild": "^0.25.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   }
 }
