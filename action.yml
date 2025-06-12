@@ -39,6 +39,10 @@ inputs:
     required: false
     default: SpigotMC
     description: Whose BuildTool should be used? (SpigotMC [default])
+  finalJarOutputDir:
+    required: false
+    default: ''
+    description: The directory BuildTools should put the final server jar into
   sftpCacheHost:
     required: false
     default: ''

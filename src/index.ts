@@ -21,6 +21,7 @@ const generateSrc: boolean = ActionsCore.getInput('generateSrc') == 'true';
 const generateDoc: boolean = ActionsCore.getInput('generateDoc') == 'true';
 const disableJavaCheck: boolean = ActionsCore.getInput('disableJavaCheck') == 'true';
 const remapped: boolean = ActionsCore.getInput('remapped') == 'true';
+const finalJarOutputDir: string = ActionsCore.getInput('finalJarOutputDir') || '';
 
 const forceRun: boolean = ActionsCore.getInput('forceRun') == 'true';
 const threadCount: number = isNumeric(ActionsCore.getInput('threads')) ? parseInt(ActionsCore.getInput('threads'), 10) : Os.cpus().length;
@@ -87,6 +88,16 @@ async function run(): Promise<{ code: number, msg?: string }> {
 
       if (remapped) {
         buildToolsArgs.push('--remapped');
+      }
+
+      if (finalJarOutputDir) {
+        const outputDir = Path.isAbsolute(finalJarOutputDir) ? finalJarOutputDir : Path.resolve(finalJarOutputDir);
+        if (!Fs.existsSync(outputDir)) {
+          Fs.mkdirSync(outputDir, {recursive: true});
+        }
+
+        buildToolsArgs.push('--output-dir');
+        buildToolsArgs.push(Path.isAbsolute(finalJarOutputDir) ? finalJarOutputDir : Path.resolve(finalJarOutputDir));
       }
 
       const tasks = [];

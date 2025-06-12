@@ -4,19 +4,16 @@ var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf, __hasOwnProp = Object.prototype.hasOwnProperty;
-var __esm = (fn, res) => function() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
 var __commonJS = (cb, mod) => function() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 var __export = (target, all) => {
   for (var name2 in all)
     __defProp(target, name2, { get: all[name2], enumerable: !0 });
-}, __copyProps = (to, from, except, desc) => {
+}, __copyProps = (to, from, except, desc2) => {
   if (from && typeof from == "object" || typeof from == "function")
     for (let key of __getOwnPropNames(from))
-      !__hasOwnProp.call(to, key) && key !== except && __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+      !__hasOwnProp.call(to, key) && key !== except && __defProp(to, key, { get: () => from[key], enumerable: !(desc2 = __getOwnPropDesc(from, key)) || desc2.enumerable });
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
@@ -57,9 +54,11 @@ var require_command = __commonJS({
   "node_modules/@actions/core/lib/command.js"(exports2) {
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
-      k2 === void 0 && (k2 = k), Object.defineProperty(o, k2, { enumerable: !0, get: function() {
+      k2 === void 0 && (k2 = k);
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
         return m[k];
-      } });
+      } }), Object.defineProperty(o, k2, desc2);
     } : function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), o[k2] = m[k];
     }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
@@ -69,7 +68,7 @@ var require_command = __commonJS({
     }), __importStar = exports2 && exports2.__importStar || function(mod) {
       if (mod && mod.__esModule) return mod;
       var result = {};
-      if (mod != null) for (var k in mod) k !== "default" && Object.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
+      if (mod != null) for (var k in mod) k !== "default" && Object.prototype.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
       return __setModuleDefault(result, mod), result;
     };
     Object.defineProperty(exports2, "__esModule", { value: !0 });
@@ -103,242 +102,11 @@ var require_command = __commonJS({
       }
     };
     function escapeData(s) {
-      return utils_1.toCommandValue(s).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A");
+      return (0, utils_1.toCommandValue)(s).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A");
     }
     function escapeProperty(s) {
-      return utils_1.toCommandValue(s).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A").replace(/:/g, "%3A").replace(/,/g, "%2C");
+      return (0, utils_1.toCommandValue)(s).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A").replace(/:/g, "%3A").replace(/,/g, "%2C");
     }
-  }
-});
-
-// node_modules/uuid/dist/esm-node/rng.js
-function rng() {
-  return poolPtr > rnds8Pool.length - 16 && (import_crypto.default.randomFillSync(rnds8Pool), poolPtr = 0), rnds8Pool.slice(poolPtr, poolPtr += 16);
-}
-var import_crypto, rnds8Pool, poolPtr, init_rng = __esm({
-  "node_modules/uuid/dist/esm-node/rng.js"() {
-    import_crypto = __toESM(require("crypto")), rnds8Pool = new Uint8Array(256), poolPtr = rnds8Pool.length;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/regex.js
-var regex_default, init_regex = __esm({
-  "node_modules/uuid/dist/esm-node/regex.js"() {
-    regex_default = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/validate.js
-function validate(uuid) {
-  return typeof uuid == "string" && regex_default.test(uuid);
-}
-var validate_default, init_validate = __esm({
-  "node_modules/uuid/dist/esm-node/validate.js"() {
-    init_regex();
-    validate_default = validate;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/stringify.js
-function stringify(arr, offset = 0) {
-  let uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
-  if (!validate_default(uuid))
-    throw TypeError("Stringified UUID is invalid");
-  return uuid;
-}
-var byteToHex, stringify_default, init_stringify = __esm({
-  "node_modules/uuid/dist/esm-node/stringify.js"() {
-    init_validate();
-    byteToHex = [];
-    for (let i = 0; i < 256; ++i)
-      byteToHex.push((i + 256).toString(16).substr(1));
-    stringify_default = stringify;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/v1.js
-function v1(options, buf, offset) {
-  let i = buf && offset || 0, b = buf || new Array(16);
-  options = options || {};
-  let node = options.node || _nodeId, clockseq = options.clockseq !== void 0 ? options.clockseq : _clockseq;
-  if (node == null || clockseq == null) {
-    let seedBytes = options.random || (options.rng || rng)();
-    node == null && (node = _nodeId = [seedBytes[0] | 1, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]]), clockseq == null && (clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 16383);
-  }
-  let msecs = options.msecs !== void 0 ? options.msecs : Date.now(), nsecs = options.nsecs !== void 0 ? options.nsecs : _lastNSecs + 1, dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 1e4;
-  if (dt < 0 && options.clockseq === void 0 && (clockseq = clockseq + 1 & 16383), (dt < 0 || msecs > _lastMSecs) && options.nsecs === void 0 && (nsecs = 0), nsecs >= 1e4)
-    throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
-  _lastMSecs = msecs, _lastNSecs = nsecs, _clockseq = clockseq, msecs += 122192928e5;
-  let tl = ((msecs & 268435455) * 1e4 + nsecs) % 4294967296;
-  b[i++] = tl >>> 24 & 255, b[i++] = tl >>> 16 & 255, b[i++] = tl >>> 8 & 255, b[i++] = tl & 255;
-  let tmh = msecs / 4294967296 * 1e4 & 268435455;
-  b[i++] = tmh >>> 8 & 255, b[i++] = tmh & 255, b[i++] = tmh >>> 24 & 15 | 16, b[i++] = tmh >>> 16 & 255, b[i++] = clockseq >>> 8 | 128, b[i++] = clockseq & 255;
-  for (let n = 0; n < 6; ++n)
-    b[i + n] = node[n];
-  return buf || stringify_default(b);
-}
-var _nodeId, _clockseq, _lastMSecs, _lastNSecs, v1_default, init_v1 = __esm({
-  "node_modules/uuid/dist/esm-node/v1.js"() {
-    init_rng();
-    init_stringify();
-    _lastMSecs = 0, _lastNSecs = 0;
-    v1_default = v1;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/parse.js
-function parse(uuid) {
-  if (!validate_default(uuid))
-    throw TypeError("Invalid UUID");
-  let v, arr = new Uint8Array(16);
-  return arr[0] = (v = parseInt(uuid.slice(0, 8), 16)) >>> 24, arr[1] = v >>> 16 & 255, arr[2] = v >>> 8 & 255, arr[3] = v & 255, arr[4] = (v = parseInt(uuid.slice(9, 13), 16)) >>> 8, arr[5] = v & 255, arr[6] = (v = parseInt(uuid.slice(14, 18), 16)) >>> 8, arr[7] = v & 255, arr[8] = (v = parseInt(uuid.slice(19, 23), 16)) >>> 8, arr[9] = v & 255, arr[10] = (v = parseInt(uuid.slice(24, 36), 16)) / 1099511627776 & 255, arr[11] = v / 4294967296 & 255, arr[12] = v >>> 24 & 255, arr[13] = v >>> 16 & 255, arr[14] = v >>> 8 & 255, arr[15] = v & 255, arr;
-}
-var parse_default, init_parse = __esm({
-  "node_modules/uuid/dist/esm-node/parse.js"() {
-    init_validate();
-    parse_default = parse;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/v35.js
-function stringToBytes(str) {
-  str = unescape(encodeURIComponent(str));
-  let bytes = [];
-  for (let i = 0; i < str.length; ++i)
-    bytes.push(str.charCodeAt(i));
-  return bytes;
-}
-function v35_default(name2, version3, hashfunc) {
-  function generateUUID(value, namespace, buf, offset) {
-    if (typeof value == "string" && (value = stringToBytes(value)), typeof namespace == "string" && (namespace = parse_default(namespace)), namespace.length !== 16)
-      throw TypeError("Namespace must be array-like (16 iterable integer values, 0-255)");
-    let bytes = new Uint8Array(16 + value.length);
-    if (bytes.set(namespace), bytes.set(value, namespace.length), bytes = hashfunc(bytes), bytes[6] = bytes[6] & 15 | version3, bytes[8] = bytes[8] & 63 | 128, buf) {
-      offset = offset || 0;
-      for (let i = 0; i < 16; ++i)
-        buf[offset + i] = bytes[i];
-      return buf;
-    }
-    return stringify_default(bytes);
-  }
-  try {
-    generateUUID.name = name2;
-  } catch {
-  }
-  return generateUUID.DNS = DNS, generateUUID.URL = URL2, generateUUID;
-}
-var DNS, URL2, init_v35 = __esm({
-  "node_modules/uuid/dist/esm-node/v35.js"() {
-    init_stringify();
-    init_parse();
-    DNS = "6ba7b810-9dad-11d1-80b4-00c04fd430c8", URL2 = "6ba7b811-9dad-11d1-80b4-00c04fd430c8";
-  }
-});
-
-// node_modules/uuid/dist/esm-node/md5.js
-function md5(bytes) {
-  return Array.isArray(bytes) ? bytes = Buffer.from(bytes) : typeof bytes == "string" && (bytes = Buffer.from(bytes, "utf8")), import_crypto2.default.createHash("md5").update(bytes).digest();
-}
-var import_crypto2, md5_default, init_md5 = __esm({
-  "node_modules/uuid/dist/esm-node/md5.js"() {
-    import_crypto2 = __toESM(require("crypto"));
-    md5_default = md5;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/v3.js
-var v3, v3_default, init_v3 = __esm({
-  "node_modules/uuid/dist/esm-node/v3.js"() {
-    init_v35();
-    init_md5();
-    v3 = v35_default("v3", 48, md5_default), v3_default = v3;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/v4.js
-function v4(options, buf, offset) {
-  options = options || {};
-  let rnds = options.random || (options.rng || rng)();
-  if (rnds[6] = rnds[6] & 15 | 64, rnds[8] = rnds[8] & 63 | 128, buf) {
-    offset = offset || 0;
-    for (let i = 0; i < 16; ++i)
-      buf[offset + i] = rnds[i];
-    return buf;
-  }
-  return stringify_default(rnds);
-}
-var v4_default, init_v4 = __esm({
-  "node_modules/uuid/dist/esm-node/v4.js"() {
-    init_rng();
-    init_stringify();
-    v4_default = v4;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/sha1.js
-function sha1(bytes) {
-  return Array.isArray(bytes) ? bytes = Buffer.from(bytes) : typeof bytes == "string" && (bytes = Buffer.from(bytes, "utf8")), import_crypto3.default.createHash("sha1").update(bytes).digest();
-}
-var import_crypto3, sha1_default, init_sha1 = __esm({
-  "node_modules/uuid/dist/esm-node/sha1.js"() {
-    import_crypto3 = __toESM(require("crypto"));
-    sha1_default = sha1;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/v5.js
-var v5, v5_default, init_v5 = __esm({
-  "node_modules/uuid/dist/esm-node/v5.js"() {
-    init_v35();
-    init_sha1();
-    v5 = v35_default("v5", 80, sha1_default), v5_default = v5;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/nil.js
-var nil_default, init_nil = __esm({
-  "node_modules/uuid/dist/esm-node/nil.js"() {
-    nil_default = "00000000-0000-0000-0000-000000000000";
-  }
-});
-
-// node_modules/uuid/dist/esm-node/version.js
-function version(uuid) {
-  if (!validate_default(uuid))
-    throw TypeError("Invalid UUID");
-  return parseInt(uuid.substr(14, 1), 16);
-}
-var version_default, init_version = __esm({
-  "node_modules/uuid/dist/esm-node/version.js"() {
-    init_validate();
-    version_default = version;
-  }
-});
-
-// node_modules/uuid/dist/esm-node/index.js
-var esm_node_exports = {};
-__export(esm_node_exports, {
-  NIL: () => nil_default,
-  parse: () => parse_default,
-  stringify: () => stringify_default,
-  v1: () => v1_default,
-  v3: () => v3_default,
-  v4: () => v4_default,
-  v5: () => v5_default,
-  validate: () => validate_default,
-  version: () => version_default
-});
-var init_esm_node = __esm({
-  "node_modules/uuid/dist/esm-node/index.js"() {
-    init_v1();
-    init_v3();
-    init_v4();
-    init_v5();
-    init_nil();
-    init_version();
-    init_validate();
-    init_stringify();
-    init_parse();
   }
 });
 
@@ -347,9 +115,11 @@ var require_file_command = __commonJS({
   "node_modules/@actions/core/lib/file-command.js"(exports2) {
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
-      k2 === void 0 && (k2 = k), Object.defineProperty(o, k2, { enumerable: !0, get: function() {
+      k2 === void 0 && (k2 = k);
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
         return m[k];
-      } });
+      } }), Object.defineProperty(o, k2, desc2);
     } : function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), o[k2] = m[k];
     }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
@@ -359,25 +129,25 @@ var require_file_command = __commonJS({
     }), __importStar = exports2 && exports2.__importStar || function(mod) {
       if (mod && mod.__esModule) return mod;
       var result = {};
-      if (mod != null) for (var k in mod) k !== "default" && Object.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
+      if (mod != null) for (var k in mod) k !== "default" && Object.prototype.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
       return __setModuleDefault(result, mod), result;
     };
     Object.defineProperty(exports2, "__esModule", { value: !0 });
     exports2.prepareKeyValueMessage = exports2.issueFileCommand = void 0;
-    var fs11 = __importStar(require("fs")), os = __importStar(require("os")), uuid_1 = (init_esm_node(), __toCommonJS(esm_node_exports)), utils_1 = require_utils();
+    var crypto = __importStar(require("crypto")), fs11 = __importStar(require("fs")), os = __importStar(require("os")), utils_1 = require_utils();
     function issueFileCommand(command, message) {
       let filePath = process.env[`GITHUB_${command}`];
       if (!filePath)
         throw new Error(`Unable to find environment variable for file command ${command}`);
       if (!fs11.existsSync(filePath))
         throw new Error(`Missing file at path: ${filePath}`);
-      fs11.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
+      fs11.appendFileSync(filePath, `${(0, utils_1.toCommandValue)(message)}${os.EOL}`, {
         encoding: "utf8"
       });
     }
     exports2.issueFileCommand = issueFileCommand;
     function prepareKeyValueMessage(key, value) {
-      let delimiter = `ghadelimiter_${uuid_1.v4()}`, convertedValue = utils_1.toCommandValue(value);
+      let delimiter = `ghadelimiter_${crypto.randomUUID()}`, convertedValue = (0, utils_1.toCommandValue)(value);
       if (key.includes(delimiter))
         throw new Error(`Unexpected input: name should not contain the delimiter "${delimiter}"`);
       if (convertedValue.includes(delimiter))
@@ -401,10 +171,10 @@ var require_proxy = __commonJS({
       let proxyVar = usingSsl ? process.env.https_proxy || process.env.HTTPS_PROXY : process.env.http_proxy || process.env.HTTP_PROXY;
       if (proxyVar)
         try {
-          return new URL(proxyVar);
+          return new DecodedURL(proxyVar);
         } catch {
           if (!proxyVar.startsWith("http://") && !proxyVar.startsWith("https://"))
-            return new URL(`http://${proxyVar}`);
+            return new DecodedURL(`http://${proxyVar}`);
         }
       else
         return;
@@ -433,6 +203,17 @@ var require_proxy = __commonJS({
       let hostLower = host.toLowerCase();
       return hostLower === "localhost" || hostLower.startsWith("127.") || hostLower.startsWith("[::1]") || hostLower.startsWith("[0:0:0:0:0:0:0:1]");
     }
+    var DecodedURL = class extends URL {
+      constructor(url, base) {
+        super(url, base), this._decodedUsername = decodeURIComponent(super.username), this._decodedPassword = decodeURIComponent(super.password);
+      }
+      get username() {
+        return this._decodedUsername;
+      }
+      get password() {
+        return this._decodedPassword;
+      }
+    };
   }
 });
 
@@ -893,7 +674,7 @@ var require_constants = __commonJS({
 var require_util = __commonJS({
   "node_modules/undici/lib/core/util.js"(exports2, module2) {
     "use strict";
-    var assert3 = require("assert"), { kDestroyed, kBodyUsed } = require_symbols(), { IncomingMessage } = require("http"), stream = require("stream"), net = require("net"), { InvalidArgumentError } = require_errors(), { Blob: Blob2 } = require("buffer"), nodeUtil = require("util"), { stringify: stringify2 } = require("querystring"), { headerNameLowerCasedRecord } = require_constants(), [nodeMajor, nodeMinor] = process.versions.node.split(".").map((v) => Number(v));
+    var assert3 = require("assert"), { kDestroyed, kBodyUsed } = require_symbols(), { IncomingMessage } = require("http"), stream = require("stream"), net = require("net"), { InvalidArgumentError } = require_errors(), { Blob: Blob2 } = require("buffer"), nodeUtil = require("util"), { stringify } = require("querystring"), { headerNameLowerCasedRecord } = require_constants(), [nodeMajor, nodeMinor] = process.versions.node.split(".").map((v) => Number(v));
     function nop() {
     }
     function isStream2(obj) {
@@ -905,7 +686,7 @@ var require_util = __commonJS({
     function buildURL(url, queryParams) {
       if (url.includes("?") || url.includes("#"))
         throw new Error('Query params cannot be passed when url already contains "?" or "#".');
-      let stringified = stringify2(queryParams);
+      let stringified = stringify(queryParams);
       return stringified && (url += "?" + stringified), url;
     }
     function parseURL(url) {
@@ -1468,6 +1249,7 @@ var require_decodeText = __commonJS({
             return decoders.utf8;
           case "latin1":
           case "ascii":
+          // TODO: Make these a separate, strict decoder?
           case "us-ascii":
           case "iso-8859-1":
           case "iso8859-1":
@@ -2067,6 +1849,7 @@ var require_basename = __commonJS({
       for (var i = path8.length - 1; i >= 0; --i)
         switch (path8.charCodeAt(i)) {
           case 47:
+          // '/'
           case 92:
             return path8 = path8.slice(i + 1), path8 === ".." || path8 === "." ? "" : path8;
         }
@@ -2724,11 +2507,11 @@ var require_global = __commonJS({
 var require_util2 = __commonJS({
   "node_modules/undici/lib/fetch/util.js"(exports2, module2) {
     "use strict";
-    var { redirectStatusSet, referrerPolicySet: referrerPolicyTokens, badPortsSet } = require_constants2(), { getGlobalOrigin } = require_global(), { performance: performance2 } = require("perf_hooks"), { isBlobLike, toUSVString, ReadableStreamFrom } = require_util(), assert3 = require("assert"), { isUint8Array } = require("util/types"), supportedHashes = [], crypto4;
+    var { redirectStatusSet, referrerPolicySet: referrerPolicyTokens, badPortsSet } = require_constants2(), { getGlobalOrigin } = require_global(), { performance: performance2 } = require("perf_hooks"), { isBlobLike, toUSVString, ReadableStreamFrom } = require_util(), assert3 = require("assert"), { isUint8Array } = require("util/types"), supportedHashes = [], crypto;
     try {
-      crypto4 = require("crypto");
+      crypto = require("crypto");
       let possibleRelevantHashes = ["sha256", "sha384", "sha512"];
-      supportedHashes = crypto4.getHashes().filter((hash) => possibleRelevantHashes.includes(hash));
+      supportedHashes = crypto.getHashes().filter((hash) => possibleRelevantHashes.includes(hash));
     } catch {
     }
     function responseURL(response) {
@@ -2902,7 +2685,21 @@ var require_util2 = __commonJS({
           return sameOrigin(referrerURL, currentURL) ? referrerURL : isURLPotentiallyTrustworthy(referrerURL) && !isURLPotentiallyTrustworthy(currentURL) ? "no-referrer" : referrerOrigin;
         }
         case "strict-origin":
+        // eslint-disable-line
+        /**
+           * 1. If referrerURL is a potentially trustworthy URL and
+           * request’s current URL is not a potentially trustworthy URL,
+           * then return no referrer.
+           * 2. Return referrerOrigin
+          */
         case "no-referrer-when-downgrade":
+        // eslint-disable-line
+        /**
+         * 1. If referrerURL is a potentially trustworthy URL and
+         * request’s current URL is not a potentially trustworthy URL,
+         * then return no referrer.
+         * 2. Return referrerOrigin
+        */
         default:
           return isNonPotentiallyTrustWorthy ? "no-referrer" : referrerOrigin;
       }
@@ -2922,14 +2719,14 @@ var require_util2 = __commonJS({
       }
     }
     function bytesMatch(bytes, metadataList) {
-      if (crypto4 === void 0)
+      if (crypto === void 0)
         return !0;
       let parsedMetadata = parseMetadata(metadataList);
       if (parsedMetadata === "no metadata" || parsedMetadata.length === 0)
         return !0;
       let strongest = getStrongestMetadata(parsedMetadata), metadata = filterMetadataListByAlgorithm(parsedMetadata, strongest);
       for (let item of metadata) {
-        let algorithm = item.algo, expectedValue = item.hash, actualValue = crypto4.createHash(algorithm).update(bytes).digest("base64");
+        let algorithm = item.algo, expectedValue = item.hash, actualValue = crypto.createHash(algorithm).update(bytes).digest("base64");
         if (actualValue[actualValue.length - 1] === "=" && (actualValue[actualValue.length - 2] === "=" ? actualValue = actualValue.slice(0, -2) : actualValue = actualValue.slice(0, -1)), compareBase64Mixed(actualValue, expectedValue))
           return !0;
       }
@@ -3917,7 +3714,14 @@ var require_body = __commonJS({
       readableStreamClose,
       createDeferredPromise,
       fullyReadBody
-    } = require_util2(), { FormData } = require_formdata(), { kState } = require_symbols2(), { webidl } = require_webidl(), { DOMException: DOMException2, structuredClone } = require_constants2(), { Blob: Blob2, File: NativeFile } = require("buffer"), { kBodyUsed } = require_symbols(), assert3 = require("assert"), { isErrored } = require_util(), { isUint8Array, isArrayBuffer } = require("util/types"), { File: UndiciFile } = require_file(), { parseMIMEType, serializeAMimeType } = require_dataURL(), ReadableStream = globalThis.ReadableStream, File = NativeFile ?? UndiciFile, textEncoder = new TextEncoder(), textDecoder = new TextDecoder();
+    } = require_util2(), { FormData } = require_formdata(), { kState } = require_symbols2(), { webidl } = require_webidl(), { DOMException: DOMException2, structuredClone } = require_constants2(), { Blob: Blob2, File: NativeFile } = require("buffer"), { kBodyUsed } = require_symbols(), assert3 = require("assert"), { isErrored } = require_util(), { isUint8Array, isArrayBuffer } = require("util/types"), { File: UndiciFile } = require_file(), { parseMIMEType, serializeAMimeType } = require_dataURL(), random;
+    try {
+      let crypto = require("node:crypto");
+      random = (max) => crypto.randomInt(0, max);
+    } catch {
+      random = (max) => Math.floor(Math.random(max));
+    }
+    var ReadableStream = globalThis.ReadableStream, File = NativeFile ?? UndiciFile, textEncoder = new TextEncoder(), textDecoder = new TextDecoder();
     function extractBody(object, keepalive = !1) {
       ReadableStream || (ReadableStream = require("stream/web").ReadableStream);
       let stream = null;
@@ -3941,7 +3745,7 @@ var require_body = __commonJS({
       else if (ArrayBuffer.isView(object))
         source = new Uint8Array(object.buffer.slice(object.byteOffset, object.byteOffset + object.byteLength));
       else if (util.isFormDataLike(object)) {
-        let boundary = `----formdata-undici-0${`${Math.floor(Math.random() * 1e11)}`.padStart(11, "0")}`, prefix = `--${boundary}\r
+        let boundary = `----formdata-undici-0${`${random(1e11)}`.padStart(11, "0")}`, prefix = `--${boundary}\r
 Content-Disposition: form-data`;
         let escape = (str) => str.replace(/\n/g, "%0A").replace(/\r/g, "%0D").replace(/"/g, "%22"), normalizeLinefeeds = (value) => value.replace(/\r?\n|\r/g, `\r
 `), blobParts = [], rn = new Uint8Array([13, 10]);
@@ -5340,7 +5144,7 @@ var require_client = __commonJS({
       }
       onHeaderField(buf) {
         let len = this.headers.length;
-        len & 1 ? this.headers[len - 1] = Buffer.concat([this.headers[len - 1], buf]) : this.headers.push(buf), this.trackHeader(buf.length);
+        (len & 1) === 0 ? this.headers.push(buf) : this.headers[len - 1] = Buffer.concat([this.headers[len - 1], buf]), this.trackHeader(buf.length);
       }
       onHeaderValue(buf) {
         let len = this.headers.length;
@@ -6121,7 +5925,12 @@ var require_pool = __commonJS({
           timeout: connectTimeout,
           ...util.nodeHasAutoSelectFamily && autoSelectFamily ? { autoSelectFamily, autoSelectFamilyAttemptTimeout } : void 0,
           ...connect
-        })), this[kInterceptors] = options.interceptors && options.interceptors.Pool && Array.isArray(options.interceptors.Pool) ? options.interceptors.Pool : [], this[kConnections] = connections || null, this[kUrl] = util.parseOrigin(origin), this[kOptions] = { ...util.deepClone(options), connect, allowH2 }, this[kOptions].interceptors = options.interceptors ? { ...options.interceptors } : void 0, this[kFactory] = factory;
+        })), this[kInterceptors] = options.interceptors && options.interceptors.Pool && Array.isArray(options.interceptors.Pool) ? options.interceptors.Pool : [], this[kConnections] = connections || null, this[kUrl] = util.parseOrigin(origin), this[kOptions] = { ...util.deepClone(options), connect, allowH2 }, this[kOptions].interceptors = options.interceptors ? { ...options.interceptors } : void 0, this[kFactory] = factory, this.on("connectionError", (origin2, targets, error) => {
+          for (let target of targets) {
+            let idx = this[kClients].indexOf(target);
+            idx !== -1 && this[kClients].splice(idx, 1);
+          }
+        });
       }
       [kGetDispatcher]() {
         let dispatcher = this[kClients].find((dispatcher2) => !dispatcher2[kNeedDrain]);
@@ -6317,7 +6126,7 @@ var require_agent = __commonJS({
 var require_readable = __commonJS({
   "node_modules/undici/lib/api/readable.js"(exports2, module2) {
     "use strict";
-    var assert3 = require("assert"), { Readable } = require("stream"), { RequestAbortedError, NotSupportedError, InvalidArgumentError } = require_errors(), util = require_util(), { ReadableStreamFrom, toUSVString } = require_util(), Blob2, kConsume = Symbol("kConsume"), kReading = Symbol("kReading"), kBody = Symbol("kBody"), kAbort = Symbol("abort"), kContentType = Symbol("kContentType"), noop2 = () => {
+    var assert3 = require("assert"), { Readable } = require("stream"), { RequestAbortedError, NotSupportedError, InvalidArgumentError } = require_errors(), util = require_util(), { ReadableStreamFrom, toUSVString } = require_util(), Blob2, kConsume = Symbol("kConsume"), kReading = Symbol("kReading"), kBody = Symbol("kBody"), kAbort = Symbol("abort"), kContentType = Symbol("kContentType"), noop3 = () => {
     };
     module2.exports = class extends Readable {
       constructor({
@@ -6396,10 +6205,10 @@ var require_readable = __commonJS({
         return this.closed ? Promise.resolve(null) : new Promise((resolve2, reject) => {
           let signalListenerCleanup = signal ? util.addAbortListener(signal, () => {
             this.destroy();
-          }) : noop2;
+          }) : noop3;
           this.on("close", function() {
             signalListenerCleanup(), signal && signal.aborted ? reject(signal.reason || Object.assign(new Error("The operation was aborted"), { name: "AbortError" })) : resolve2(null);
-          }).on("error", noop2).on("data", function(chunk) {
+          }).on("error", noop3).on("data", function(chunk) {
             limit -= chunk.length, limit <= 0 && this.destroy();
           }).resume();
         });
@@ -7594,7 +7403,7 @@ ${pendingInterceptorsFormatter.format(pending)}
 var require_proxy_agent = __commonJS({
   "node_modules/undici/lib/proxy-agent.js"(exports2, module2) {
     "use strict";
-    var { kProxy, kClose, kDestroy, kInterceptors } = require_symbols(), { URL: URL3 } = require("url"), Agent = require_agent(), Pool = require_pool(), DispatcherBase = require_dispatcher_base(), { InvalidArgumentError, RequestAbortedError } = require_errors(), buildConnector = require_connect(), kAgent = Symbol("proxy agent"), kClient = Symbol("proxy client"), kProxyHeaders = Symbol("proxy headers"), kRequestTls = Symbol("request tls settings"), kProxyTls = Symbol("proxy tls settings"), kConnectEndpoint = Symbol("connect endpoint function");
+    var { kProxy, kClose, kDestroy, kInterceptors } = require_symbols(), { URL: URL2 } = require("url"), Agent = require_agent(), Pool = require_pool(), DispatcherBase = require_dispatcher_base(), { InvalidArgumentError, RequestAbortedError } = require_errors(), buildConnector = require_connect(), kAgent = Symbol("proxy agent"), kClient = Symbol("proxy client"), kProxyHeaders = Symbol("proxy headers"), kRequestTls = Symbol("request tls settings"), kProxyTls = Symbol("proxy tls settings"), kConnectEndpoint = Symbol("connect endpoint function");
     function defaultProtocolPort(protocol) {
       return protocol === "https:" ? 443 : 80;
     }
@@ -7617,7 +7426,7 @@ var require_proxy_agent = __commonJS({
         if (typeof clientFactory != "function")
           throw new InvalidArgumentError("Proxy opts.clientFactory must be a function.");
         this[kRequestTls] = opts.requestTls, this[kProxyTls] = opts.proxyTls, this[kProxyHeaders] = opts.headers || {};
-        let resolvedUrl = new URL3(opts.uri), { origin, port, host, username, password } = resolvedUrl;
+        let resolvedUrl = new URL2(opts.uri), { origin, port, host, username, password } = resolvedUrl;
         if (opts.auth && opts.token)
           throw new InvalidArgumentError("opts.auth cannot be used in combination with opts.token");
         opts.auth ? this[kProxyHeaders]["proxy-authorization"] = `Basic ${opts.auth}` : opts.token ? this[kProxyHeaders]["proxy-authorization"] = opts.token : username && password && (this[kProxyHeaders]["proxy-authorization"] = `Basic ${Buffer.from(`${decodeURIComponent(username)}:${decodeURIComponent(password)}`).toString("base64")}`);
@@ -7652,7 +7461,7 @@ var require_proxy_agent = __commonJS({
         });
       }
       dispatch(opts, handler) {
-        let { host } = new URL3(opts.origin), headers = buildHeaders(opts.headers);
+        let { host } = new URL2(opts.origin), headers = buildHeaders(opts.headers);
         return throwIfProxyAuthIsSent(headers), this[kAgent].dispatch(
           {
             ...opts,
@@ -7957,7 +7766,7 @@ var require_headers = __commonJS({
       makeIterator,
       isValidHeaderName,
       isValidHeaderValue
-    } = require_util2(), { webidl } = require_webidl(), assert3 = require("assert"), kHeadersMap = Symbol("headers map"), kHeadersSortedMap = Symbol("headers map sorted");
+    } = require_util2(), util = require("util"), { webidl } = require_webidl(), assert3 = require("assert"), kHeadersMap = Symbol("headers map"), kHeadersSortedMap = Symbol("headers map sorted");
     function isHTTPWhiteSpaceCharCode(code2) {
       return code2 === 10 || code2 === 13 || code2 === 9 || code2 === 32;
     }
@@ -8215,6 +8024,9 @@ var require_headers = __commonJS({
       [Symbol.toStringTag]: {
         value: "Headers",
         configurable: !0
+      },
+      [util.inspect.custom]: {
+        enumerable: !1
       }
     });
     webidl.converters.HeadersInit = function(V) {
@@ -10695,7 +10507,6 @@ var require_constants4 = __commonJS({
 var require_util6 = __commonJS({
   "node_modules/undici/lib/cookies/util.js"(exports2, module2) {
     "use strict";
-    var assert3 = require("assert"), { kHeadersList } = require_symbols();
     function isCTLExcludingHtab(value) {
       if (value.length === 0)
         return !1;
@@ -10759,7 +10570,7 @@ var require_util6 = __commonJS({
       if (maxAge < 0)
         throw new Error("Invalid cookie max-age");
     }
-    function stringify2(cookie) {
+    function stringify(cookie) {
       if (cookie.name.length === 0)
         return null;
       validateCookieName(cookie.name), validateCookieValue(cookie.value);
@@ -10773,20 +10584,13 @@ var require_util6 = __commonJS({
       }
       return out.join("; ");
     }
-    var kHeadersListNode;
-    function getHeadersList(headers) {
-      if (headers[kHeadersList])
-        return headers[kHeadersList];
-      kHeadersListNode || (kHeadersListNode = Object.getOwnPropertySymbols(headers).find(
-        (symbol) => symbol.description === "headers list"
-      ), assert3(kHeadersListNode, "Headers cannot be parsed"));
-      let headersList = headers[kHeadersListNode];
-      return assert3(headersList), headersList;
-    }
     module2.exports = {
       isCTLExcludingHtab,
-      stringify: stringify2,
-      getHeadersList
+      validateCookieName,
+      validateCookiePath,
+      validateCookieValue,
+      toIMFDate,
+      stringify
     };
   }
 });
@@ -10881,7 +10685,7 @@ var require_parse = __commonJS({
 var require_cookies = __commonJS({
   "node_modules/undici/lib/cookies/index.js"(exports2, module2) {
     "use strict";
-    var { parseSetCookie } = require_parse(), { stringify: stringify2, getHeadersList } = require_util6(), { webidl } = require_webidl(), { Headers } = require_headers();
+    var { parseSetCookie } = require_parse(), { stringify } = require_util6(), { webidl } = require_webidl(), { Headers } = require_headers();
     function getCookies(headers) {
       webidl.argumentLengthCheck(arguments, 1, { header: "getCookies" }), webidl.brandCheck(headers, Headers, { strict: !1 });
       let cookie = headers.get("cookie"), out = {};
@@ -10903,11 +10707,11 @@ var require_cookies = __commonJS({
     }
     function getSetCookies(headers) {
       webidl.argumentLengthCheck(arguments, 1, { header: "getSetCookies" }), webidl.brandCheck(headers, Headers, { strict: !1 });
-      let cookies = getHeadersList(headers).cookies;
-      return cookies ? cookies.map((pair) => parseSetCookie(Array.isArray(pair) ? pair[1] : pair)) : [];
+      let cookies = headers.getSetCookie();
+      return cookies ? cookies.map((pair) => parseSetCookie(pair)) : [];
     }
     function setCookie(headers, cookie) {
-      webidl.argumentLengthCheck(arguments, 2, { header: "setCookie" }), webidl.brandCheck(headers, Headers, { strict: !1 }), cookie = webidl.converters.Cookie(cookie), stringify2(cookie) && headers.append("Set-Cookie", stringify2(cookie));
+      webidl.argumentLengthCheck(arguments, 2, { header: "setCookie" }), webidl.brandCheck(headers, Headers, { strict: !1 }), cookie = webidl.converters.Cookie(cookie), stringify(cookie) && headers.append("Set-Cookie", stringify(cookie));
     }
     webidl.converters.DeleteCookieAttributes = webidl.dictionaryConverter([
       {
@@ -11326,9 +11130,9 @@ var require_connection = __commonJS({
     channels.open = diagnosticsChannel.channel("undici:websocket:open");
     channels.close = diagnosticsChannel.channel("undici:websocket:close");
     channels.socketError = diagnosticsChannel.channel("undici:websocket:socket_error");
-    var crypto4;
+    var crypto;
     try {
-      crypto4 = require("crypto");
+      crypto = require("crypto");
     } catch {
     }
     function establishWebSocketConnection(url, protocols, ws, onEstablish, options) {
@@ -11347,7 +11151,7 @@ var require_connection = __commonJS({
         let headersList = new Headers(options.headers)[kHeadersList];
         request.headersList = headersList;
       }
-      let keyValue = crypto4.randomBytes(16).toString("base64");
+      let keyValue = crypto.randomBytes(16).toString("base64");
       request.headersList.append("sec-websocket-key", keyValue), request.headersList.append("sec-websocket-version", "13");
       for (let protocol of protocols)
         request.headersList.append("sec-websocket-protocol", protocol);
@@ -11373,7 +11177,7 @@ var require_connection = __commonJS({
             failWebsocketConnection(ws, 'Server did not set Connection header to "upgrade".');
             return;
           }
-          let secWSAccept = response.headersList.get("Sec-WebSocket-Accept"), digest = crypto4.createHash("sha1").update(keyValue + uid).digest("base64");
+          let secWSAccept = response.headersList.get("Sec-WebSocket-Accept"), digest = crypto.createHash("sha1").update(keyValue + uid).digest("base64");
           if (secWSAccept !== digest) {
             failWebsocketConnection(ws, "Incorrect hash received in Sec-WebSocket-Accept header.");
             return;
@@ -11425,9 +11229,9 @@ var require_connection = __commonJS({
 var require_frame = __commonJS({
   "node_modules/undici/lib/websocket/frame.js"(exports2, module2) {
     "use strict";
-    var { maxUnsigned16Bit } = require_constants5(), crypto4;
+    var { maxUnsigned16Bit } = require_constants5(), crypto;
     try {
-      crypto4 = require("crypto");
+      crypto = require("crypto");
     } catch {
     }
     var WebsocketFrameSend = class {
@@ -11435,7 +11239,7 @@ var require_frame = __commonJS({
        * @param {Buffer|undefined} data
        */
       constructor(data) {
-        this.frameData = data, this.maskKey = crypto4.randomBytes(4);
+        this.frameData = data, this.maskKey = crypto.randomBytes(4);
       }
       createFrame(opcode) {
         let bodyLength = this.frameData?.byteLength ?? 0, payloadLength = bodyLength, offset = 6;
@@ -11972,10 +11776,10 @@ var require_lib = __commonJS({
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       k2 === void 0 && (k2 = k);
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) && (desc = { enumerable: !0, get: function() {
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
         return m[k];
-      } }), Object.defineProperty(o, k2, desc);
+      } }), Object.defineProperty(o, k2, desc2);
     } : function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), o[k2] = m[k];
     }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
@@ -12310,7 +12114,7 @@ var require_lib = __commonJS({
           return proxyAgent;
         let usingSsl = parsedUrl.protocol === "https:";
         return proxyAgent = new undici_1.ProxyAgent(Object.assign({ uri: proxyUrl.href, pipelining: this._keepAlive ? 1 : 0 }, (proxyUrl.username || proxyUrl.password) && {
-          token: `${proxyUrl.username}:${proxyUrl.password}`
+          token: `Basic ${Buffer.from(`${proxyUrl.username}:${proxyUrl.password}`).toString("base64")}`
         })), this._proxyAgentDispatcher = proxyAgent, usingSsl && this._ignoreSslError && (proxyAgent.options = Object.assign(proxyAgent.options.requestTls || {}, {
           rejectUnauthorized: !1
         })), proxyAgent;
@@ -12536,9 +12340,9 @@ var require_oidc_utils = __commonJS({
               let encodedAudience = encodeURIComponent(audience);
               id_token_url = `${id_token_url}&audience=${encodedAudience}`;
             }
-            core_1.debug(`ID token url is ${id_token_url}`);
+            (0, core_1.debug)(`ID token url is ${id_token_url}`);
             let id_token = yield _OidcClient.getCall(id_token_url);
-            return core_1.setSecret(id_token), id_token;
+            return (0, core_1.setSecret)(id_token), id_token;
           } catch (error) {
             throw new Error(`Error message: ${error.message}`);
           }
@@ -12822,9 +12626,11 @@ var require_path_utils = __commonJS({
   "node_modules/@actions/core/lib/path-utils.js"(exports2) {
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
-      k2 === void 0 && (k2 = k), Object.defineProperty(o, k2, { enumerable: !0, get: function() {
+      k2 === void 0 && (k2 = k);
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
         return m[k];
-      } });
+      } }), Object.defineProperty(o, k2, desc2);
     } : function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), o[k2] = m[k];
     }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
@@ -12834,7 +12640,7 @@ var require_path_utils = __commonJS({
     }), __importStar = exports2 && exports2.__importStar || function(mod) {
       if (mod && mod.__esModule) return mod;
       var result = {};
-      if (mod != null) for (var k in mod) k !== "default" && Object.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
+      if (mod != null) for (var k in mod) k !== "default" && Object.prototype.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
       return __setModuleDefault(result, mod), result;
     };
     Object.defineProperty(exports2, "__esModule", { value: !0 });
@@ -12855,9 +12661,146 @@ var require_path_utils = __commonJS({
   }
 });
 
-// node_modules/@actions/core/lib/core.js
-var require_core = __commonJS({
-  "node_modules/@actions/core/lib/core.js"(exports2) {
+// node_modules/@actions/io/lib/io-util.js
+var require_io_util = __commonJS({
+  "node_modules/@actions/io/lib/io-util.js"(exports2) {
+    "use strict";
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+      k2 === void 0 && (k2 = k), Object.defineProperty(o, k2, { enumerable: !0, get: function() {
+        return m[k];
+      } });
+    } : function(o, m, k, k2) {
+      k2 === void 0 && (k2 = k), o[k2] = m[k];
+    }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: !0, value: v });
+    } : function(o, v) {
+      o.default = v;
+    }), __importStar = exports2 && exports2.__importStar || function(mod) {
+      if (mod && mod.__esModule) return mod;
+      var result = {};
+      if (mod != null) for (var k in mod) k !== "default" && Object.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
+      return __setModuleDefault(result, mod), result;
+    }, __awaiter = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
+      function adopt(value) {
+        return value instanceof P ? value : new P(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P || (P = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator.throw(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    }, _a;
+    Object.defineProperty(exports2, "__esModule", { value: !0 });
+    exports2.getCmdPath = exports2.tryGetExecutablePath = exports2.isRooted = exports2.isDirectory = exports2.exists = exports2.READONLY = exports2.UV_FS_O_EXLOCK = exports2.IS_WINDOWS = exports2.unlink = exports2.symlink = exports2.stat = exports2.rmdir = exports2.rm = exports2.rename = exports2.readlink = exports2.readdir = exports2.open = exports2.mkdir = exports2.lstat = exports2.copyFile = exports2.chmod = void 0;
+    var fs11 = __importStar(require("fs")), path8 = __importStar(require("path"));
+    _a = fs11.promises, exports2.chmod = _a.chmod, exports2.copyFile = _a.copyFile, exports2.lstat = _a.lstat, exports2.mkdir = _a.mkdir, exports2.open = _a.open, exports2.readdir = _a.readdir, exports2.readlink = _a.readlink, exports2.rename = _a.rename, exports2.rm = _a.rm, exports2.rmdir = _a.rmdir, exports2.stat = _a.stat, exports2.symlink = _a.symlink, exports2.unlink = _a.unlink;
+    exports2.IS_WINDOWS = process.platform === "win32";
+    exports2.UV_FS_O_EXLOCK = 268435456;
+    exports2.READONLY = fs11.constants.O_RDONLY;
+    function exists(fsPath) {
+      return __awaiter(this, void 0, void 0, function* () {
+        try {
+          yield exports2.stat(fsPath);
+        } catch (err) {
+          if (err.code === "ENOENT")
+            return !1;
+          throw err;
+        }
+        return !0;
+      });
+    }
+    exports2.exists = exists;
+    function isDirectory(fsPath, useStat = !1) {
+      return __awaiter(this, void 0, void 0, function* () {
+        return (useStat ? yield exports2.stat(fsPath) : yield exports2.lstat(fsPath)).isDirectory();
+      });
+    }
+    exports2.isDirectory = isDirectory;
+    function isRooted(p) {
+      if (p = normalizeSeparators(p), !p)
+        throw new Error('isRooted() parameter "p" cannot be empty');
+      return exports2.IS_WINDOWS ? p.startsWith("\\") || /^[A-Z]:/i.test(p) : p.startsWith("/");
+    }
+    exports2.isRooted = isRooted;
+    function tryGetExecutablePath(filePath, extensions) {
+      return __awaiter(this, void 0, void 0, function* () {
+        let stats;
+        try {
+          stats = yield exports2.stat(filePath);
+        } catch (err) {
+          err.code !== "ENOENT" && console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
+        }
+        if (stats && stats.isFile()) {
+          if (exports2.IS_WINDOWS) {
+            let upperExt = path8.extname(filePath).toUpperCase();
+            if (extensions.some((validExt) => validExt.toUpperCase() === upperExt))
+              return filePath;
+          } else if (isUnixExecutable(stats))
+            return filePath;
+        }
+        let originalFilePath = filePath;
+        for (let extension of extensions) {
+          filePath = originalFilePath + extension, stats = void 0;
+          try {
+            stats = yield exports2.stat(filePath);
+          } catch (err) {
+            err.code !== "ENOENT" && console.log(`Unexpected error attempting to determine if executable file exists '${filePath}': ${err}`);
+          }
+          if (stats && stats.isFile()) {
+            if (exports2.IS_WINDOWS) {
+              try {
+                let directory = path8.dirname(filePath), upperName = path8.basename(filePath).toUpperCase();
+                for (let actualName of yield exports2.readdir(directory))
+                  if (upperName === actualName.toUpperCase()) {
+                    filePath = path8.join(directory, actualName);
+                    break;
+                  }
+              } catch (err) {
+                console.log(`Unexpected error attempting to determine the actual case of the file '${filePath}': ${err}`);
+              }
+              return filePath;
+            } else if (isUnixExecutable(stats))
+              return filePath;
+          }
+        }
+        return "";
+      });
+    }
+    exports2.tryGetExecutablePath = tryGetExecutablePath;
+    function normalizeSeparators(p) {
+      return p = p || "", exports2.IS_WINDOWS ? (p = p.replace(/\//g, "\\"), p.replace(/\\\\+/g, "\\")) : p.replace(/\/\/+/g, "/");
+    }
+    function isUnixExecutable(stats) {
+      return (stats.mode & 1) > 0 || (stats.mode & 8) > 0 && stats.gid === process.getgid() || (stats.mode & 64) > 0 && stats.uid === process.getuid();
+    }
+    function getCmdPath() {
+      var _a2;
+      return (_a2 = process.env.COMSPEC) !== null && _a2 !== void 0 ? _a2 : "cmd.exe";
+    }
+    exports2.getCmdPath = getCmdPath;
+  }
+});
+
+// node_modules/@actions/io/lib/io.js
+var require_io = __commonJS({
+  "node_modules/@actions/io/lib/io.js"(exports2) {
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), Object.defineProperty(o, k2, { enumerable: !0, get: function() {
@@ -12902,24 +12845,677 @@ var require_core = __commonJS({
       });
     };
     Object.defineProperty(exports2, "__esModule", { value: !0 });
-    exports2.getIDToken = exports2.getState = exports2.saveState = exports2.group = exports2.endGroup = exports2.startGroup = exports2.info = exports2.notice = exports2.warning = exports2.error = exports2.debug = exports2.isDebug = exports2.setFailed = exports2.setCommandEcho = exports2.setOutput = exports2.getBooleanInput = exports2.getMultilineInput = exports2.getInput = exports2.addPath = exports2.setSecret = exports2.exportVariable = exports2.ExitCode = void 0;
+    exports2.findInPath = exports2.which = exports2.mkdirP = exports2.rmRF = exports2.mv = exports2.cp = void 0;
+    var assert_1 = require("assert"), path8 = __importStar(require("path")), ioUtil = __importStar(require_io_util());
+    function cp(source, dest, options = {}) {
+      return __awaiter(this, void 0, void 0, function* () {
+        let { force, recursive, copySourceDirectory } = readCopyOptions(options), destStat = (yield ioUtil.exists(dest)) ? yield ioUtil.stat(dest) : null;
+        if (destStat && destStat.isFile() && !force)
+          return;
+        let newDest = destStat && destStat.isDirectory() && copySourceDirectory ? path8.join(dest, path8.basename(source)) : dest;
+        if (!(yield ioUtil.exists(source)))
+          throw new Error(`no such file or directory: ${source}`);
+        if ((yield ioUtil.stat(source)).isDirectory())
+          if (recursive)
+            yield cpDirRecursive(source, newDest, 0, force);
+          else
+            throw new Error(`Failed to copy. ${source} is a directory, but tried to copy without recursive flag.`);
+        else {
+          if (path8.relative(source, newDest) === "")
+            throw new Error(`'${newDest}' and '${source}' are the same file`);
+          yield copyFile(source, newDest, force);
+        }
+      });
+    }
+    exports2.cp = cp;
+    function mv(source, dest, options = {}) {
+      return __awaiter(this, void 0, void 0, function* () {
+        if (yield ioUtil.exists(dest)) {
+          let destExists = !0;
+          if ((yield ioUtil.isDirectory(dest)) && (dest = path8.join(dest, path8.basename(source)), destExists = yield ioUtil.exists(dest)), destExists)
+            if (options.force == null || options.force)
+              yield rmRF(dest);
+            else
+              throw new Error("Destination already exists");
+        }
+        yield mkdirP(path8.dirname(dest)), yield ioUtil.rename(source, dest);
+      });
+    }
+    exports2.mv = mv;
+    function rmRF(inputPath) {
+      return __awaiter(this, void 0, void 0, function* () {
+        if (ioUtil.IS_WINDOWS && /[*"<>|]/.test(inputPath))
+          throw new Error('File path must not contain `*`, `"`, `<`, `>` or `|` on Windows');
+        try {
+          yield ioUtil.rm(inputPath, {
+            force: !0,
+            maxRetries: 3,
+            recursive: !0,
+            retryDelay: 300
+          });
+        } catch (err) {
+          throw new Error(`File was unable to be removed ${err}`);
+        }
+      });
+    }
+    exports2.rmRF = rmRF;
+    function mkdirP(fsPath) {
+      return __awaiter(this, void 0, void 0, function* () {
+        assert_1.ok(fsPath, "a path argument must be provided"), yield ioUtil.mkdir(fsPath, { recursive: !0 });
+      });
+    }
+    exports2.mkdirP = mkdirP;
+    function which(tool, check) {
+      return __awaiter(this, void 0, void 0, function* () {
+        if (!tool)
+          throw new Error("parameter 'tool' is required");
+        if (check) {
+          let result = yield which(tool, !1);
+          if (!result)
+            throw ioUtil.IS_WINDOWS ? new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also verify the file has a valid extension for an executable file.`) : new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also check the file mode to verify the file is executable.`);
+          return result;
+        }
+        let matches = yield findInPath(tool);
+        return matches && matches.length > 0 ? matches[0] : "";
+      });
+    }
+    exports2.which = which;
+    function findInPath(tool) {
+      return __awaiter(this, void 0, void 0, function* () {
+        if (!tool)
+          throw new Error("parameter 'tool' is required");
+        let extensions = [];
+        if (ioUtil.IS_WINDOWS && process.env.PATHEXT)
+          for (let extension of process.env.PATHEXT.split(path8.delimiter))
+            extension && extensions.push(extension);
+        if (ioUtil.isRooted(tool)) {
+          let filePath = yield ioUtil.tryGetExecutablePath(tool, extensions);
+          return filePath ? [filePath] : [];
+        }
+        if (tool.includes(path8.sep))
+          return [];
+        let directories = [];
+        if (process.env.PATH)
+          for (let p of process.env.PATH.split(path8.delimiter))
+            p && directories.push(p);
+        let matches = [];
+        for (let directory of directories) {
+          let filePath = yield ioUtil.tryGetExecutablePath(path8.join(directory, tool), extensions);
+          filePath && matches.push(filePath);
+        }
+        return matches;
+      });
+    }
+    exports2.findInPath = findInPath;
+    function readCopyOptions(options) {
+      let force = options.force == null ? !0 : options.force, recursive = !!options.recursive, copySourceDirectory = options.copySourceDirectory == null ? !0 : !!options.copySourceDirectory;
+      return { force, recursive, copySourceDirectory };
+    }
+    function cpDirRecursive(sourceDir, destDir, currentDepth, force) {
+      return __awaiter(this, void 0, void 0, function* () {
+        if (currentDepth >= 255)
+          return;
+        currentDepth++, yield mkdirP(destDir);
+        let files = yield ioUtil.readdir(sourceDir);
+        for (let fileName of files) {
+          let srcFile = `${sourceDir}/${fileName}`, destFile = `${destDir}/${fileName}`;
+          (yield ioUtil.lstat(srcFile)).isDirectory() ? yield cpDirRecursive(srcFile, destFile, currentDepth, force) : yield copyFile(srcFile, destFile, force);
+        }
+        yield ioUtil.chmod(destDir, (yield ioUtil.stat(sourceDir)).mode);
+      });
+    }
+    function copyFile(srcFile, destFile, force) {
+      return __awaiter(this, void 0, void 0, function* () {
+        if ((yield ioUtil.lstat(srcFile)).isSymbolicLink()) {
+          try {
+            yield ioUtil.lstat(destFile), yield ioUtil.unlink(destFile);
+          } catch (e) {
+            e.code === "EPERM" && (yield ioUtil.chmod(destFile, "0666"), yield ioUtil.unlink(destFile));
+          }
+          let symlinkFull = yield ioUtil.readlink(srcFile);
+          yield ioUtil.symlink(symlinkFull, destFile, ioUtil.IS_WINDOWS ? "junction" : null);
+        } else (!(yield ioUtil.exists(destFile)) || force) && (yield ioUtil.copyFile(srcFile, destFile));
+      });
+    }
+  }
+});
+
+// node_modules/@actions/exec/lib/toolrunner.js
+var require_toolrunner = __commonJS({
+  "node_modules/@actions/exec/lib/toolrunner.js"(exports2) {
+    "use strict";
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+      k2 === void 0 && (k2 = k), Object.defineProperty(o, k2, { enumerable: !0, get: function() {
+        return m[k];
+      } });
+    } : function(o, m, k, k2) {
+      k2 === void 0 && (k2 = k), o[k2] = m[k];
+    }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: !0, value: v });
+    } : function(o, v) {
+      o.default = v;
+    }), __importStar = exports2 && exports2.__importStar || function(mod) {
+      if (mod && mod.__esModule) return mod;
+      var result = {};
+      if (mod != null) for (var k in mod) k !== "default" && Object.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
+      return __setModuleDefault(result, mod), result;
+    }, __awaiter = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
+      function adopt(value) {
+        return value instanceof P ? value : new P(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P || (P = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator.throw(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    Object.defineProperty(exports2, "__esModule", { value: !0 });
+    exports2.argStringToArray = exports2.ToolRunner = void 0;
+    var os = __importStar(require("os")), events = __importStar(require("events")), child = __importStar(require("child_process")), path8 = __importStar(require("path")), io = __importStar(require_io()), ioUtil = __importStar(require_io_util()), timers_1 = require("timers"), IS_WINDOWS = process.platform === "win32", ToolRunner = class extends events.EventEmitter {
+      constructor(toolPath, args, options) {
+        if (super(), !toolPath)
+          throw new Error("Parameter 'toolPath' cannot be null or empty.");
+        this.toolPath = toolPath, this.args = args || [], this.options = options || {};
+      }
+      _debug(message) {
+        this.options.listeners && this.options.listeners.debug && this.options.listeners.debug(message);
+      }
+      _getCommandString(options, noPrefix) {
+        let toolPath = this._getSpawnFileName(), args = this._getSpawnArgs(options), cmd = noPrefix ? "" : "[command]";
+        if (IS_WINDOWS)
+          if (this._isCmdFile()) {
+            cmd += toolPath;
+            for (let a of args)
+              cmd += ` ${a}`;
+          } else if (options.windowsVerbatimArguments) {
+            cmd += `"${toolPath}"`;
+            for (let a of args)
+              cmd += ` ${a}`;
+          } else {
+            cmd += this._windowsQuoteCmdArg(toolPath);
+            for (let a of args)
+              cmd += ` ${this._windowsQuoteCmdArg(a)}`;
+          }
+        else {
+          cmd += toolPath;
+          for (let a of args)
+            cmd += ` ${a}`;
+        }
+        return cmd;
+      }
+      _processLineBuffer(data, strBuffer, onLine) {
+        try {
+          let s = strBuffer + data.toString(), n = s.indexOf(os.EOL);
+          for (; n > -1; ) {
+            let line = s.substring(0, n);
+            onLine(line), s = s.substring(n + os.EOL.length), n = s.indexOf(os.EOL);
+          }
+          return s;
+        } catch (err) {
+          return this._debug(`error processing line. Failed with error ${err}`), "";
+        }
+      }
+      _getSpawnFileName() {
+        return IS_WINDOWS && this._isCmdFile() ? process.env.COMSPEC || "cmd.exe" : this.toolPath;
+      }
+      _getSpawnArgs(options) {
+        if (IS_WINDOWS && this._isCmdFile()) {
+          let argline = `/D /S /C "${this._windowsQuoteCmdArg(this.toolPath)}`;
+          for (let a of this.args)
+            argline += " ", argline += options.windowsVerbatimArguments ? a : this._windowsQuoteCmdArg(a);
+          return argline += '"', [argline];
+        }
+        return this.args;
+      }
+      _endsWith(str, end) {
+        return str.endsWith(end);
+      }
+      _isCmdFile() {
+        let upperToolPath = this.toolPath.toUpperCase();
+        return this._endsWith(upperToolPath, ".CMD") || this._endsWith(upperToolPath, ".BAT");
+      }
+      _windowsQuoteCmdArg(arg) {
+        if (!this._isCmdFile())
+          return this._uvQuoteCmdArg(arg);
+        if (!arg)
+          return '""';
+        let cmdSpecialChars = [
+          " ",
+          "	",
+          "&",
+          "(",
+          ")",
+          "[",
+          "]",
+          "{",
+          "}",
+          "^",
+          "=",
+          ";",
+          "!",
+          "'",
+          "+",
+          ",",
+          "`",
+          "~",
+          "|",
+          "<",
+          ">",
+          '"'
+        ], needsQuotes = !1;
+        for (let char of arg)
+          if (cmdSpecialChars.some((x) => x === char)) {
+            needsQuotes = !0;
+            break;
+          }
+        if (!needsQuotes)
+          return arg;
+        let reverse = '"', quoteHit = !0;
+        for (let i = arg.length; i > 0; i--)
+          reverse += arg[i - 1], quoteHit && arg[i - 1] === "\\" ? reverse += "\\" : arg[i - 1] === '"' ? (quoteHit = !0, reverse += '"') : quoteHit = !1;
+        return reverse += '"', reverse.split("").reverse().join("");
+      }
+      _uvQuoteCmdArg(arg) {
+        if (!arg)
+          return '""';
+        if (!arg.includes(" ") && !arg.includes("	") && !arg.includes('"'))
+          return arg;
+        if (!arg.includes('"') && !arg.includes("\\"))
+          return `"${arg}"`;
+        let reverse = '"', quoteHit = !0;
+        for (let i = arg.length; i > 0; i--)
+          reverse += arg[i - 1], quoteHit && arg[i - 1] === "\\" ? reverse += "\\" : arg[i - 1] === '"' ? (quoteHit = !0, reverse += "\\") : quoteHit = !1;
+        return reverse += '"', reverse.split("").reverse().join("");
+      }
+      _cloneExecOptions(options) {
+        options = options || {};
+        let result = {
+          cwd: options.cwd || process.cwd(),
+          env: options.env || process.env,
+          silent: options.silent || !1,
+          windowsVerbatimArguments: options.windowsVerbatimArguments || !1,
+          failOnStdErr: options.failOnStdErr || !1,
+          ignoreReturnCode: options.ignoreReturnCode || !1,
+          delay: options.delay || 1e4
+        };
+        return result.outStream = options.outStream || process.stdout, result.errStream = options.errStream || process.stderr, result;
+      }
+      _getSpawnOptions(options, toolPath) {
+        options = options || {};
+        let result = {};
+        return result.cwd = options.cwd, result.env = options.env, result.windowsVerbatimArguments = options.windowsVerbatimArguments || this._isCmdFile(), options.windowsVerbatimArguments && (result.argv0 = `"${toolPath}"`), result;
+      }
+      /**
+       * Exec a tool.
+       * Output will be streamed to the live console.
+       * Returns promise with return code
+       *
+       * @param     tool     path to tool to exec
+       * @param     options  optional exec options.  See ExecOptions
+       * @returns   number
+       */
+      exec() {
+        return __awaiter(this, void 0, void 0, function* () {
+          return !ioUtil.isRooted(this.toolPath) && (this.toolPath.includes("/") || IS_WINDOWS && this.toolPath.includes("\\")) && (this.toolPath = path8.resolve(process.cwd(), this.options.cwd || process.cwd(), this.toolPath)), this.toolPath = yield io.which(this.toolPath, !0), new Promise((resolve2, reject) => __awaiter(this, void 0, void 0, function* () {
+            this._debug(`exec tool: ${this.toolPath}`), this._debug("arguments:");
+            for (let arg of this.args)
+              this._debug(`   ${arg}`);
+            let optionsNonNull = this._cloneExecOptions(this.options);
+            !optionsNonNull.silent && optionsNonNull.outStream && optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os.EOL);
+            let state = new ExecState(optionsNonNull, this.toolPath);
+            if (state.on("debug", (message) => {
+              this._debug(message);
+            }), this.options.cwd && !(yield ioUtil.exists(this.options.cwd)))
+              return reject(new Error(`The cwd: ${this.options.cwd} does not exist!`));
+            let fileName = this._getSpawnFileName(), cp = child.spawn(fileName, this._getSpawnArgs(optionsNonNull), this._getSpawnOptions(this.options, fileName)), stdbuffer = "";
+            cp.stdout && cp.stdout.on("data", (data) => {
+              this.options.listeners && this.options.listeners.stdout && this.options.listeners.stdout(data), !optionsNonNull.silent && optionsNonNull.outStream && optionsNonNull.outStream.write(data), stdbuffer = this._processLineBuffer(data, stdbuffer, (line) => {
+                this.options.listeners && this.options.listeners.stdline && this.options.listeners.stdline(line);
+              });
+            });
+            let errbuffer = "";
+            if (cp.stderr && cp.stderr.on("data", (data) => {
+              state.processStderr = !0, this.options.listeners && this.options.listeners.stderr && this.options.listeners.stderr(data), !optionsNonNull.silent && optionsNonNull.errStream && optionsNonNull.outStream && (optionsNonNull.failOnStdErr ? optionsNonNull.errStream : optionsNonNull.outStream).write(data), errbuffer = this._processLineBuffer(data, errbuffer, (line) => {
+                this.options.listeners && this.options.listeners.errline && this.options.listeners.errline(line);
+              });
+            }), cp.on("error", (err) => {
+              state.processError = err.message, state.processExited = !0, state.processClosed = !0, state.CheckComplete();
+            }), cp.on("exit", (code2) => {
+              state.processExitCode = code2, state.processExited = !0, this._debug(`Exit code ${code2} received from tool '${this.toolPath}'`), state.CheckComplete();
+            }), cp.on("close", (code2) => {
+              state.processExitCode = code2, state.processExited = !0, state.processClosed = !0, this._debug(`STDIO streams have closed for tool '${this.toolPath}'`), state.CheckComplete();
+            }), state.on("done", (error, exitCode2) => {
+              stdbuffer.length > 0 && this.emit("stdline", stdbuffer), errbuffer.length > 0 && this.emit("errline", errbuffer), cp.removeAllListeners(), error ? reject(error) : resolve2(exitCode2);
+            }), this.options.input) {
+              if (!cp.stdin)
+                throw new Error("child process missing stdin");
+              cp.stdin.end(this.options.input);
+            }
+          }));
+        });
+      }
+    };
+    exports2.ToolRunner = ToolRunner;
+    function argStringToArray(argString) {
+      let args = [], inQuotes = !1, escaped = !1, arg = "";
+      function append(c) {
+        escaped && c !== '"' && (arg += "\\"), arg += c, escaped = !1;
+      }
+      for (let i = 0; i < argString.length; i++) {
+        let c = argString.charAt(i);
+        if (c === '"') {
+          escaped ? append(c) : inQuotes = !inQuotes;
+          continue;
+        }
+        if (c === "\\" && escaped) {
+          append(c);
+          continue;
+        }
+        if (c === "\\" && inQuotes) {
+          escaped = !0;
+          continue;
+        }
+        if (c === " " && !inQuotes) {
+          arg.length > 0 && (args.push(arg), arg = "");
+          continue;
+        }
+        append(c);
+      }
+      return arg.length > 0 && args.push(arg.trim()), args;
+    }
+    exports2.argStringToArray = argStringToArray;
+    var ExecState = class _ExecState extends events.EventEmitter {
+      constructor(options, toolPath) {
+        if (super(), this.processClosed = !1, this.processError = "", this.processExitCode = 0, this.processExited = !1, this.processStderr = !1, this.delay = 1e4, this.done = !1, this.timeout = null, !toolPath)
+          throw new Error("toolPath must not be empty");
+        this.options = options, this.toolPath = toolPath, options.delay && (this.delay = options.delay);
+      }
+      CheckComplete() {
+        this.done || (this.processClosed ? this._setResult() : this.processExited && (this.timeout = timers_1.setTimeout(_ExecState.HandleTimeout, this.delay, this)));
+      }
+      _debug(message) {
+        this.emit("debug", message);
+      }
+      _setResult() {
+        let error;
+        this.processExited && (this.processError ? error = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`) : this.processExitCode !== 0 && !this.options.ignoreReturnCode ? error = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`) : this.processStderr && this.options.failOnStdErr && (error = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`))), this.timeout && (clearTimeout(this.timeout), this.timeout = null), this.done = !0, this.emit("done", error, this.processExitCode);
+      }
+      static HandleTimeout(state) {
+        if (!state.done) {
+          if (!state.processClosed && state.processExited) {
+            let message = `The STDIO streams did not close within ${state.delay / 1e3} seconds of the exit event from process '${state.toolPath}'. This may indicate a child process inherited the STDIO streams and has not yet exited.`;
+            state._debug(message);
+          }
+          state._setResult();
+        }
+      }
+    };
+  }
+});
+
+// node_modules/@actions/exec/lib/exec.js
+var require_exec = __commonJS({
+  "node_modules/@actions/exec/lib/exec.js"(exports2) {
+    "use strict";
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+      k2 === void 0 && (k2 = k), Object.defineProperty(o, k2, { enumerable: !0, get: function() {
+        return m[k];
+      } });
+    } : function(o, m, k, k2) {
+      k2 === void 0 && (k2 = k), o[k2] = m[k];
+    }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: !0, value: v });
+    } : function(o, v) {
+      o.default = v;
+    }), __importStar = exports2 && exports2.__importStar || function(mod) {
+      if (mod && mod.__esModule) return mod;
+      var result = {};
+      if (mod != null) for (var k in mod) k !== "default" && Object.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
+      return __setModuleDefault(result, mod), result;
+    }, __awaiter = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
+      function adopt(value) {
+        return value instanceof P ? value : new P(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P || (P = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator.throw(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    Object.defineProperty(exports2, "__esModule", { value: !0 });
+    exports2.getExecOutput = exports2.exec = void 0;
+    var string_decoder_1 = require("string_decoder"), tr = __importStar(require_toolrunner());
+    function exec(commandLine, args, options) {
+      return __awaiter(this, void 0, void 0, function* () {
+        let commandArgs = tr.argStringToArray(commandLine);
+        if (commandArgs.length === 0)
+          throw new Error("Parameter 'commandLine' cannot be null or empty.");
+        let toolPath = commandArgs[0];
+        return args = commandArgs.slice(1).concat(args || []), new tr.ToolRunner(toolPath, args, options).exec();
+      });
+    }
+    exports2.exec = exec;
+    function getExecOutput(commandLine, args, options) {
+      var _a, _b;
+      return __awaiter(this, void 0, void 0, function* () {
+        let stdout = "", stderr = "", stdoutDecoder = new string_decoder_1.StringDecoder("utf8"), stderrDecoder = new string_decoder_1.StringDecoder("utf8"), originalStdoutListener = (_a = options?.listeners) === null || _a === void 0 ? void 0 : _a.stdout, originalStdErrListener = (_b = options?.listeners) === null || _b === void 0 ? void 0 : _b.stderr, stdErrListener = (data) => {
+          stderr += stderrDecoder.write(data), originalStdErrListener && originalStdErrListener(data);
+        }, stdOutListener = (data) => {
+          stdout += stdoutDecoder.write(data), originalStdoutListener && originalStdoutListener(data);
+        }, listeners = Object.assign(Object.assign({}, options?.listeners), { stdout: stdOutListener, stderr: stdErrListener }), exitCode2 = yield exec(commandLine, args, Object.assign(Object.assign({}, options), { listeners }));
+        return stdout += stdoutDecoder.end(), stderr += stderrDecoder.end(), {
+          exitCode: exitCode2,
+          stdout,
+          stderr
+        };
+      });
+    }
+    exports2.getExecOutput = getExecOutput;
+  }
+});
+
+// node_modules/@actions/core/lib/platform.js
+var require_platform = __commonJS({
+  "node_modules/@actions/core/lib/platform.js"(exports2) {
+    "use strict";
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+      k2 === void 0 && (k2 = k);
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
+        return m[k];
+      } }), Object.defineProperty(o, k2, desc2);
+    } : function(o, m, k, k2) {
+      k2 === void 0 && (k2 = k), o[k2] = m[k];
+    }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: !0, value: v });
+    } : function(o, v) {
+      o.default = v;
+    }), __importStar = exports2 && exports2.__importStar || function(mod) {
+      if (mod && mod.__esModule) return mod;
+      var result = {};
+      if (mod != null) for (var k in mod) k !== "default" && Object.prototype.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
+      return __setModuleDefault(result, mod), result;
+    }, __awaiter = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
+      function adopt(value) {
+        return value instanceof P ? value : new P(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P || (P = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator.throw(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    }, __importDefault = exports2 && exports2.__importDefault || function(mod) {
+      return mod && mod.__esModule ? mod : { default: mod };
+    };
+    Object.defineProperty(exports2, "__esModule", { value: !0 });
+    exports2.getDetails = exports2.isLinux = exports2.isMacOS = exports2.isWindows = exports2.arch = exports2.platform = void 0;
+    var os_1 = __importDefault(require("os")), exec = __importStar(require_exec()), getWindowsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
+      let { stdout: version2 } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Version"', void 0, {
+        silent: !0
+      }), { stdout: name2 } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Caption"', void 0, {
+        silent: !0
+      });
+      return {
+        name: name2.trim(),
+        version: version2.trim()
+      };
+    }), getMacOsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
+      var _a, _b, _c, _d;
+      let { stdout } = yield exec.getExecOutput("sw_vers", void 0, {
+        silent: !0
+      }), version2 = (_b = (_a = stdout.match(/ProductVersion:\s*(.+)/)) === null || _a === void 0 ? void 0 : _a[1]) !== null && _b !== void 0 ? _b : "";
+      return {
+        name: (_d = (_c = stdout.match(/ProductName:\s*(.+)/)) === null || _c === void 0 ? void 0 : _c[1]) !== null && _d !== void 0 ? _d : "",
+        version: version2
+      };
+    }), getLinuxInfo = () => __awaiter(void 0, void 0, void 0, function* () {
+      let { stdout } = yield exec.getExecOutput("lsb_release", ["-i", "-r", "-s"], {
+        silent: !0
+      }), [name2, version2] = stdout.trim().split(`
+`);
+      return {
+        name: name2,
+        version: version2
+      };
+    });
+    exports2.platform = os_1.default.platform();
+    exports2.arch = os_1.default.arch();
+    exports2.isWindows = exports2.platform === "win32";
+    exports2.isMacOS = exports2.platform === "darwin";
+    exports2.isLinux = exports2.platform === "linux";
+    function getDetails() {
+      return __awaiter(this, void 0, void 0, function* () {
+        return Object.assign(Object.assign({}, yield exports2.isWindows ? getWindowsInfo() : exports2.isMacOS ? getMacOsInfo() : getLinuxInfo()), {
+          platform: exports2.platform,
+          arch: exports2.arch,
+          isWindows: exports2.isWindows,
+          isMacOS: exports2.isMacOS,
+          isLinux: exports2.isLinux
+        });
+      });
+    }
+    exports2.getDetails = getDetails;
+  }
+});
+
+// node_modules/@actions/core/lib/core.js
+var require_core = __commonJS({
+  "node_modules/@actions/core/lib/core.js"(exports2) {
+    "use strict";
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+      k2 === void 0 && (k2 = k);
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
+        return m[k];
+      } }), Object.defineProperty(o, k2, desc2);
+    } : function(o, m, k, k2) {
+      k2 === void 0 && (k2 = k), o[k2] = m[k];
+    }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: !0, value: v });
+    } : function(o, v) {
+      o.default = v;
+    }), __importStar = exports2 && exports2.__importStar || function(mod) {
+      if (mod && mod.__esModule) return mod;
+      var result = {};
+      if (mod != null) for (var k in mod) k !== "default" && Object.prototype.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
+      return __setModuleDefault(result, mod), result;
+    }, __awaiter = exports2 && exports2.__awaiter || function(thisArg, _arguments, P, generator) {
+      function adopt(value) {
+        return value instanceof P ? value : new P(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P || (P = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator.throw(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    Object.defineProperty(exports2, "__esModule", { value: !0 });
+    exports2.platform = exports2.toPlatformPath = exports2.toWin32Path = exports2.toPosixPath = exports2.markdownSummary = exports2.summary = exports2.getIDToken = exports2.getState = exports2.saveState = exports2.group = exports2.endGroup = exports2.startGroup = exports2.info = exports2.notice = exports2.warning = exports2.error = exports2.debug = exports2.isDebug = exports2.setFailed = exports2.setCommandEcho = exports2.setOutput = exports2.getBooleanInput = exports2.getMultilineInput = exports2.getInput = exports2.addPath = exports2.setSecret = exports2.exportVariable = exports2.ExitCode = void 0;
     var command_1 = require_command(), file_command_1 = require_file_command(), utils_1 = require_utils(), os = __importStar(require("os")), path8 = __importStar(require("path")), oidc_utils_1 = require_oidc_utils(), ExitCode;
     (function(ExitCode2) {
       ExitCode2[ExitCode2.Success = 0] = "Success", ExitCode2[ExitCode2.Failure = 1] = "Failure";
-    })(ExitCode = exports2.ExitCode || (exports2.ExitCode = {}));
+    })(ExitCode || (exports2.ExitCode = ExitCode = {}));
     function exportVariable(name2, val) {
-      let convertedVal = utils_1.toCommandValue(val);
+      let convertedVal = (0, utils_1.toCommandValue)(val);
       if (process.env[name2] = convertedVal, process.env.GITHUB_ENV || "")
-        return file_command_1.issueFileCommand("ENV", file_command_1.prepareKeyValueMessage(name2, val));
-      command_1.issueCommand("set-env", { name: name2 }, convertedVal);
+        return (0, file_command_1.issueFileCommand)("ENV", (0, file_command_1.prepareKeyValueMessage)(name2, val));
+      (0, command_1.issueCommand)("set-env", { name: name2 }, convertedVal);
     }
     exports2.exportVariable = exportVariable;
     function setSecret(secret) {
-      command_1.issueCommand("add-mask", {}, secret);
+      (0, command_1.issueCommand)("add-mask", {}, secret);
     }
     exports2.setSecret = setSecret;
     function addPath(inputPath) {
-      process.env.GITHUB_PATH || "" ? file_command_1.issueFileCommand("PATH", inputPath) : command_1.issueCommand("add-path", {}, inputPath), process.env.PATH = `${inputPath}${path8.delimiter}${process.env.PATH}`;
+      process.env.GITHUB_PATH || "" ? (0, file_command_1.issueFileCommand)("PATH", inputPath) : (0, command_1.issueCommand)("add-path", {}, inputPath), process.env.PATH = `${inputPath}${path8.delimiter}${process.env.PATH}`;
     }
     exports2.addPath = addPath;
     function getInput2(name2, options) {
@@ -12947,12 +13543,12 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     exports2.getBooleanInput = getBooleanInput;
     function setOutput(name2, value) {
       if (process.env.GITHUB_OUTPUT || "")
-        return file_command_1.issueFileCommand("OUTPUT", file_command_1.prepareKeyValueMessage(name2, value));
-      process.stdout.write(os.EOL), command_1.issueCommand("set-output", { name: name2 }, utils_1.toCommandValue(value));
+        return (0, file_command_1.issueFileCommand)("OUTPUT", (0, file_command_1.prepareKeyValueMessage)(name2, value));
+      process.stdout.write(os.EOL), (0, command_1.issueCommand)("set-output", { name: name2 }, (0, utils_1.toCommandValue)(value));
     }
     exports2.setOutput = setOutput;
     function setCommandEcho(enabled) {
-      command_1.issue("echo", enabled ? "on" : "off");
+      (0, command_1.issue)("echo", enabled ? "on" : "off");
     }
     exports2.setCommandEcho = setCommandEcho;
     function setFailed(message) {
@@ -12964,19 +13560,19 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports2.isDebug = isDebug;
     function debug(message) {
-      command_1.issueCommand("debug", {}, message);
+      (0, command_1.issueCommand)("debug", {}, message);
     }
     exports2.debug = debug;
     function error(message, properties = {}) {
-      command_1.issueCommand("error", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+      (0, command_1.issueCommand)("error", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
     exports2.error = error;
     function warning(message, properties = {}) {
-      command_1.issueCommand("warning", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+      (0, command_1.issueCommand)("warning", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
     exports2.warning = warning;
     function notice(message, properties = {}) {
-      command_1.issueCommand("notice", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
+      (0, command_1.issueCommand)("notice", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
     exports2.notice = notice;
     function info(message) {
@@ -12984,11 +13580,11 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports2.info = info;
     function startGroup(name2) {
-      command_1.issue("group", name2);
+      (0, command_1.issue)("group", name2);
     }
     exports2.startGroup = startGroup;
     function endGroup() {
-      command_1.issue("endgroup");
+      (0, command_1.issue)("endgroup");
     }
     exports2.endGroup = endGroup;
     function group(name2, fn) {
@@ -13006,8 +13602,8 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     exports2.group = group;
     function saveState(name2, value) {
       if (process.env.GITHUB_STATE || "")
-        return file_command_1.issueFileCommand("STATE", file_command_1.prepareKeyValueMessage(name2, value));
-      command_1.issueCommand("save-state", { name: name2 }, utils_1.toCommandValue(value));
+        return (0, file_command_1.issueFileCommand)("STATE", (0, file_command_1.prepareKeyValueMessage)(name2, value));
+      (0, command_1.issueCommand)("save-state", { name: name2 }, (0, utils_1.toCommandValue)(value));
     }
     exports2.saveState = saveState;
     function getState(name2) {
@@ -13038,6 +13634,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     Object.defineProperty(exports2, "toPlatformPath", { enumerable: !0, get: function() {
       return path_utils_1.toPlatformPath;
     } });
+    exports2.platform = __importStar(require_platform());
   }
 });
 
@@ -13149,7 +13746,7 @@ var require_async = __commonJS({
       function isArrayLike(value) {
         return value && typeof value.length == "number" && value.length >= 0 && value.length % 1 === 0;
       }
-      var breakLoop$1 = {};
+      let breakLoop = {};
       function once(fn) {
         function wrapper(...args) {
           if (fn !== null) {
@@ -13215,7 +13812,7 @@ var require_async = __commonJS({
               done = !0, canceled = !0;
               return;
             }
-            if (result === breakLoop$1 || done && running <= 0)
+            if (result === breakLoop || done && running <= 0)
               return done = !0, callback(null);
             replenish();
           }
@@ -13242,7 +13839,7 @@ var require_async = __commonJS({
             else if (err === !1)
               done = !0, canceled = !0;
             else {
-              if (value === breakLoop$1 || done && running <= 0)
+              if (value === breakLoop || done && running <= 0)
                 return done = !0, callback(null);
               looping || replenish();
             }
@@ -13269,7 +13866,7 @@ var require_async = __commonJS({
         var index2 = 0, completed = 0, { length } = coll, canceled = !1;
         length === 0 && callback(null);
         function iteratorCallback(err, value) {
-          err === !1 && (canceled = !0), canceled !== !0 && (err ? callback(err) : (++completed === length || value === breakLoop$1) && callback(null));
+          err === !1 && (canceled = !0), canceled !== !0 && (err ? callback(err) : (++completed === length || value === breakLoop) && callback(null));
         }
         for (; index2 < length; index2++)
           iteratee(coll[index2], index2, onlyOnce(iteratorCallback));
@@ -13392,7 +13989,7 @@ var require_async = __commonJS({
         }
         return callback[PROMISE_SYMBOL];
       }
-      var FN_ARGS = /^(?:async\s+)?(?:function)?\s*\w*\s*\(\s*([^)]+)\s*\)(?:\s*{)/, ARROW_FN_ARGS = /^(?:async\s+)?\(?\s*([^)=]+)\s*\)?(?:\s*=>)/, FN_ARG_SPLIT = /,/, FN_ARG = /(=.+)?(\s*)$/;
+      var FN_ARGS = /^(?:async\s)?(?:function)?\s*(?:\w+\s*)?\(([^)]+)\)(?:\s*{)/, ARROW_FN_ARGS = /^(?:async\s)?\s*(?:\(\s*)?((?:[^)=\s]\s*)*)(?:\)\s*)?=>/, FN_ARG_SPLIT = /,/, FN_ARG = /(=.+)?(\s*)$/;
       function stripComments(string) {
         let stripped = "", index2 = 0, endBlockComment = string.indexOf("*/");
         for (; index2 < string.length; )
@@ -13720,7 +14317,7 @@ Source:
             iteratee(value, (err, result) => {
               if (err || err === !1) return callback(err);
               if (check(result) && !testResult)
-                return testPassed = !0, testResult = getResult(!0, value), callback(null, breakLoop$1);
+                return testPassed = !0, testResult = getResult(!0, value), callback(null, breakLoop);
               callback();
             });
           }, (err) => {
@@ -14633,7 +15230,7 @@ var require_graceful_fs = __commonJS({
   "node_modules/graceful-fs/graceful-fs.js"(exports2, module2) {
     var fs11 = require("fs"), polyfills = require_polyfills(), legacy = require_legacy_streams(), clone = require_clone(), util = require("util"), gracefulQueue, previousSymbol;
     typeof Symbol == "function" && typeof Symbol.for == "function" ? (gracefulQueue = Symbol.for("graceful-fs.queue"), previousSymbol = Symbol.for("graceful-fs.previous")) : (gracefulQueue = "___graceful-fs.queue", previousSymbol = "___graceful-fs.previous");
-    function noop2() {
+    function noop3() {
     }
     function publishQueue(context, queue2) {
       Object.defineProperty(context, gracefulQueue, {
@@ -14642,7 +15239,7 @@ var require_graceful_fs = __commonJS({
         }
       });
     }
-    var debug = noop2;
+    var debug = noop3;
     util.debuglog ? debug = util.debuglog("gfs4") : /\bgfs4\b/i.test(process.env.NODE_DEBUG || "") && (debug = function() {
       var m = util.format.apply(util, arguments);
       m = "GFS4: " + m.split(/\n/).join(`
@@ -14869,6 +15466,7 @@ var require_fs = __commonJS({
       "chown",
       "close",
       "copyFile",
+      "cp",
       "fchmod",
       "fchown",
       "fdatasync",
@@ -14876,8 +15474,10 @@ var require_fs = __commonJS({
       "fsync",
       "ftruncate",
       "futimes",
+      "glob",
       "lchmod",
       "lchown",
+      "lutimes",
       "link",
       "lstat",
       "mkdir",
@@ -14892,6 +15492,7 @@ var require_fs = __commonJS({
       "rm",
       "rmdir",
       "stat",
+      "statfs",
       "symlink",
       "truncate",
       "unlink",
@@ -15204,13 +15805,17 @@ var require_copy = __commonJS({
     }
     async function onDir(srcStat, destStat, src, dest, opts) {
       destStat || await fs11.mkdir(dest);
-      let items = await fs11.readdir(src);
-      await Promise.all(items.map(async (item) => {
-        let srcItem = path8.join(src, item), destItem = path8.join(dest, item);
-        if (!await runFilter(srcItem, destItem, opts)) return;
-        let { destStat: destStat2 } = await stat2.checkPaths(srcItem, destItem, "copy", opts);
-        return getStatsAndPerformCopy(destStat2, srcItem, destItem, opts);
-      })), destStat || await fs11.chmod(dest, srcStat.mode);
+      let promises = [];
+      for await (let item of await fs11.opendir(src)) {
+        let srcItem = path8.join(src, item.name), destItem = path8.join(dest, item.name);
+        promises.push(
+          runFilter(srcItem, destItem, opts).then((include) => {
+            if (include)
+              return stat2.checkPaths(srcItem, destItem, "copy", opts).then(({ destStat: destStat2 }) => getStatsAndPerformCopy(destStat2, srcItem, destItem, opts));
+          })
+        );
+      }
+      await Promise.all(promises), destStat || await fs11.chmod(dest, srcStat.mode);
     }
     async function onLink(destStat, src, dest, opts) {
       let resolvedSrc = await fs11.readlink(src);
@@ -15293,7 +15898,14 @@ var require_copy_sync = __commonJS({
       return fs11.mkdirSync(dest), copyDir(src, dest, opts), setDestMode(dest, srcMode);
     }
     function copyDir(src, dest, opts) {
-      fs11.readdirSync(src).forEach((item) => copyDirItem(item, src, dest, opts));
+      let dir = fs11.opendirSync(src);
+      try {
+        let dirent;
+        for (; (dirent = dir.readSync()) !== null; )
+          copyDirItem(dirent.name, src, dest, opts);
+      } finally {
+        dir.closeSync();
+      }
     }
     function copyDirItem(item, src, dest, opts) {
       let srcItem = path8.join(src, item), destItem = path8.join(dest, item);
@@ -15644,7 +16256,7 @@ var require_ensure = __commonJS({
 // node_modules/jsonfile/utils.js
 var require_utils4 = __commonJS({
   "node_modules/jsonfile/utils.js"(exports2, module2) {
-    function stringify2(obj, { EOL = `
+    function stringify(obj, { EOL = `
 `, finalEOL = !0, replacer = null, spaces } = {}) {
       let EOF3 = finalEOL ? EOL : "";
       return JSON.stringify(obj, replacer, spaces).replace(/\n/g, EOL) + EOF3;
@@ -15652,7 +16264,7 @@ var require_utils4 = __commonJS({
     function stripBom(content) {
       return Buffer.isBuffer(content) && (content = content.toString("utf8")), content.replace(/^\uFEFF/, "");
     }
-    module2.exports = { stringify: stringify2, stripBom };
+    module2.exports = { stringify, stripBom };
   }
 });
 
@@ -15665,7 +16277,7 @@ var require_jsonfile = __commonJS({
     } catch {
       _fs = require("fs");
     }
-    var universalify = require_universalify(), { stringify: stringify2, stripBom } = require_utils4();
+    var universalify = require_universalify(), { stringify, stripBom } = require_utils4();
     async function _readFile(file, options = {}) {
       typeof options == "string" && (options = { encoding: options });
       let fs11 = options.fs || _fs, shouldThrow = "throws" in options ? options.throws : !0, data = await universalify.fromCallback(fs11.readFile)(file, options);
@@ -15694,12 +16306,12 @@ var require_jsonfile = __commonJS({
       }
     }
     async function _writeFile(file, obj, options = {}) {
-      let fs11 = options.fs || _fs, str = stringify2(obj, options);
+      let fs11 = options.fs || _fs, str = stringify(obj, options);
       await universalify.fromCallback(fs11.writeFile)(file, str, options);
     }
     var writeFile = universalify.fromPromise(_writeFile);
     function writeFileSync(file, obj, options = {}) {
-      let fs11 = options.fs || _fs, str = stringify2(obj, options);
+      let fs11 = options.fs || _fs, str = stringify(obj, options);
       return fs11.writeFileSync(file, str, options);
     }
     var jsonfile = {
@@ -15751,9 +16363,9 @@ var require_output_file = __commonJS({
 var require_output_json = __commonJS({
   "node_modules/fs-extra/lib/json/output-json.js"(exports2, module2) {
     "use strict";
-    var { stringify: stringify2 } = require_utils4(), { outputFile } = require_output_file();
+    var { stringify } = require_utils4(), { outputFile } = require_output_file();
     async function outputJson(file, data, options = {}) {
-      let str = stringify2(data, options);
+      let str = stringify(data, options);
       await outputFile(file, str, options);
     }
     module2.exports = outputJson;
@@ -15764,9 +16376,9 @@ var require_output_json = __commonJS({
 var require_output_json_sync = __commonJS({
   "node_modules/fs-extra/lib/json/output-json-sync.js"(exports2, module2) {
     "use strict";
-    var { stringify: stringify2 } = require_utils4(), { outputFileSync } = require_output_file();
+    var { stringify } = require_utils4(), { outputFileSync } = require_output_file();
     function outputJsonSync(file, data, options) {
-      let str = stringify2(data, options);
+      let str = stringify(data, options);
       outputFileSync(file, str, options);
     }
     module2.exports = outputJsonSync;
@@ -17027,14 +17639,17 @@ var require_js2xml = __commonJS({
               if (options.indentText)
                 return !0;
               break;
+            // skip to next key
             case "cdata":
               if (options.indentCdata)
                 return !0;
               break;
+            // skip to next key
             case "instruction":
               if (options.indentInstruction)
                 return !0;
               break;
+            // skip to next key
             case "doctype":
             case "comment":
             case "element":
@@ -17080,18 +17695,22 @@ var require_js2xml = __commonJS({
             case options.parentKey:
             case options.attributesKey:
               break;
+            // skip to next key
             case options.textKey:
               if (options.indentText || anyContent)
                 return !0;
               break;
+            // skip to next key
             case options.cdataKey:
               if (options.indentCdata || anyContent)
                 return !0;
               break;
+            // skip to next key
             case options.instructionKey:
               if (options.indentInstruction || anyContent)
                 return !0;
               break;
+            // skip to next key
             case options.doctypeKey:
             case options.commentKey:
               return !0;
@@ -17133,6 +17752,7 @@ var require_js2xml = __commonJS({
               case options.attributesKey:
               case options.parentKey:
                 break;
+              // skip
               case options.textKey:
                 xml.push((options.indentText ? writeIndentation(options, depth, firstLine) : "") + writeText(nodes[i], options));
                 break;
@@ -17383,7 +18003,7 @@ var require_reader = __commonJS({
         return null;
       for (var values = [], value = 0, i = 0; i < b.length; i++) {
         var byte = b[i] & 255;
-        value <<= 7, value += byte & 127, byte & 128 || (values.push(value), value = 0);
+        value <<= 7, value += byte & 127, (byte & 128) === 0 && (values.push(value), value = 0);
       }
       return value = values.shift(), values.unshift(value % 40), values.unshift(value / 40 >> 0), values.join(".");
     };
@@ -17446,7 +18066,7 @@ var require_writer = __commonJS({
       if (typeof i != "number")
         throw new TypeError("argument must be a Number");
       typeof tag != "number" && (tag = ASN1.Integer);
-      for (var sz = 4; (!(i & 4286578688) || (i & 4286578688) === -8388608) && sz > 1; )
+      for (var sz = 4; ((i & 4286578688) === 0 || (i & 4286578688) === -8388608) && sz > 1; )
         sz--, i <<= 8;
       if (sz > 4)
         throw newInvalidAsn1Error("BER ints cannot be > 0xffffffff");
@@ -18223,18 +18843,18 @@ var require_nacl_fast = __commonJS({
       }, nacl.setPRNG = function(fn) {
         randombytes = fn;
       }, function() {
-        var crypto4 = typeof self < "u" ? self.crypto || self.msCrypto : null;
-        if (crypto4 && crypto4.getRandomValues) {
+        var crypto = typeof self < "u" ? self.crypto || self.msCrypto : null;
+        if (crypto && crypto.getRandomValues) {
           var QUOTA = 65536;
           nacl.setPRNG(function(x, n) {
             var i, v = new Uint8Array(n);
             for (i = 0; i < n; i += QUOTA)
-              crypto4.getRandomValues(v.subarray(i, i + Math.min(n - i, QUOTA)));
+              crypto.getRandomValues(v.subarray(i, i + Math.min(n - i, QUOTA)));
             for (i = 0; i < n; i++) x[i] = v[i];
             cleanup(v);
           });
-        } else typeof require < "u" && (crypto4 = require("crypto"), crypto4 && crypto4.randomBytes && nacl.setPRNG(function(x, n) {
-          var i, v = crypto4.randomBytes(n);
+        } else typeof require < "u" && (crypto = require("crypto"), crypto && crypto.randomBytes && nacl.setPRNG(function(x, n) {
+          var i, v = crypto.randomBytes(n);
           for (i = 0; i < n; i++) x[i] = v[i];
           cleanup(v);
         }));
@@ -19430,7 +20050,7 @@ var require_bcrypt_pbkdf = __commonJS({
 // node_modules/cpu-features/build/Release/cpufeatures.node
 var require_cpufeatures = __commonJS({
   "node_modules/cpu-features/build/Release/cpufeatures.node"(exports2, module2) {
-    module2.exports = "./cpufeatures-BQHYZFM4.node";
+    module2.exports = "./cpufeatures-GVCOVLZP.node";
   }
 });
 
@@ -19447,24 +20067,24 @@ var require_lib5 = __commonJS({
 var require_constants6 = __commonJS({
   "node_modules/ssh2/lib/protocol/constants.js"(exports2, module2) {
     "use strict";
-    var crypto4 = require("crypto"), cpuInfo;
+    var crypto = require("crypto"), cpuInfo;
     try {
       cpuInfo = require_lib5()();
     } catch {
     }
     var { bindingAvailable, CIPHER_INFO, MAC_INFO } = require_crypto(), eddsaSupported = (() => {
-      if (typeof crypto4.sign == "function" && typeof crypto4.verify == "function") {
+      if (typeof crypto.sign == "function" && typeof crypto.verify == "function") {
         let key = `-----BEGIN PRIVATE KEY-----\r
 MC4CAQAwBQYDK2VwBCIEIHKj+sVa9WcD/q2DJUJaf43Kptc8xYuUQA4bOFj9vC8T\r
 -----END PRIVATE KEY-----`, data = Buffer.from("a"), sig, verified;
         try {
-          sig = crypto4.sign(null, data, key), verified = crypto4.verify(null, data, key, sig);
+          sig = crypto.sign(null, data, key), verified = crypto.verify(null, data, key, sig);
         } catch {
         }
         return Buffer.isBuffer(sig) && sig.length === 64 && verified === !0;
       }
       return !1;
-    })(), curve25519Supported = typeof crypto4.diffieHellman == "function" && typeof crypto4.generateKeyPairSync == "function" && typeof crypto4.createPublicKey == "function", DEFAULT_KEX = [
+    })(), curve25519Supported = typeof crypto.diffieHellman == "function" && typeof crypto.generateKeyPairSync == "function" && typeof crypto.createPublicKey == "function", DEFAULT_KEX = [
       // https://tools.ietf.org/html/rfc5656#section-10.1
       "ecdh-sha2-nistp256",
       "ecdh-sha2-nistp384",
@@ -19500,7 +20120,7 @@ MC4CAQAwBQYDK2VwBCIEIHKj+sVa9WcD/q2DJUJaf43Kptc8xYuUQA4bOFj9vC8T\r
     var SUPPORTED_SERVER_HOST_KEY = DEFAULT_SERVER_HOST_KEY.concat([
       "ssh-dss"
     ]), canUseCipher = (() => {
-      let ciphers = crypto4.getCiphers();
+      let ciphers = crypto.getCiphers();
       return (name2) => ciphers.includes(CIPHER_INFO[name2].sslName);
     })(), DEFAULT_CIPHER = [
       // http://tools.ietf.org/html/rfc5647
@@ -19527,7 +20147,7 @@ MC4CAQAwBQYDK2VwBCIEIHKj+sVa9WcD/q2DJUJaf43Kptc8xYuUQA4bOFj9vC8T\r
       "cast128-cbc",
       "arcfour"
     ].filter(canUseCipher)), canUseMAC = (() => {
-      let hashes = crypto4.getHashes();
+      let hashes = crypto.getHashes();
       return (name2) => hashes.includes(MAC_INFO[name2].sslName);
     })(), DEFAULT_MAC = [
       "hmac-sha2-256-etm@openssh.com",
@@ -19849,6 +20469,7 @@ var require_utils5 = __commonJS({
               case "maybe":
                 if (buffer[pos2] > 31)
                   return BigInt(`0x${buffer.hexSlice(pos2, pos2 += 8)}`);
+              // FALLTHROUGH
               default:
                 return buffer[pos2++] * 72057594037927940 + buffer[pos2++] * 281474976710656 + buffer[pos2++] * 1099511627776 + buffer[pos2++] * 4294967296 + buffer[pos2++] * 16777216 + buffer[pos2++] * 65536 + buffer[pos2++] * 256 + buffer[pos2++];
             }
@@ -20002,7 +20623,7 @@ var require_utils5 = __commonJS({
 // node_modules/ssh2/lib/protocol/crypto/build/Release/sshcrypto.node
 var require_sshcrypto = __commonJS({
   "node_modules/ssh2/lib/protocol/crypto/build/Release/sshcrypto.node"(exports2, module2) {
-    module2.exports = "./sshcrypto-WYJFN2T4.node";
+    module2.exports = "./sshcrypto-FT2U4C3H.node";
   }
 });
 
@@ -20646,7 +21267,7 @@ var require_crypto = __commonJS({
               this._len = (this._len << 8) + data[p++];
             if (this._lenBytes < 4)
               return;
-            if (this._len > MAX_PACKET_SIZE || this._len < 8 || 4 + this._len & 7)
+            if (this._len > MAX_PACKET_SIZE || this._len < 8 || (4 + this._len & 7) !== 0)
               throw new Error("Bad packet length");
             if (p >= dataLen)
               return;
@@ -20686,7 +21307,7 @@ var require_crypto = __commonJS({
               return;
             POLY1305_OUT_COMPUTE[0] = 0, writeUInt32BE(POLY1305_OUT_COMPUTE, this.inSeqno, 12);
             let decLenBytes = createDecipheriv("chacha20", this._decKeyPktLen, POLY1305_OUT_COMPUTE).update(this._lenBuf);
-            if (this._len = readUInt32BE(decLenBytes, 0), this._len > MAX_PACKET_SIZE || this._len < 8 || this._len & 7)
+            if (this._len = readUInt32BE(decLenBytes, 0), this._len > MAX_PACKET_SIZE || this._len < 8 || (this._len & 7) !== 0)
               throw new Error("Bad packet length");
           }
           if (this._pktLen < this._len) {
@@ -20752,7 +21373,7 @@ var require_crypto = __commonJS({
               this._lenBuf[this._lenPos++] = data[p++];
             if (this._lenPos < 4)
               return;
-            if (this._len = this._instance.decryptLen(this._lenBuf, this.inSeqno), this._len > MAX_PACKET_SIZE || this._len < 8 || this._len & 7)
+            if (this._len = this._instance.decryptLen(this._lenBuf, this.inSeqno), this._len > MAX_PACKET_SIZE || this._len < 8 || (this._len & 7) !== 0)
               throw new Error("Bad packet length");
             if (p >= dataLen)
               return;
@@ -20799,7 +21420,7 @@ var require_crypto = __commonJS({
               this._len = (this._len << 8) + data[p++];
             if (this._lenBytes < 4)
               return;
-            if (this._len + 20 > MAX_PACKET_SIZE || this._len < 16 || this._len & 15)
+            if (this._len + 20 > MAX_PACKET_SIZE || this._len < 16 || (this._len & 15) !== 0)
               throw new Error("Bad packet length");
             this._decipherInstance = createDecipheriv(
               this._decipherSSLName,
@@ -20861,7 +21482,7 @@ var require_crypto = __commonJS({
               this._len = (this._len << 8) + data[p++];
             if (this._lenBytes < 4)
               return;
-            if (this._len + 20 > MAX_PACKET_SIZE || this._len < 16 || this._len & 15)
+            if (this._len + 20 > MAX_PACKET_SIZE || this._len < 16 || (this._len & 15) !== 0)
               throw new Error(`Bad packet length: ${this._len}`);
           }
           if (this._pktLen < this._len) {
@@ -20921,7 +21542,7 @@ var require_crypto = __commonJS({
             ) : this._block.set(data, this._blockPos), p += nb, this._blockPos += nb, this._blockPos < this._block.length)
               return;
             let decrypted, need;
-            if (this._macETM ? this._len = need = readUInt32BE(this._block, 0) : (decrypted = this._decipherInstance.update(this._block), this._len = readUInt32BE(decrypted, 0), need = 4 + this._len - this._blockSize), this._len > MAX_PACKET_SIZE || this._len < 5 || need & this._blockSize - 1)
+            if (this._macETM ? this._len = need = readUInt32BE(this._block, 0) : (decrypted = this._decipherInstance.update(this._block), this._len = readUInt32BE(decrypted, 0), need = 4 + this._len - this._blockSize), this._len > MAX_PACKET_SIZE || this._len < 5 || (need & this._blockSize - 1) !== 0)
               throw new Error("Bad packet length");
             if (this._macInstance = createHmac(this._macSSLName, this._macKey), writeUInt32BE(BUF_INT, this.inSeqno, 0), this._macInstance.update(BUF_INT), this._macETM ? this._macInstance.update(this._block) : (this._macInstance.update(new Uint8Array(
               decrypted.buffer,
@@ -21001,7 +21622,7 @@ var require_crypto = __commonJS({
             ) : this._block.set(data, this._blockPos), p += nb, this._blockPos += nb, this._blockPos < this._block.length)
               return;
             let need;
-            if (this._macETM ? this._len = need = readUInt32BE(this._block, 0) : (this._instance.decryptBlock(this._block), this._len = readUInt32BE(this._block, 0), need = 4 + this._len - this._block.length), this._len > MAX_PACKET_SIZE || this._len < 5 || need & this._block.length - 1)
+            if (this._macETM ? this._len = need = readUInt32BE(this._block, 0) : (this._instance.decryptBlock(this._block), this._len = readUInt32BE(this._block, 0), need = 4 + this._len - this._block.length), this._len > MAX_PACKET_SIZE || this._len < 5 || (need & this._block.length - 1) !== 0)
               throw new Error("Bad packet length");
             if (this._macETM || (this._pktLen = this._block.length - 4, this._pktLen && (this._packet = Buffer.allocUnsafe(this._len), this._packet.set(
               new Uint8Array(
@@ -21218,7 +21839,7 @@ ${formatted}-----END ${type} KEY-----`;
       }
       function bigIntToBuffer(bn) {
         let hex = bn.toString(16);
-        if (hex.length & 1)
+        if ((hex.length & 1) !== 0)
           hex = `0${hex}`;
         else {
           let sigbit = hex.charCodeAt(0);
@@ -21353,7 +21974,7 @@ ${formatted}-----END ${type} KEY-----`;
       },
       equals: function(key) {
         let parsed = parseKey(key);
-        return parsed instanceof Error ? !1 : this.type === parsed.type && this[SYM_PRIV_PEM] === parsed[SYM_PRIV_PEM] && this[SYM_PUB_PEM] === parsed[SYM_PUB_PEM] && this[SYM_PUB_SSH] === parsed[SYM_PUB_SSH];
+        return parsed instanceof Error ? !1 : this.type === parsed.type && this[SYM_PRIV_PEM] === parsed[SYM_PRIV_PEM] && this[SYM_PUB_PEM] === parsed[SYM_PUB_PEM] && this[SYM_PUB_SSH].equals(parsed[SYM_PUB_SSH]);
       }
     };
     function OpenSSH_Private(type, comment, privPEM, pubPEM, pubSSH, algo, decrypted) {
@@ -21432,8 +22053,10 @@ ${formatted}-----END ${type} KEY-----`;
             }
             case "ecdsa-sha2-nistp256":
               algo = "sha256", oid = "1.2.840.10045.3.1.7";
+            // FALLTHROUGH
             case "ecdsa-sha2-nistp384":
               algo === void 0 && (algo = "sha384", oid = "1.3.132.0.34");
+            // FALLTHROUGH
             case "ecdsa-sha2-nistp521": {
               if (algo === void 0 && (algo = "sha512", oid = "1.3.132.0.35"), !skipFields(data, 1))
                 return new Error("Malformed OpenSSH private key");
@@ -21921,8 +22544,10 @@ ${formatted}-----END ${type} KEY-----`;
         }
         case "ecdsa-sha2-nistp256":
           algo = "sha256", oid = "1.2.840.10045.3.1.7";
+        // FALLTHROUGH
         case "ecdsa-sha2-nistp384":
           algo === void 0 && (algo = "sha384", oid = "1.3.132.0.34");
+        // FALLTHROUGH
         case "ecdsa-sha2-nistp521": {
           if (algo === void 0 && (algo = "sha512", oid = "1.3.132.0.35"), !skipFields(data, 1))
             return new Error("Malformed OpenSSH public key");
@@ -21948,6 +22573,7 @@ ${formatted}-----END ${type} KEY-----`;
         case "ssh-ed25519":
           if (eddsaSupported)
             return !0;
+        // FALLTHROUGH
         default:
           return !1;
       }
@@ -22010,7 +22636,7 @@ var require_agent2 = __commonJS({
       let combined = Buffer.allocUnsafe(buf1.length + buf2.length);
       return buf1.copy(combined, 0), buf2.copy(combined, buf1.length), combined;
     }
-    function noop2() {
+    function noop3() {
     }
     var EMPTY_BUF = Buffer.alloc(0), binaryParser = makeBufferParser(), BaseAgent = class {
       getIdentities(cb) {
@@ -22386,13 +23012,13 @@ var require_agent2 = __commonJS({
             }
           pubKey = pubKey.getPublicSSH();
           let type = 13, keyLen = pubKey.length, dataLen = data.length, p = 0, buf = Buffer.allocUnsafe(9 + keyLen + 4 + dataLen + 4);
-          return writeUInt32BE(buf, buf.length - 4, p), buf[p += 4] = type, writeUInt32BE(buf, keyLen, ++p), pubKey.copy(buf, p += 4), writeUInt32BE(buf, dataLen, p += keyLen), data.copy(buf, p += 4), writeUInt32BE(buf, flags, p += dataLen), typeof cb != "function" && (cb = noop2), this[SYM_REQS].push({ type, cb }), this.push(buf);
+          return writeUInt32BE(buf, buf.length - 4, p), buf[p += 4] = type, writeUInt32BE(buf, keyLen, ++p), pubKey.copy(buf, p += 4), writeUInt32BE(buf, dataLen, p += keyLen), data.copy(buf, p += 4), writeUInt32BE(buf, flags, p += dataLen), typeof cb != "function" && (cb = noop3), this[SYM_REQS].push({ type, cb }), this.push(buf);
         }
         getIdentities(cb) {
           if (this[SYM_MODE] !== 0)
             throw new Error("Client-only method called with server role");
           let type = 11, p = 0, buf = Buffer.allocUnsafe(5);
-          return writeUInt32BE(buf, buf.length - 4, p), buf[p += 4] = type, typeof cb != "function" && (cb = noop2), this[SYM_REQS].push({ type, cb }), this.push(buf);
+          return writeUInt32BE(buf, buf.length - 4, p), buf[p += 4] = type, typeof cb != "function" && (cb = noop3), this[SYM_REQS].push({ type, cb }), this.push(buf);
         }
         // Server->Client messages =================================================
         failureReply(req) {
@@ -22466,7 +23092,7 @@ var require_agent2 = __commonJS({
         this[SYM_AGENT] = agent, this[SYM_AGENT_KEYS] = null, this[SYM_AGENT_KEYS_IDX] = -1, this[SYM_AGENT_CBS] = null;
       }
       init(cb) {
-        if (typeof cb != "function" && (cb = noop2), this[SYM_AGENT_KEYS] === null)
+        if (typeof cb != "function" && (cb = noop3), this[SYM_AGENT_KEYS] === null)
           if (this[SYM_AGENT_CBS] === null) {
             this[SYM_AGENT_CBS] = [cb];
             let doCbs = (...args) => {
@@ -22697,17 +23323,17 @@ var require_handlers_misc = __commonJS({
       // Transport layer protocol ==================================================
       [MESSAGE.DISCONNECT]: (self2, payload) => {
         bufferParser.init(payload, 1);
-        let reason = bufferParser.readUInt32BE(), desc = bufferParser.readString(!0), lang = bufferParser.readString();
+        let reason = bufferParser.readUInt32BE(), desc2 = bufferParser.readString(!0), lang = bufferParser.readString();
         if (bufferParser.clear(), lang === void 0)
           return doFatalError(
             self2,
             "Inbound: Malformed DISCONNECT packet"
           );
         self2._debug && self2._debug(
-          `Inbound: Received DISCONNECT (${reason}, "${desc}")`
+          `Inbound: Received DISCONNECT (${reason}, "${desc2}")`
         );
         let handler = self2._handlers.DISCONNECT;
-        handler && handler(self2, reason, desc);
+        handler && handler(self2, reason, desc2);
       },
       [MESSAGE.IGNORE]: (self2, payload) => {
         self2._debug && self2._debug("Inbound: Received IGNORE");
@@ -23062,6 +23688,7 @@ var require_handlers_misc = __commonJS({
         let type = bufferParser.readString(!0), sender = bufferParser.readUInt32BE(), window2 = bufferParser.readUInt32BE(), packetSize = bufferParser.readUInt32BE(), channelInfo;
         switch (type) {
           case "forwarded-tcpip":
+          // S->C
           case "direct-tcpip": {
             let destIP = bufferParser.readString(!0), destPort = bufferParser.readUInt32BE(), srcIP = bufferParser.readString(!0), srcPort = bufferParser.readUInt32BE();
             srcPort !== void 0 && (channelInfo = {
@@ -23074,6 +23701,7 @@ var require_handlers_misc = __commonJS({
             break;
           }
           case "forwarded-streamlocal@openssh.com":
+          // S->C
           case "direct-streamlocal@openssh.com": {
             let socketPath = bufferParser.readString(!0);
             socketPath !== void 0 && (channelInfo = {
@@ -23828,6 +24456,7 @@ var require_kex = __commonJS({
                   isServer ? rw.read = new ZlibPacketReader() : rw.write = new ZlibPacketWriter(this._protocol);
                   break;
                 }
+              // FALLTHROUGH
               default:
                 isServer ? rw.read = new PacketReader() : rw.write = new PacketWriter(this._protocol);
             }
@@ -23840,6 +24469,7 @@ var require_kex = __commonJS({
                   isServer ? rw.write = new ZlibPacketWriter(this._protocol) : rw.read = new ZlibPacketReader();
                   break;
                 }
+              // FALLTHROUGH
               default:
                 isServer ? rw.write = new PacketWriter(this._protocol) : rw.read = new PacketReader();
             }
@@ -23950,6 +24580,7 @@ var require_kex = __commonJS({
                     case "rsa-sha2-512":
                       if (hostPubKeyType === "ssh-rsa")
                         break;
+                    // FALLTHROUGH
                     default:
                       return doFatalError(
                         this._protocol,
@@ -24270,12 +24901,12 @@ var require_kex = __commonJS({
             all: void 0
           }, totalSize = 0;
           for (let prop of KEX_PROPERTY_NAMES) {
-            let base, val, desc, key;
+            let base, val, desc2, key;
             if (typeof prop == "string")
-              base = lists, val = obj[prop], desc = key = prop;
+              base = lists, val = obj[prop], desc2 = key = prop;
             else {
               let parent = prop[0];
-              base = lists[parent], key = prop[1], val = obj[parent][key], desc = `${parent}.${key}`;
+              base = lists[parent], key = prop[1], val = obj[parent][key], desc2 = `${parent}.${key}`;
             }
             let entry = { array: void 0, buffer: void 0 };
             if (Buffer.isBuffer(val))
@@ -24284,7 +24915,7 @@ var require_kex = __commonJS({
               if (typeof val == "string" && (val = val.split(",")), Array.isArray(val))
                 entry.array = val, entry.buffer = Buffer.from(val.join(","));
               else
-                throw new TypeError(`Invalid \`${desc}\` type: ${typeof val}`);
+                throw new TypeError(`Invalid \`${desc2}\` type: ${typeof val}`);
               totalSize += 4 + entry.buffer.length;
             }
             base[key] = entry;
@@ -24436,7 +25067,7 @@ var require_package = __commonJS({
   "node_modules/ssh2/package.json"(exports2, module2) {
     module2.exports = {
       name: "ssh2",
-      version: "1.15.0",
+      version: "1.16.0",
       author: "Brian White <mscdex@mscdex.net>",
       description: "SSH2 client and server modules written in pure JavaScript for node.js",
       main: "./lib/index.js",
@@ -24452,8 +25083,8 @@ var require_package = __commonJS({
         eslint: "^7.32.0"
       },
       optionalDependencies: {
-        "cpu-features": "~0.0.9",
-        nan: "^2.18.0"
+        "cpu-features": "~0.0.10",
+        nan: "^2.20.0"
       },
       scripts: {
         install: "node install.js",
@@ -24551,7 +25182,7 @@ var require_Protocol = __commonJS({
       // Request a reply
       1
     ]), NO_TERMINAL_MODES_BUFFER = Buffer.from([TERMINAL_MODE.TTY_OP_END]);
-    function noop2() {
+    function noop3() {
     }
     var Protocol = class {
       constructor(config) {
@@ -24574,13 +25205,13 @@ var require_Protocol = __commonJS({
         let onHeader = config.onHeader;
         this._onHeader = typeof onHeader == "function" ? (...args) => {
           onHeader(...args);
-        } : noop2;
+        } : noop3;
         let onPacket = config.onPacket;
         this._onPacket = typeof onPacket == "function" ? () => {
           onPacket();
-        } : noop2;
+        } : noop3;
         let onHandshakeComplete = config.onHandshakeComplete;
-        typeof onHandshakeComplete != "function" && (onHandshakeComplete = noop2);
+        typeof onHandshakeComplete != "function" && (onHandshakeComplete = noop3);
         let firstHandshake;
         this._onHandshakeComplete = (...args) => {
           this._debug && this._debug("Handshake completed"), firstHandshake === void 0 ? firstHandshake = !0 : firstHandshake = !1;
@@ -24717,10 +25348,10 @@ var require_Protocol = __commonJS({
           `Outbound: Sending CHANNEL_OPEN_CONFIRMATION (r:${remote}, l:${local})`
         ), sendPacket(this, this._packetRW.write.finalize(packet));
       }
-      channelOpenFail(remote, reason, desc) {
-        typeof desc != "string" && (desc = "");
-        let descLen = Buffer.byteLength(desc), p = this._packetRW.write.allocStart, packet = this._packetRW.write.alloc(13 + descLen + 4);
-        packet[p] = MESSAGE.CHANNEL_OPEN_FAILURE, writeUInt32BE(packet, remote, ++p), writeUInt32BE(packet, reason, p += 4), writeUInt32BE(packet, descLen, p += 4), p += 4, descLen && (packet.utf8Write(desc, p, descLen), p += descLen), writeUInt32BE(packet, 0, p), this._debug && this._debug(`Outbound: Sending CHANNEL_OPEN_FAILURE (r:${remote})`), sendPacket(this, this._packetRW.write.finalize(packet));
+      channelOpenFail(remote, reason, desc2) {
+        typeof desc2 != "string" && (desc2 = "");
+        let descLen = Buffer.byteLength(desc2), p = this._packetRW.write.allocStart, packet = this._packetRW.write.alloc(13 + descLen + 4);
+        packet[p] = MESSAGE.CHANNEL_OPEN_FAILURE, writeUInt32BE(packet, remote, ++p), writeUInt32BE(packet, reason, p += 4), writeUInt32BE(packet, descLen, p += 4), p += 4, descLen && (packet.utf8Write(desc2, p, descLen), p += descLen), writeUInt32BE(packet, 0, p), this._debug && this._debug(`Outbound: Sending CHANNEL_OPEN_FAILURE (r:${remote})`), sendPacket(this, this._packetRW.write.finalize(packet));
       }
       // ===========================================================================
       // Client-specific ===========================================================
@@ -25305,7 +25936,7 @@ var require_SFTP = __commonJS({
     var EventEmitter2 = require("events"), fs11 = require("fs"), { constants: constants2 } = fs11, {
       Readable: ReadableStream,
       Writable: WritableStream
-    } = require("stream"), { inherits, isDate } = require("util"), FastBuffer = Buffer[Symbol.species], {
+    } = require("stream"), { inherits, types: { isDate } } = require("util"), FastBuffer = Buffer[Symbol.species], {
       bufferCopy,
       bufferSlice,
       makeBufferParser,
@@ -25410,7 +26041,7 @@ var require_SFTP = __commonJS({
       end: () => {
       }
     };
-    function noop2() {
+    function noop3() {
     }
     var SFTP = class extends EventEmitter2 {
       constructor(client, chanInfo, cfg) {
@@ -25482,7 +26113,7 @@ var require_SFTP = __commonJS({
         (this.outgoing.state === "open" || this.outgoing.state === "eof") && (this.outgoing.state = "closing", this._protocol.channelClose(this.outgoing.id));
       }
       _init() {
-        this._init = noop2, this.server || sendOrBuffer(this, CLIENT_VERSION_BUFFER);
+        this._init = noop3, this.server || sendOrBuffer(this, CLIENT_VERSION_BUFFER);
       }
       // ===========================================================================
       // Client-specific ===========================================================
@@ -26314,7 +26945,7 @@ var require_SFTP = __commonJS({
       writeUInt32BE(out, reqid, 5), writeUInt32BE(out, handleLen, p), out.set(handle, p += 4), p += handleLen;
       for (let i = 7; i >= 0; --i)
         out[p + i] = pos2 & 255, pos2 /= 256;
-      writeUInt32BE(out, len, p += 8), typeof cb != "function" && (cb = noop2);
+      writeUInt32BE(out, len, p += 8), typeof cb != "function" && (cb = noop3);
       let req = req_ || {
         nb: 0,
         position,
@@ -26670,24 +27301,24 @@ var require_SFTP = __commonJS({
           return doFatalSFTPError(sftp, "Duplicate VERSION packet");
         let extensions = {};
         bufferParser.init(payload, 1);
-        let version3 = bufferParser.readUInt32BE();
+        let version2 = bufferParser.readUInt32BE();
         for (; bufferParser.avail(); ) {
           let extName = bufferParser.readString(!0), extData = bufferParser.readString(!0);
           if (extData === void 0) {
-            version3 = void 0;
+            version2 = void 0;
             break;
           }
           extensions[extName] = extData;
         }
-        if (bufferParser.clear(), version3 === void 0)
+        if (bufferParser.clear(), version2 === void 0)
           return doFatalSFTPError(sftp, "Malformed VERSION packet");
         if (sftp._debug) {
           let names = Object.keys(extensions);
           names.length ? sftp._debug(
-            `SFTP: Inbound: Received VERSION (v${version3}, exts:${names})`
-          ) : sftp._debug(`SFTP: Inbound: Received VERSION (v${version3})`);
+            `SFTP: Inbound: Received VERSION (v${version2}, exts:${names})`
+          ) : sftp._debug(`SFTP: Inbound: Received VERSION (v${version2})`);
         }
-        if (sftp._version = version3, sftp._extensions = extensions, extensions["limits@openssh.com"] === "1")
+        if (sftp._version = version2, sftp._extensions = extensions, extensions["limits@openssh.com"] === "1")
           return requestLimits(sftp, (err, limits) => {
             err || (limits.maxPktLen > 0 && (sftp._maxOutPktLen = limits.maxPktLen), limits.maxReadLen > 0 && (sftp._maxReadLen = limits.maxReadLen), limits.maxWriteLen > 0 && (sftp._maxWriteLen = limits.maxWriteLen), sftp.maxOpenHandles = limits.maxOpenHandles > 0 ? limits.maxOpenHandles : 1 / 0), sftp.emit("ready");
           });
@@ -26872,24 +27503,24 @@ var require_SFTP = __commonJS({
           return doFatalSFTPError(sftp, "Duplicate INIT packet");
         let extensions = {};
         bufferParser.init(payload, 1);
-        let version3 = bufferParser.readUInt32BE();
+        let version2 = bufferParser.readUInt32BE();
         for (; bufferParser.avail(); ) {
           let extName = bufferParser.readString(!0), extData = bufferParser.readString(!0);
           if (extData === void 0) {
-            version3 = void 0;
+            version2 = void 0;
             break;
           }
           extensions[extName] = extData;
         }
-        if (bufferParser.clear(), version3 === void 0)
+        if (bufferParser.clear(), version2 === void 0)
           return doFatalSFTPError(sftp, "Malformed INIT packet");
         if (sftp._debug) {
           let names = Object.keys(extensions);
           names.length ? sftp._debug(
-            `SFTP: Inbound: Received INIT (v${version3}, exts:${names})`
-          ) : sftp._debug(`SFTP: Inbound: Received INIT (v${version3})`);
+            `SFTP: Inbound: Received INIT (v${version2}, exts:${names})`
+          ) : sftp._debug(`SFTP: Inbound: Received INIT (v${version2})`);
         }
-        sendOrBuffer(sftp, SERVER_VERSION_BUFFER), sftp._version = version3, sftp._extensions = extensions, sftp.emit("ready");
+        sendOrBuffer(sftp, SERVER_VERSION_BUFFER), sftp._version = version2, sftp._extensions = extensions, sftp.emit("ready");
       },
       [REQUEST.OPEN]: (sftp, payload) => {
         bufferParser.init(payload, 1);
@@ -27610,7 +28241,7 @@ var require_client2 = __commonJS({
       isWritable: isWritable2,
       onChannelOpenFailure,
       onCHANNEL_CLOSE
-    } = require_utils6(), bufferParser = makeBufferParser(), sigParser = makeBufferParser(), RE_OPENSSH = /^OpenSSH_(?:(?![0-4])\d)|(?:\d{2,})/, noop2 = (err) => {
+    } = require_utils6(), bufferParser = makeBufferParser(), sigParser = makeBufferParser(), RE_OPENSSH = /^OpenSSH_(?:(?![0-4])\d)|(?:\d{2,})/, noop3 = (err) => {
     }, Client = class extends EventEmitter2 {
       constructor() {
         super(), this.config = {
@@ -27701,9 +28332,9 @@ var require_client2 = __commonJS({
         }
         let hostVerifier;
         if (typeof cfg.hostVerifier == "function") {
-          let hashCb = cfg.hostVerifier, hasher;
-          HASHES.indexOf(cfg.hostHash) !== -1 && (hasher = createHash(cfg.hostHash)), hostVerifier = (key, verify) => {
-            hasher && (hasher.update(key), key = hasher.digest("hex"));
+          let hashCb = cfg.hostVerifier, hashAlgo;
+          HASHES.indexOf(cfg.hostHash) !== -1 && (hashAlgo = cfg.hostHash), hostVerifier = (key, verify) => {
+            hashAlgo && (key = createHash(hashAlgo).update(key).digest("hex"));
             let ret = hashCb(key, verify);
             ret !== void 0 && verify(ret);
           };
@@ -27735,10 +28366,10 @@ var require_client2 = __commonJS({
           hostVerifier,
           messageHandlers: {
             DEBUG: DEBUG_HANDLER,
-            DISCONNECT: (p, reason, desc) => {
+            DISCONNECT: (p, reason, desc2) => {
               if (reason !== DISCONNECT_REASON.BY_APPLICATION) {
-                desc || (desc = DISCONNECT_REASON_BY_VALUE[reason], desc === void 0 && (desc = `Unexpected disconnection reason: ${reason}`));
-                let err = new Error(desc);
+                desc2 || (desc2 = DISCONNECT_REASON_BY_VALUE[reason], desc2 === void 0 && (desc2 = `Unexpected disconnection reason: ${reason}`));
+                let err = new Error(desc2);
                 err.code = reason, this.emit("error", err);
               }
               sock.end();
@@ -28369,7 +29000,7 @@ var require_client2 = __commonJS({
           dstIP,
           dstPort
         };
-        return typeof cb != "function" && (cb = noop2), openChannel(this, "direct-tcpip", cfg, cb), this;
+        return typeof cb != "function" && (cb = noop3), openChannel(this, "direct-tcpip", cfg, cb), this;
       }
       openssh_noMoreSessions(cb) {
         if (!this._sock || !isWritable2(this._sock))
@@ -28425,7 +29056,7 @@ var require_client2 = __commonJS({
       openssh_forwardOutStreamLocal(socketPath, cb) {
         if (!this._sock || !isWritable2(this._sock))
           throw new Error("Not connected");
-        return typeof cb != "function" && (cb = noop2), !this.config.strictVendor || this.config.strictVendor && RE_OPENSSH.test(this._remoteVer) ? (openChannel(this, "direct-streamlocal@openssh.com", { socketPath }, cb), this) : (process.nextTick(
+        return typeof cb != "function" && (cb = noop3), !this.config.strictVendor || this.config.strictVendor && RE_OPENSSH.test(this._remoteVer) ? (openChannel(this, "direct-streamlocal@openssh.com", { socketPath }, cb), this) : (process.nextTick(
           cb,
           new Error(
             "strictVendor enabled and server is not OpenSSH or compatible version"
@@ -28697,7 +29328,7 @@ var require_client2 = __commonJS({
     function hostKeysProve(client, keys_, cb) {
       if (!client._sock || !isWritable2(client._sock))
         return;
-      if (typeof cb != "function" && (cb = noop2), !Array.isArray(keys_))
+      if (typeof cb != "function" && (cb = noop3), !Array.isArray(keys_))
         throw new TypeError("Invalid keys argument type");
       let keys = [];
       for (let key of keys_) {
@@ -28792,11 +29423,11 @@ var require_http_agents = __commonJS({
       }
       exports2[ctor === HttpAgent ? "SSHTTPAgent" : "SSHTTPSAgent"] = SSHAgent;
     }
-    function noop2() {
+    function noop3() {
     }
     function decorateStream(stream, ctor, options) {
       if (ctor === HttpAgent)
-        return stream.setKeepAlive = noop2, stream.setNoDelay = noop2, stream.setTimeout = noop2, stream.ref = noop2, stream.unref = noop2, stream.destroySoon = stream.destroy, stream;
+        return stream.setKeepAlive = noop3, stream.setNoDelay = noop3, stream.setTimeout = noop3, stream.ref = noop3, stream.unref = noop3, stream.destroySoon = stream.destroy, stream;
       options.socket = stream;
       let wrapped = tlsConnect(options), onClose = /* @__PURE__ */ (() => {
         let called = !1;
@@ -29091,10 +29722,10 @@ var require_server = __commonJS({
           debug,
           messageHandlers: {
             DEBUG: DEBUG_HANDLER,
-            DISCONNECT: (p, reason, desc) => {
+            DISCONNECT: (p, reason, desc2) => {
               if (reason !== DISCONNECT_REASON.BY_APPLICATION) {
-                desc || (desc = DISCONNECT_REASON_BY_VALUE[reason], desc === void 0 && (desc = `Unexpected disconnection reason: ${reason}`));
-                let err = new Error(desc);
+                desc2 || (desc2 = DISCONNECT_REASON_BY_VALUE[reason], desc2 === void 0 && (desc2 = `Unexpected disconnection reason: ${reason}`));
+                let err = new Error(desc2);
                 err.code = reason, this.emit("error", err);
               }
               socket.end();
@@ -29265,6 +29896,7 @@ var require_server = __commonJS({
                 return;
               }
               switch (type) {
+                // "pre-real session start" requests
                 case "env":
                   if (listenerCount(session, "env")) {
                     session.emit("env", accept, reject, {
@@ -29289,6 +29921,7 @@ var require_server = __commonJS({
                     return;
                   }
                   break;
+                // "post-real session start" requests
                 case "signal":
                   if (listenerCount(session, "signal")) {
                     session.emit("signal", accept, reject, {
@@ -29297,12 +29930,15 @@ var require_server = __commonJS({
                     return;
                   }
                   break;
+                // XXX: is `auth-agent-req@openssh.com` really "post-real session
+                // start"?
                 case "auth-agent-req@openssh.com":
                   if (listenerCount(session, "auth-agent")) {
                     session.emit("auth-agent", accept, reject);
                     return;
                   }
                   break;
+                // "real session start" requests
                 case "shell":
                   if (listenerCount(session, "shell")) {
                     accept = () => {
@@ -29848,11 +30484,11 @@ var require_keygen = __commonJS({
           throw new Error("Invalid output key format");
       }
     }
-    function noop2() {
+    function noop3() {
     }
     module2.exports = {
       generateKeyPair: (keyType, opts, cb) => {
-        typeof opts == "function" && (cb = opts, opts = void 0), typeof cb != "function" && (cb = noop2);
+        typeof opts == "function" && (cb = opts, opts = void 0), typeof cb != "function" && (cb = noop3);
         let args = makeArgs(keyType, opts);
         generateKeyPair_(...args, (err, pub, priv) => {
           if (err)
@@ -30787,14 +31423,14 @@ var require_end_of_stream = __commonJS({
         }
       };
     }
-    function noop2() {
+    function noop3() {
     }
     function isRequest(stream) {
       return stream.setHeader && typeof stream.abort == "function";
     }
     function eos(stream, opts, callback) {
       if (typeof opts == "function") return eos(stream, null, opts);
-      opts || (opts = {}), callback = once(callback || noop2);
+      opts || (opts = {}), callback = once(callback || noop3);
       var readable = opts.readable || opts.readable !== !1 && stream.readable, writable = opts.writable || opts.writable !== !1 && stream.writable, onlegacyfinish = function() {
         stream.writable || onfinish();
       }, writableEnded = stream._writableState && stream._writableState.finished, onfinish = function() {
@@ -31498,7 +32134,7 @@ var require_pipeline = __commonJS({
       };
     }
     var _require$codes = require_errors3().codes, ERR_MISSING_ARGS = _require$codes.ERR_MISSING_ARGS, ERR_STREAM_DESTROYED = _require$codes.ERR_STREAM_DESTROYED;
-    function noop2(err) {
+    function noop3(err) {
       if (err) throw err;
     }
     function isRequest(stream) {
@@ -31532,7 +32168,7 @@ var require_pipeline = __commonJS({
       return from.pipe(to);
     }
     function popCallback(streams) {
-      return !streams.length || typeof streams[streams.length - 1] != "function" ? noop2 : streams.pop();
+      return !streams.length || typeof streams[streams.length - 1] != "function" ? noop3 : streams.pop();
     }
     function pipeline() {
       for (var _len = arguments.length, streams = new Array(_len), _key = 0; _key < _len; _key++)
@@ -31638,9 +32274,9 @@ var require_typedarray = __commonJS({
       } catch {
         return !1;
       }
-    }() ? defineProp = Object.defineProperty : defineProp = function(o, p, desc) {
+    }() ? defineProp = Object.defineProperty : defineProp = function(o, p, desc2) {
       if (!o === Object(o)) throw new TypeError("Object.defineProperty called on non-object");
-      return ECMAScript.HasProperty(desc, "get") && Object.prototype.__defineGetter__ && Object.prototype.__defineGetter__.call(o, p, desc.get), ECMAScript.HasProperty(desc, "set") && Object.prototype.__defineSetter__ && Object.prototype.__defineSetter__.call(o, p, desc.set), ECMAScript.HasProperty(desc, "value") && (o[p] = desc.value), o;
+      return ECMAScript.HasProperty(desc2, "get") && Object.prototype.__defineGetter__ && Object.prototype.__defineGetter__.call(o, p, desc2.get), ECMAScript.HasProperty(desc2, "set") && Object.prototype.__defineSetter__ && Object.prototype.__defineSetter__.call(o, p, desc2.set), ECMAScript.HasProperty(desc2, "value") && (o[p] = desc2.value), o;
     };
     var getOwnPropNames = Object.getOwnPropertyNames || function(o) {
       if (o !== Object(o)) throw new TypeError("Object.getOwnPropertyNames called on non-object");
@@ -31952,191 +32588,6 @@ var require_concat_stream = __commonJS({
   }
 });
 
-// node_modules/err-code/index.js
-var require_err_code = __commonJS({
-  "node_modules/err-code/index.js"(exports2, module2) {
-    "use strict";
-    function assign(obj, props) {
-      for (let key in props)
-        Object.defineProperty(obj, key, {
-          value: props[key],
-          enumerable: !0,
-          configurable: !0
-        });
-      return obj;
-    }
-    function createError(err, code2, props) {
-      if (!err || typeof err == "string")
-        throw new TypeError("Please pass an Error to err-code");
-      props || (props = {}), typeof code2 == "object" && (props = code2, code2 = void 0), code2 != null && (props.code = code2);
-      try {
-        return assign(err, props);
-      } catch {
-        props.message = err.message, props.stack = err.stack;
-        let ErrClass = function() {
-        };
-        return ErrClass.prototype = Object.create(Object.getPrototypeOf(err)), assign(new ErrClass(), props);
-      }
-    }
-    module2.exports = createError;
-  }
-});
-
-// node_modules/retry/lib/retry_operation.js
-var require_retry_operation = __commonJS({
-  "node_modules/retry/lib/retry_operation.js"(exports2, module2) {
-    function RetryOperation(timeouts, options) {
-      typeof options == "boolean" && (options = { forever: options }), this._originalTimeouts = JSON.parse(JSON.stringify(timeouts)), this._timeouts = timeouts, this._options = options || {}, this._maxRetryTime = options && options.maxRetryTime || 1 / 0, this._fn = null, this._errors = [], this._attempts = 1, this._operationTimeout = null, this._operationTimeoutCb = null, this._timeout = null, this._operationStart = null, this._options.forever && (this._cachedTimeouts = this._timeouts.slice(0));
-    }
-    module2.exports = RetryOperation;
-    RetryOperation.prototype.reset = function() {
-      this._attempts = 1, this._timeouts = this._originalTimeouts;
-    };
-    RetryOperation.prototype.stop = function() {
-      this._timeout && clearTimeout(this._timeout), this._timeouts = [], this._cachedTimeouts = null;
-    };
-    RetryOperation.prototype.retry = function(err) {
-      if (this._timeout && clearTimeout(this._timeout), !err)
-        return !1;
-      var currentTime = (/* @__PURE__ */ new Date()).getTime();
-      if (err && currentTime - this._operationStart >= this._maxRetryTime)
-        return this._errors.unshift(new Error("RetryOperation timeout occurred")), !1;
-      this._errors.push(err);
-      var timeout = this._timeouts.shift();
-      if (timeout === void 0)
-        if (this._cachedTimeouts)
-          this._errors.splice(this._errors.length - 1, this._errors.length), this._timeouts = this._cachedTimeouts.slice(0), timeout = this._timeouts.shift();
-        else
-          return !1;
-      var self2 = this, timer = setTimeout(function() {
-        self2._attempts++, self2._operationTimeoutCb && (self2._timeout = setTimeout(function() {
-          self2._operationTimeoutCb(self2._attempts);
-        }, self2._operationTimeout), self2._options.unref && self2._timeout.unref()), self2._fn(self2._attempts);
-      }, timeout);
-      return this._options.unref && timer.unref(), !0;
-    };
-    RetryOperation.prototype.attempt = function(fn, timeoutOps) {
-      this._fn = fn, timeoutOps && (timeoutOps.timeout && (this._operationTimeout = timeoutOps.timeout), timeoutOps.cb && (this._operationTimeoutCb = timeoutOps.cb));
-      var self2 = this;
-      this._operationTimeoutCb && (this._timeout = setTimeout(function() {
-        self2._operationTimeoutCb();
-      }, self2._operationTimeout)), this._operationStart = (/* @__PURE__ */ new Date()).getTime(), this._fn(this._attempts);
-    };
-    RetryOperation.prototype.try = function(fn) {
-      console.log("Using RetryOperation.try() is deprecated"), this.attempt(fn);
-    };
-    RetryOperation.prototype.start = function(fn) {
-      console.log("Using RetryOperation.start() is deprecated"), this.attempt(fn);
-    };
-    RetryOperation.prototype.start = RetryOperation.prototype.try;
-    RetryOperation.prototype.errors = function() {
-      return this._errors;
-    };
-    RetryOperation.prototype.attempts = function() {
-      return this._attempts;
-    };
-    RetryOperation.prototype.mainError = function() {
-      if (this._errors.length === 0)
-        return null;
-      for (var counts = {}, mainError = null, mainErrorCount = 0, i = 0; i < this._errors.length; i++) {
-        var error = this._errors[i], message = error.message, count = (counts[message] || 0) + 1;
-        counts[message] = count, count >= mainErrorCount && (mainError = error, mainErrorCount = count);
-      }
-      return mainError;
-    };
-  }
-});
-
-// node_modules/retry/lib/retry.js
-var require_retry = __commonJS({
-  "node_modules/retry/lib/retry.js"(exports2) {
-    var RetryOperation = require_retry_operation();
-    exports2.operation = function(options) {
-      var timeouts = exports2.timeouts(options);
-      return new RetryOperation(timeouts, {
-        forever: options && options.forever,
-        unref: options && options.unref,
-        maxRetryTime: options && options.maxRetryTime
-      });
-    };
-    exports2.timeouts = function(options) {
-      if (options instanceof Array)
-        return [].concat(options);
-      var opts = {
-        retries: 10,
-        factor: 2,
-        minTimeout: 1 * 1e3,
-        maxTimeout: 1 / 0,
-        randomize: !1
-      };
-      for (var key in options)
-        opts[key] = options[key];
-      if (opts.minTimeout > opts.maxTimeout)
-        throw new Error("minTimeout is greater than maxTimeout");
-      for (var timeouts = [], i = 0; i < opts.retries; i++)
-        timeouts.push(this.createTimeout(i, opts));
-      return options && options.forever && !timeouts.length && timeouts.push(this.createTimeout(i, opts)), timeouts.sort(function(a, b) {
-        return a - b;
-      }), timeouts;
-    };
-    exports2.createTimeout = function(attempt, opts) {
-      var random = opts.randomize ? Math.random() + 1 : 1, timeout = Math.round(random * opts.minTimeout * Math.pow(opts.factor, attempt));
-      return timeout = Math.min(timeout, opts.maxTimeout), timeout;
-    };
-    exports2.wrap = function(obj, options, methods) {
-      if (options instanceof Array && (methods = options, options = null), !methods) {
-        methods = [];
-        for (var key in obj)
-          typeof obj[key] == "function" && methods.push(key);
-      }
-      for (var i = 0; i < methods.length; i++) {
-        var method = methods[i], original = obj[method];
-        obj[method] = function(original2) {
-          var op = exports2.operation(options), args = Array.prototype.slice.call(arguments, 1), callback = args.pop();
-          args.push(function(err) {
-            op.retry(err) || (err && (arguments[0] = op.mainError()), callback.apply(this, arguments));
-          }), op.attempt(function() {
-            original2.apply(obj, args);
-          });
-        }.bind(obj, original), obj[method].options = options;
-      }
-    };
-  }
-});
-
-// node_modules/retry/index.js
-var require_retry2 = __commonJS({
-  "node_modules/retry/index.js"(exports2, module2) {
-    module2.exports = require_retry();
-  }
-});
-
-// node_modules/promise-retry/index.js
-var require_promise_retry = __commonJS({
-  "node_modules/promise-retry/index.js"(exports2, module2) {
-    "use strict";
-    var errcode = require_err_code(), retry = require_retry2(), hasOwn = Object.prototype.hasOwnProperty;
-    function isRetryError(err) {
-      return err && err.code === "EPROMISERETRY" && hasOwn.call(err, "retried");
-    }
-    function promiseRetry(fn, options) {
-      var temp, operation;
-      return typeof fn == "object" && typeof options == "function" && (temp = options, options = fn, fn = temp), operation = retry.operation(options), new Promise(function(resolve2, reject) {
-        operation.attempt(function(number) {
-          Promise.resolve().then(function() {
-            return fn(function(err) {
-              throw isRetryError(err) && (err = err.retried), errcode(new Error("Retrying"), "EPROMISERETRY", { retried: err });
-            }, number);
-          }).then(resolve2, function(err) {
-            isRetryError(err) && (err = err.retried, operation.retry(err || new Error())) || reject(err);
-          });
-        });
-      });
-    }
-    module2.exports = promiseRetry;
-  }
-});
-
 // node_modules/ssh2-sftp-client/src/constants.js
 var require_constants7 = __commonJS({
   "node_modules/ssh2-sftp-client/src/constants.js"(exports2, module2) {
@@ -32166,14 +32617,34 @@ var require_constants7 = __commonJS({
 // node_modules/ssh2-sftp-client/src/utils.js
 var require_utils7 = __commonJS({
   "node_modules/ssh2-sftp-client/src/utils.js"(exports2, module2) {
-    var fs11 = require("node:fs"), path8 = require("node:path"), { errorCode } = require_constants7();
-    function errorListener(client, name2, reject) {
-      return (err) => {
-        if (client.endCalled || client.errorHandled) {
-          client.debugMsg(`${name2} errorListener - ignoring handled error`);
+    var { statSync: statSync2, constants: constants2, accessSync } = require("node:fs"), { dirname: dirname5 } = require("node:path"), { errorCode } = require_constants7();
+    function eventHandled(client) {
+      return !!(client.errorHandled || client.endHandled || client.closeHandled);
+    }
+    function globalListener(client, evt, eventCallbacks) {
+      return evt === "error" ? (err) => {
+        if (client.errorHandled) {
+          client.debugMsg(`Global error event: Ignoring handled error ${err.message}`);
           return;
         }
-        client.errorHandled = !0;
+        client.debugMsg(`Global error event: ${err.message}`), client.errorHandled = !0, eventCallbacks?.error && eventCallbacks.error(err);
+      } : evt === "end" ? () => {
+        if (client.endCalled || client.endHandled) {
+          client.debugMsg("Global end event: Ignoring handled end event");
+          return;
+        }
+        client.debugMsg("Global end event: Handling end event"), client.endHandled = !0, eventCallbacks?.end && eventCallbacks.end();
+      } : () => {
+        client.endCalled || client.closeHandled ? client.debugMsg("Global close event: Ignoring handled close event") : (client.debugMsg("Global close event: Handling close event"), client.closeHandled = !0, client.sftp = void 0, eventCallbacks?.close && eventCallbacks.close());
+      };
+    }
+    function errorListener(client, name2, reject) {
+      return function(err) {
+        if (eventHandled(client)) {
+          client.debugMsg(`${name2} errorListener - ignoring handled error ${err.message}`);
+          return;
+        }
+        client.debugMsg(`${name2} errorListener - handling error ${err.message}`), client.errorHandled = !0;
         let newError = new Error(`${name2}: ${err.message}`);
         if (newError.code = err.code, reject)
           reject(newError);
@@ -32181,33 +32652,38 @@ var require_utils7 = __commonJS({
           throw newError;
       };
     }
-    function globalListener(client, evt) {
-      return () => {
-        client.endCalled || client.errorHandled || client.closeHandled ? client.debugMsg(`Global ${evt} event: Ignoring expected and handled event`) : (client.debugMsg(`Global ${evt} event: Handling unexpected event`), client.sftp = void 0);
-      };
-    }
-    function endListener(client, name2) {
+    function endListener(client, name2, reject) {
       return function() {
-        if (client.sftp = void 0, client.endCalled || client.endHandled || client.errorHandled) {
-          client.debugMsg(`${name2} endListener - handled end event`);
+        if (client.sftp = void 0, client.endCalled || eventHandled(client)) {
+          client.debugMsg(`${name2} endListener - ignoring handled end event`);
           return;
         }
-        client.endHandled = !0, client.debugMsg(`${name2} Unexpected end event`);
+        client.endHandled = !0, client.debugMsg(`${name2} endListener - handling unexpected end event`);
+        let newError = new Error(`${name2}: Unexpected end event`);
+        if (newError.code = errorCode.ERR_GENERIC_CLIENT, reject)
+          reject(newError);
+        else
+          throw newError;
       };
     }
-    function closeListener(client, name2) {
+    function closeListener(client, name2, reject) {
       return function() {
-        if (client.sftp = void 0, client.endCalled || client.closeHandled || client.errorHandled || client.endHandled) {
-          client.debugMsg(`${name2} closeListener - handled close event`);
+        if (client.sftp = void 0, client.endCalled || eventHandled(client)) {
+          client.debugMsg(`${name2} closeListener - ignoring handled close event`);
           return;
         }
-        client.closeHandled = !0, client.debugMsg(`${name2} Unexpected close event`);
+        client.closeHandled = !0, client.debugMsg(`${name2} closeListener - handling unexpected close event`);
+        let newError = new Error(`${name2}: Unexpected close event`);
+        if (newError.code = errorCode.ERR_GENERIC_CLIENT, reject)
+          reject(newError);
+        else
+          throw newError;
       };
     }
     function addTempListeners(client, name2, reject) {
       let listeners = {
-        end: endListener(client, name2),
-        close: closeListener(client, name2),
+        end: endListener(client, name2, reject),
+        close: closeListener(client, name2, reject),
         error: errorListener(client, name2, reject)
       };
       return client.on("end", listeners.end), client.on("close", listeners.close), client.on("error", listeners.error), client._resetEventFlags(), listeners;
@@ -32220,7 +32696,7 @@ var require_utils7 = __commonJS({
       }
     }
     function localExists(filePath) {
-      let stats = fs11.statSync(filePath, { throwIfNoEntry: !1 });
+      let stats = statSync2(filePath, { throwIfNoEntry: !1 });
       if (stats) {
         if (stats.isDirectory())
           return "d";
@@ -32233,9 +32709,9 @@ var require_utils7 = __commonJS({
       } else return !1;
     }
     function haveLocalAccess(filePath, mode = "r") {
-      let accessMode = fs11.constants.F_OK | mode === "w" ? fs11.constants.W_OK : fs11.constants.R_OK;
+      let accessMode = constants2.F_OK | mode === "w" ? constants2.W_OK : constants2.R_OK;
       try {
-        return fs11.accessSync(filePath, accessMode), {
+        return accessSync(filePath, accessMode), {
           status: !0,
           type: localExists(filePath),
           details: "access OK",
@@ -32281,7 +32757,7 @@ var require_utils7 = __commonJS({
             details,
             type
           };
-        let dirPath = path8.dirname(filePath), localCheck = haveLocalAccess(dirPath, "w");
+        let dirPath = dirname5(filePath), localCheck = haveLocalAccess(dirPath, "w");
         return localCheck.status ? localCheck.type !== "d" ? {
           status: !1,
           details: `${dirPath}: not a directory`,
@@ -32356,7 +32832,7 @@ var require_utils7 = __commonJS({
 var require_src = __commonJS({
   "node_modules/ssh2-sftp-client/src/index.js"(exports2, module2) {
     "use strict";
-    var { Client } = require_lib6(), fs11 = require("node:fs"), concat = require_concat_stream(), promiseRetry = require_promise_retry(), { join: join2, parse: parse6 } = require("node:path"), {
+    var { Client } = require_lib6(), fs11 = require("node:fs"), concat = require_concat_stream(), { join: join2, parse: parse5 } = require("node:path"), {
       globalListener,
       addTempListeners,
       removeTempListeners,
@@ -32367,8 +32843,12 @@ var require_src = __commonJS({
       haveLocalCreate,
       partition
     } = require_utils7(), { errorCode } = require_constants7(), SftpClient = class {
-      constructor(clientName) {
-        this.version = "10.0.3", this.client = new Client(), this.sftp = void 0, this.clientName = clientName || "sftp", this.endCalled = !1, this.errorHandled = !1, this.closeHandled = !1, this.endHandled = !1, this.remotePlatform = "unix", this.debug = void 0, this.promiseLimit = 10, this.client.on("close", globalListener(this, "close")), this.client.on("end", globalListener(this, "end")), this.client.on("error", globalListener(this, "error"));
+      constructor(clientName = "sftp", callbacks = {
+        error: (err) => console.error(`Global error listener: ${err.message}`),
+        end: () => console.log("Global end listener: end event raised"),
+        close: () => console.log("Global close listener: close event raised")
+      }) {
+        this.version = "12.0.0", this.client = new Client(), this.sftp = void 0, this.clientName = clientName, this.endCalled = !1, this.errorHandled = !1, this.closeHandled = !1, this.endHandled = !1, this.remotePlatform = "unix", this.debug = void 0, this.promiseLimit = 10, this.eventCallbacks = callbacks, this.client.on("close", globalListener(this, "close", this.eventCallbacks)), this.client.on("end", globalListener(this, "end", this.eventCallbacks)), this.client.on("error", globalListener(this, "error", this.eventCallbacks));
       }
       debugMsg(msg, obj) {
         this.debug && (obj ? this.debug(
@@ -32376,29 +32856,29 @@ var require_src = __commonJS({
         ) : this.debug(`CLIENT[${this.clientName}]: ${msg}`));
       }
       fmtError(err, name2 = "sftp", eCode, retryCount) {
-        let msg = "", code2 = "", retry = retryCount ? ` after ${retryCount} ${retryCount > 1 ? "attempts" : "attempt"}` : "";
+        let msg = "", code2 = "";
         if (err === void 0)
           msg = `${name2}: Undefined error - probably a bug!`, code2 = errorCode.generic;
         else if (typeof err == "string")
-          msg = `${name2}: ${err}${retry}`, code2 = eCode || errorCode.generic;
+          msg = `${name2}: ${err}`, code2 = eCode || errorCode.generic;
         else if (err.custom)
-          msg = `${name2}->${err.message}${retry}`, code2 = err.code;
+          msg = `${name2}->${err.message}`, code2 = err.code;
         else {
           switch (err.code) {
             case "ENOTFOUND": {
-              msg = `${name2}: Address lookup failed for host${retry}`;
+              msg = `${name2}: Address lookup failed for host`;
               break;
             }
             case "ECONNREFUSED": {
-              msg = `${name2}: Remote host refused connection${retry}`;
+              msg = `${name2}: Remote host refused connection`;
               break;
             }
             case "ECONNRESET": {
-              msg = `${name2}: Remote host has reset the connection: ${err.message}${retry}`;
+              msg = `${name2}: Remote host has reset the connection: ${err.message}`;
               break;
             }
             default:
-              msg = `${name2}: ${err.message}${retry}`;
+              msg = `${name2}: ${err.message}`;
           }
           code2 = err.code || errorCode.generic;
         }
@@ -32424,38 +32904,6 @@ var require_src = __commonJS({
         this.closeHandled = !1, this.endHandled = !1, this.errorHandled = !1;
       }
       /**
-       * @async
-       *
-       * Create a new SFTP connection to a remote SFTP server
-       *
-       * @param {Object} config - an SFTP configuration object
-       *
-       * @return {Promise<Object>} which will resolve to an sftp client object
-       */
-      getConnection(config) {
-        let doReady, listeners;
-        return new Promise((resolve2, reject) => {
-          listeners = addTempListeners(this, "getConnection", reject), doReady = () => {
-            this.debugMsg("getConnection ready listener: got connection - promise resolved"), resolve2(!0);
-          }, this.on("ready", doReady);
-          try {
-            this.client.connect(config);
-          } catch (err) {
-            this.debugMsg(`getConnection: ${err.message}`), reject(err);
-          }
-        }).finally(() => {
-          this.removeListener("ready", doReady), removeTempListeners(this, listeners, "getConnection");
-        });
-      }
-      getSftpChannel() {
-        return new Promise((resolve2, reject) => {
-          this.client.sftp((err, sftp) => {
-            err ? reject(this.fmtError(err, "getSftpChannel", err.code)) : (this.sftp = sftp, resolve2(sftp));
-          });
-        });
-      }
-      /**
-       * @async
        *
        * Create a new SFTP connection to a remote SFTP server.
        * The connection options are the same as those offered
@@ -32465,45 +32913,28 @@ var require_src = __commonJS({
        *
        * @return {Promise<Object>} which will resolve to an sftp client object
        */
-      async connect(config) {
-        let listeners;
-        try {
-          if (listeners = addTempListeners(this, "connect"), config.debug && (this.debug = config.debug, this.debugMsg("connect: Debugging turned on"), this.debugMsg(`ssh2-sftp-client Version: ${this.version} `, process.versions)), this.promiseLimit = config.promiseLimit ?? 10, this.sftp)
-            throw this.fmtError(
-              "An existing SFTP connection is already defined",
-              "connect",
-              errorCode.connect
-            );
-          let retryOpts = {
-            retries: config.retries ?? 1,
-            factor: config.retry_factor ?? 2,
-            minTimeout: config.retry_minTimeout ?? 25e3
-          };
-          return await promiseRetry(retryOpts, async (retry, attempt) => {
-            try {
-              this.debugMsg(`connect: Connect attempt ${attempt}`), await this.getConnection(config);
-            } catch (err) {
-              switch (err.code) {
-                case "ENOTFOUND":
-                case "ECONNREFUSED":
-                case "ERR_SOCKET_BAD_PORT":
-                  throw err;
-                case void 0: {
-                  if (err.message.endsWith("All configured authentication methods failed") || err.message.startsWith("Cannot parse privateKey"))
-                    throw err;
-                  retry(err);
-                  break;
-                }
-                default:
-                  retry(err);
-              }
-            }
-          }), await this.getSftpChannel();
-        } catch (err) {
-          throw this.end(), err.custom ? err : this.fmtError(err, "connect");
-        } finally {
-          removeTempListeners(this, listeners, "connect");
-        }
+      connect(config) {
+        let doReady, listeners;
+        return new Promise((resolve2, reject) => {
+          listeners = addTempListeners(this, "getConnection", reject), config.debug && (this.debug = config.debug, this.debugMsg("connect: Debugging turned on"), this.debugMsg(`ssh2-sftp-client Version: ${this.version} `, process.versions)), this.promiseLimit = config.promiseLimit ?? 10, doReady = () => {
+            this.client.sftp((err, sftp) => {
+              err ? reject(this.fmtError(err)) : (this.sftp = sftp, resolve2(sftp));
+            });
+          }, this.on("ready", doReady);
+          try {
+            this.sftp ? reject(
+              this.fmtError(
+                "An existing SFTP connection is already defined",
+                "connect",
+                errorCode.connect
+              )
+            ) : this.client.connect(config);
+          } catch (err) {
+            this.end(), reject(err);
+          }
+        }).finally(() => {
+          this.removeListener("ready", doReady), removeTempListeners(this, listeners, "getConnection");
+        });
       }
       /**
        * @async
@@ -32520,8 +32951,8 @@ var require_src = __commonJS({
       realPath(remotePath, addListeners = !0) {
         let listeners;
         return new Promise((resolve2, reject) => {
-          addListeners && (listeners = addTempListeners(this, "realPath", reject)), this.debugMsg(`realPath -> ${remotePath}`), this.sftp.realpath(remotePath, (err, absPath) => {
-            err && (err.code === 2 ? (this.debugMsg('realPath <- ""'), resolve2("")) : (this.debugMsg(`${err.message} ${remotePath}`, "realPath"), reject(this.fmtError(`${err.message} ${remotePath}`, "realPath", err.code)))), this.debugMsg(`realPath <- ${absPath}`), resolve2(absPath);
+          addListeners && (listeners = addTempListeners(this, "realPath", reject)), this.sftp.realpath(remotePath, (err, absPath) => {
+            err && (err.code === 2 ? resolve2("") : reject(this.fmtError(`${err.message} ${remotePath}`, "realPath", err.code))), resolve2(absPath);
           });
         }).finally(() => {
           addListeners && removeTempListeners(this, listeners, "realPath");
@@ -32568,7 +32999,7 @@ var require_src = __commonJS({
                 isFIFO: stats.isFIFO(),
                 isSocket: stats.isSocket()
               };
-              this.debugMsg("_xstat: result = ", result), resolve2(result);
+              resolve2(result);
             }
           };
           addListeners && (listeners = addTempListeners(this, "_xstat", reject)), cmd === "stat" ? this.sftp.stat(aPath, cb) : this.sftp.lstat(aPath, cb);
@@ -32622,12 +33053,11 @@ var require_src = __commonJS({
        *                   object if it does
        */
       async exists(remotePath) {
-        this.debugMsg(`exists: remotePath = ${remotePath}`);
         try {
           if (remotePath === ".")
             return "d";
           let info = await this.lstat(remotePath);
-          return this.debugMsg("exists: <- ", info), info.isDirectory ? "d" : info.isSymbolicLink ? "l" : info.isFile ? "-" : !1;
+          return info.isDirectory ? "d" : info.isSymbolicLink ? "l" : info.isFile ? "-" : !1;
         } catch (err) {
           if (err.code === errorCode.notexist)
             return !1;
@@ -32709,13 +33139,13 @@ var require_src = __commonJS({
               },
               pipeOptions: { ...options?.pipeOptions, end: !0 }
             }, rdr = this.sftp.createReadStream(remotePath, options.readStreamOptions), rdr.once("error", (err) => {
-              dst && typeof dst != "string" && !dst.destroyed && dst.destroy(), reject(this.fmtError(`${err.message} ${remotePath}`, "get", err.code));
+              dst && typeof dst == "string" && wtr && !wtr.destroyed && wtr.destroy(), reject(this.fmtError(`${err.message} ${remotePath}`, "get", err.code));
             }), dst === void 0)
-              this.debugMsg("get resolving buffer of data"), wtr = concat((buff) => {
+              this.debugMsg("get resolving with buffer of data"), wtr = concat((buff) => {
                 resolve2(buff);
               });
             else if (typeof dst == "string") {
-              this.debugMsg("get returning local file");
+              this.debugMsg(`get called with file path destination ${dst}`);
               let localCheck = haveLocalCreate(dst);
               localCheck.status ? wtr = fs11.createWriteStream(dst, options.writeStreamOptions) : reject(
                 this.fmtError(
@@ -32725,7 +33155,7 @@ var require_src = __commonJS({
                 )
               );
             } else
-              this.debugMsg("get: returning data into supplied stream"), wtr = dst;
+              this.debugMsg("get called with stream destination"), wtr = dst;
             wtr.once("error", (err) => {
               reject(
                 this.fmtError(
@@ -32735,11 +33165,11 @@ var require_src = __commonJS({
                 )
               );
             }), rdr.once("end", () => {
-              typeof dst == "string" ? (this.debugMsg("get: resolving with dst filename"), resolve2(dst)) : dst !== void 0 && (this.debugMsg("get: resolving with writer stream object"), resolve2(wtr));
+              typeof dst == "string" ? resolve2(dst) : dst !== void 0 && resolve2(wtr);
             }), rdr.pipe(wtr, options.pipeOptions);
           }
         }).finally(() => {
-          addListeners && removeTempListeners(this, listeners, "get");
+          rdr && !rdr.destroyed && rdr.destroy(), addListeners && removeTempListeners(this, listeners, "get");
         });
       }
       /**
@@ -32821,7 +33251,6 @@ var require_src = __commonJS({
       }
       async fastPut(localPath, remotePath, options) {
         try {
-          this.debugMsg(`fastPut -> local ${localPath} remote ${remotePath}`);
           let localCheck = haveLocalAccess(localPath);
           if (localCheck.status) {
             if (localCheck.status && localExists(localPath) === "d")
@@ -32865,7 +33294,7 @@ var require_src = __commonJS({
             writeStreamOptions: { ...opts?.writeStreamOptions, autoClose: !0 },
             pipeOptions: { ...opts?.pipeOptions, end: !0 }
           }, haveConnection(this, "_put", reject) && (wtr = this.sftp.createWriteStream(rPath, opts.writeStreamOptions), wtr.once("error", (err) => {
-            reject(
+            typeof lPath == "string" && rdr && !rdr.destroyed && rdr.destroy(), reject(
               this.fmtError(
                 `Write stream error: ${err.message} ${rPath}`,
                 "_put",
@@ -32874,7 +33303,7 @@ var require_src = __commonJS({
             );
           }), wtr.once("close", () => {
             resolve2(`Uploaded data stream to ${rPath}`);
-          }), lPath instanceof Buffer ? (this.debugMsg("put source is a buffer"), wtr.end(lPath)) : (rdr = typeof lPath == "string" ? fs11.createReadStream(lPath, opts.readStreamOptions) : lPath, rdr.once("error", (err) => {
+          }), lPath instanceof Buffer ? (this.debugMsg("put source is a buffer"), wtr.end(lPath)) : (typeof lPath == "string" ? (this.debugMsg("put source is string path"), rdr = fs11.createReadStream(lPath, opts.readStreamOptions)) : (this.debugMsg("put source is a stream"), rdr = lPath), rdr.once("error", (err) => {
             reject(
               this.fmtError(
                 `Read stream error: ${err.message} ${typeof lPath == "string" ? lPath : "<stream>"}`,
@@ -32884,7 +33313,7 @@ var require_src = __commonJS({
             );
           }), rdr.pipe(wtr, opts.pipeOptions)));
         }).finally(() => {
-          addListeners && removeTempListeners(this, listeners, "_put");
+          wtr && !wtr.destroyed && wtr.destroy(), addListeners && removeTempListeners(this, listeners, "_put");
         });
       }
       async put(localSrc, remotePath, options) {
@@ -32915,7 +33344,7 @@ var require_src = __commonJS({
         let listeners;
         return new Promise((resolve2, reject) => {
           if (addListeners && (listeners = addTempListeners(this, "_append", reject)), haveConnection(this, "_append", reject)) {
-            this.debugMsg(`append -> remote: ${rPath} `, opts), opts.flags = "a";
+            opts.flags = "a";
             let stream = this.sftp.createWriteStream(rPath, opts);
             stream.on("error", (err) => {
               reject(this.fmtError(`${err.message} ${rPath}`, "append", err.code));
@@ -32942,7 +33371,7 @@ var require_src = __commonJS({
               "append",
               errorCode.badPath
             );
-          await this._append(input, remotePath, options);
+          return await this._append(input, remotePath, options);
         } catch (e) {
           throw e.custom ? e : this.fmtError(e.message, "append", e.code);
         }
@@ -32991,7 +33420,7 @@ var require_src = __commonJS({
             return `${rPath} already exists`;
           if (!recursive)
             return await this._doMkdir(rPath);
-          let dir = parse6(rPath).dir;
+          let dir = parse5(rPath).dir;
           if (dir) {
             let dirExists = await this.exists(dir);
             if (!dirExists)
@@ -33029,7 +33458,7 @@ var require_src = __commonJS({
         let _rmdir = (dir) => {
           let listeners;
           return new Promise((resolve2, reject) => {
-            listeners = addTempListeners(this, "_rmdir", reject), this.debugMsg(`_rmdir: dir = ${dir}`), this.sftp.rmdir(dir, (err) => {
+            listeners = addTempListeners(this, "_rmdir", reject), this.sftp.rmdir(dir, (err) => {
               err && reject(this.fmtError(`${err.message} ${dir}`, "rmdir", err.code)), resolve2("Successfully removed directory");
             });
           }).finally(() => {
@@ -33038,7 +33467,7 @@ var require_src = __commonJS({
         }, _delFiles = (path8, fileList) => {
           let listeners;
           return new Promise((resolve2, reject) => {
-            listeners = addTempListeners(this, "_delFiles", reject), this.debugMsg(`_delFiles: path = ${path8} fileList = ${fileList}`);
+            listeners = addTempListeners(this, "_delFiles", reject);
             let pList = [];
             for (let f of fileList)
               pList.push(this.delete(`${path8}/${f.name}`, !0, !1));
@@ -33048,9 +33477,8 @@ var require_src = __commonJS({
           });
         };
         try {
-          this.debugMsg(`rmdir: dir = ${remoteDir} recursive = ${recursive}`);
           let absPath = await normalizeRemotePath(this, remoteDir), existStatus = await this.exists(absPath);
-          if (this.debugMsg(`rmdir: ${absPath} existStatus = ${existStatus}`), !existStatus)
+          if (!existStatus)
             throw this.fmtError(
               `Bad Path: ${remoteDir}: No such directory`,
               "rmdir",
@@ -33063,14 +33491,12 @@ var require_src = __commonJS({
               errorCode.badPath
             );
           if (!recursive)
-            return this.debugMsg("rmdir: non-recursive - just try to remove it"), await _rmdir(absPath);
+            return await _rmdir(absPath);
           let listing = await this.list(absPath);
-          if (this.debugMsg(`rmdir: listing count = ${listing.length}`), !listing.length)
-            return this.debugMsg("rmdir: No sub dir or files, just rmdir"), await _rmdir(absPath);
-          let fileList = listing.filter((i) => i.type !== "d");
-          this.debugMsg(`rmdir: dir content files to remove = ${fileList.length}`);
-          let dirList = listing.filter((i) => i.type === "d");
-          this.debugMsg(`rmdir: sub-directories to remove = ${dirList.length}`), await _delFiles(absPath, fileList);
+          if (!listing.length)
+            return await _rmdir(absPath);
+          let fileList = listing.filter((i) => i.type !== "d"), dirList = listing.filter((i) => i.type === "d");
+          await _delFiles(absPath, fileList);
           for (let d of dirList)
             await this.rmdir(`${absPath}/${d.name}`, !0);
           return await _rmdir(absPath), "Successfully removed directory";
@@ -33243,20 +33669,18 @@ var require_src = __commonJS({
           }
         };
         try {
-          haveConnection(this, "uploadDir"), this.debugMsg(
-            `uploadDir: srcDir = ${srcDir} dstDir = ${dstDir} options = ${options}`
-          );
+          haveConnection(this, "uploadDir");
           let { remoteDir, remoteStatus } = await getRemoteStatus(dstDir);
-          this.debugMsg(`uploadDir: remoteDir = ${remoteDir} remoteStatus = ${remoteStatus}`), checkLocalStatus(srcDir), remoteStatus || await this._mkdir(remoteDir, !0);
+          checkLocalStatus(srcDir), remoteStatus || await this._mkdir(remoteDir, !0);
           let dirEntries = fs11.readdirSync(srcDir, {
             encoding: "utf8",
             withFileTypes: !0
           });
-          this.debugMsg(`uploadDir: dirEntries = ${dirEntries}`), options?.filter && (dirEntries = dirEntries.filter(
+          options?.filter && (dirEntries = dirEntries.filter(
             (item) => options.filter(join2(srcDir, item.name), item.isDirectory())
           ));
           let dirUploads = dirEntries.filter((item) => item.isDirectory()), fileUploads = dirEntries.filter((item) => !item.isDirectory());
-          this.debugMsg(`uploadDir: dirUploads = ${dirUploads}`), this.debugMsg(`uploadDir: fileUploads = ${fileUploads}`), await uploadFiles(srcDir, remoteDir, fileUploads, options?.useFastput);
+          await uploadFiles(srcDir, remoteDir, fileUploads, options?.useFastput);
           for (let d of dirUploads) {
             let src = join2(srcDir, d.name), dst = `${remoteDir}/${d.name}`;
             await this.uploadDir(src, dst, options);
@@ -33375,7 +33799,7 @@ var require_src = __commonJS({
         } catch (err) {
           throw err.custom ? err : this.fmtError(err.message, "createReadStream", err.code);
         } finally {
-          removeTempListeners(this, listeners, "createReadStreame");
+          removeTempListeners(this, listeners, "createReadStream");
         }
       }
       /**
@@ -33462,9 +33886,9 @@ var require_src = __commonJS({
         return new Promise((resolve2, reject) => {
           listeners = addTempListeners(this, "end", reject), this.endCalled = !0, endCloseHandler = () => {
             this.sftp = void 0, this.debugMsg("end: Connection closed"), resolve2(!0);
-          }, this.on("close", endCloseHandler), this.sftp ? this.client.end() : (this.debugMsg("end: Called when no connection active"), resolve2(!0));
+          }, this.on("close", endCloseHandler), this.sftp ? (this.debugMsg("end: Ending SFTP connection"), this.client.end()) : (this.debugMsg("end: Called when no connection active"), resolve2(!0));
         }).finally(() => {
-          removeTempListeners(this, listeners, "end"), this.removeListener("close", endCloseHandler), this.endCalled = !1;
+          removeTempListeners(this, listeners, "end"), this.removeListener("close", endCloseHandler);
         });
       }
     };
@@ -33530,12 +33954,12 @@ var require_readlines = __commonJS({
 });
 
 // src/index.ts
-var src_exports = {};
-__export(src_exports, {
+var index_exports = {};
+__export(index_exports, {
   logError: () => logError,
   logInfo: () => logInfo
 });
-module.exports = __toCommonJS(src_exports);
+module.exports = __toCommonJS(index_exports);
 var ActionsCore = __toESM(require_core()), import_async = __toESM(require_async()), import_fs_extra = __toESM(require_lib2()), import_node_fs10 = __toESM(require("node:fs")), import_node_os4 = __toESM(require("node:os")), import_node_path14 = __toESM(require("node:path")), import_xml_js = __toESM(require_lib3());
 
 // src/cache/SpigotArtifactCache.ts
@@ -33557,19 +33981,19 @@ var import_node_child_process = __toESM(require("node:child_process")), import_n
   async shutdown() {
     this.initPromise != null && await this.initPromise, await this.sftpClient.end();
   }
-  async getSizeOfCacheForVersion(version3) {
+  async getSizeOfCacheForVersion(version2) {
     await this.ensureInit();
-    let remotePath = _SFTPCache.constructRemoteCacheFilePath(version3);
+    let remotePath = _SFTPCache.constructRemoteCacheFilePath(version2);
     return await this.sftpClient.exists(remotePath) !== "-" ? null : (await this.sftpClient.stat(remotePath)).size;
   }
-  async fetchCacheForVersion(version3, destFilePath) {
+  async fetchCacheForVersion(version2, destFilePath) {
     await this.ensureInit();
-    let remotePath = _SFTPCache.constructRemoteCacheFilePath(version3);
+    let remotePath = _SFTPCache.constructRemoteCacheFilePath(version2);
     return await this.sftpClient.exists(remotePath) === "-" ? (await this.downloadSftpFile(remotePath, destFilePath), !0) : !1;
   }
-  async uploadCacheForVersion(version3, filePath) {
+  async uploadCacheForVersion(version2, filePath) {
     await this.ensureInit();
-    let remotePath = _SFTPCache.constructRemoteCacheFilePath(version3);
+    let remotePath = _SFTPCache.constructRemoteCacheFilePath(version2);
     await this.sftpClient.mkdir(import_node_path.default.dirname(remotePath), !0), await this.sftpClient.put(filePath, remotePath);
   }
   async init() {
@@ -33634,8 +34058,8 @@ var import_node_child_process = __toESM(require("node:child_process")), import_n
     let url = new URL("sftp://");
     return url.hostname = this.host, url.port = this.port.toString(), url.pathname = remotePath, url.username = this.username, url.toString();
   }
-  static constructRemoteCacheFilePath(version3) {
-    return import_node_path.default.join(_SFTPCache.CACHE_DIR, `${version3}.tar.gz`);
+  static constructRemoteCacheFilePath(version2) {
+    return import_node_path.default.join(_SFTPCache.CACHE_DIR, `${version2}.tar.gz`);
   }
 };
 
@@ -34442,7 +34866,8 @@ var argmap = /* @__PURE__ */ new Map([
   ["no-mtime", "noMtime"],
   ["p", "preserveOwner"],
   ["L", "follow"],
-  ["h", "follow"]
+  ["h", "follow"],
+  ["onentry", "onReadEntry"]
 ]), isSyncFile = (o) => !!o.sync && !!o.file, isAsyncFile = (o) => !o.sync && !!o.file, isSyncNoFile = (o) => !!o.sync && !o.file, isAsyncNoFile = (o) => !o.sync && !o.file;
 var isFile = (o) => !!o.file;
 var dealiasKey = (k) => {
@@ -34460,10 +34885,10 @@ var dealiasKey = (k) => {
 };
 
 // node_modules/tar/dist/esm/make-command.js
-var makeCommand = (syncFile, asyncFile, syncNoFile, asyncNoFile, validate2) => Object.assign((opt_ = [], entries, cb) => {
+var makeCommand = (syncFile, asyncFile, syncNoFile, asyncNoFile, validate) => Object.assign((opt_ = [], entries, cb) => {
   Array.isArray(opt_) && (entries = opt_, opt_ = {}), typeof entries == "function" && (cb = entries, entries = void 0), entries ? entries = Array.from(entries) : entries = [];
   let opt = dealias(opt_);
-  if (validate2?.(opt, entries), isSyncFile(opt)) {
+  if (validate?.(opt, entries), isSyncFile(opt)) {
     if (typeof cb == "function")
       throw new TypeError("callback not supported for sync tar functions");
     return syncFile(opt, entries);
@@ -34485,7 +34910,7 @@ var makeCommand = (syncFile, asyncFile, syncNoFile, asyncNoFile, validate2) => O
   asyncFile,
   syncNoFile,
   asyncNoFile,
-  validate: validate2
+  validate
 });
 
 // node_modules/tar/dist/esm/parse.js
@@ -34493,7 +34918,7 @@ var import_events2 = require("events");
 
 // node_modules/minizlib/dist/esm/index.js
 var import_assert = __toESM(require("assert"), 1), import_buffer = require("buffer");
-var import_zlib2 = __toESM(require("zlib"), 1);
+var realZlib2 = __toESM(require("zlib"), 1);
 
 // node_modules/minizlib/dist/esm/constants.js
 var import_zlib = __toESM(require("zlib"), 1), realZlibConstants = import_zlib.default.constants || { ZLIB_VERNUM: 4736 }, constants = Object.freeze(Object.assign(/* @__PURE__ */ Object.create(null), {
@@ -34606,7 +35031,10 @@ var import_zlib = __toESM(require("zlib"), 1), realZlibConstants = import_zlib.d
 }, realZlibConstants));
 
 // node_modules/minizlib/dist/esm/index.js
-var OriginalBufferConcat = import_buffer.Buffer.concat, _superWrite = Symbol("_superWrite"), ZlibError = class extends Error {
+var OriginalBufferConcat = import_buffer.Buffer.concat, desc = Object.getOwnPropertyDescriptor(import_buffer.Buffer, "concat"), noop = (args) => args, passthroughBufferConcat = desc?.writable === !0 || desc?.set !== void 0 ? (makeNoOp) => {
+  import_buffer.Buffer.concat = makeNoOp ? noop : OriginalBufferConcat;
+} : (_) => {
+}, _superWrite = Symbol("_superWrite"), ZlibError = class extends Error {
   code;
   errno;
   constructor(err) {
@@ -34639,7 +35067,7 @@ var OriginalBufferConcat = import_buffer.Buffer.concat, _superWrite = Symbol("_s
       throw new TypeError("invalid options for ZlibBase constructor");
     super(opts), this.#flushFlag = opts.flush ?? 0, this.#finishFlushFlag = opts.finishFlush ?? 0, this.#fullFlushFlag = opts.fullFlushFlag ?? 0;
     try {
-      this.#handle = new import_zlib2.default[mode](opts);
+      this.#handle = new realZlib2[mode](opts);
     } catch (er) {
       throw new ZlibError(er);
     }
@@ -34676,13 +35104,13 @@ var OriginalBufferConcat = import_buffer.Buffer.concat, _superWrite = Symbol("_s
     };
     let originalClose = this.#handle.close;
     this.#handle.close = () => {
-    }, import_buffer.Buffer.concat = (args) => args;
+    }, passthroughBufferConcat(!0);
     let result;
     try {
       let flushFlag = typeof chunk[_flushFlag] == "number" ? chunk[_flushFlag] : this.#flushFlag;
-      result = this.#handle._processChunk(chunk, flushFlag), import_buffer.Buffer.concat = OriginalBufferConcat;
+      result = this.#handle._processChunk(chunk, flushFlag), passthroughBufferConcat(!1);
     } catch (err) {
-      import_buffer.Buffer.concat = OriginalBufferConcat, this.#onError(new ZlibError(err));
+      passthroughBufferConcat(!1), this.#onError(new ZlibError(err));
     } finally {
       this.#handle && (this.#handle._handle = nativeHandle, nativeHandle.close = originalNativeClose, this.#handle.close = originalClose, this.#handle.removeAllListeners("error"));
     }
@@ -34974,7 +35402,7 @@ var encode = (num, buf) => {
     var byte = num & 255;
     num = Math.floor(num / 256), flipped ? buf[i - 1] = onesComp(byte) : byte === 0 ? buf[i - 1] = 0 : (flipped = !0, buf[i - 1] = twosComp(byte));
   }
-}, parse2 = (buf) => {
+}, parse = (buf) => {
   let pre = buf[0], value = pre === 128 ? pos(buf.subarray(1, buf.length)) : pre === 255 ? twos(buf) : null;
   if (value === null)
     throw Error("invalid base256 encoding");
@@ -35125,7 +35553,7 @@ var Header = class {
     ret || (ret = [p.slice(0, 99), "", !0]);
   }
   return ret;
-}, decString = (buf, off, size) => buf.subarray(off, off + size).toString("utf8").replace(/\0.*/, ""), decDate = (buf, off, size) => numToDate(decNumber(buf, off, size)), numToDate = (num) => num === void 0 ? void 0 : new Date(num * 1e3), decNumber = (buf, off, size) => Number(buf[off]) & 128 ? parse2(buf.subarray(off, off + size)) : decSmallNumber(buf, off, size), nanUndef = (value) => isNaN(value) ? void 0 : value, decSmallNumber = (buf, off, size) => nanUndef(parseInt(buf.subarray(off, off + size).toString("utf8").replace(/\0.*$/, "").trim(), 8)), MAXNUM = {
+}, decString = (buf, off, size) => buf.subarray(off, off + size).toString("utf8").replace(/\0.*/, ""), decDate = (buf, off, size) => numToDate(decNumber(buf, off, size)), numToDate = (num) => num === void 0 ? void 0 : new Date(num * 1e3), decNumber = (buf, off, size) => Number(buf[off]) & 128 ? parse(buf.subarray(off, off + size)) : decSmallNumber(buf, off, size), nanUndef = (value) => isNaN(value) ? void 0 : value, decSmallNumber = (buf, off, size) => nanUndef(parseInt(buf.subarray(off, off + size).toString("utf8").replace(/\0.*$/, "").trim(), 8)), MAXNUM = {
   12: 8589934591,
   8: 2097151
 }, encNumber = (buf, off, size, num) => num === void 0 ? !1 : num > MAXNUM[size] || num < 0 ? (encode(num, buf.subarray(off, off + size)), !0) : (encSmallNumber(buf, off, size, num), !1), encSmallNumber = (buf, off, size, num) => buf.write(octalString(num, size), off, size, "ascii"), octalString = (num, size) => padOctal(Math.floor(num).toString(8), size), padOctal = (str, size) => (str.length === size - 1 ? str : new Array(size - str.length - 1).join("0") + str + " ") + "\0", encDate = (buf, off, size, date) => date === void 0 ? !1 : encNumber(buf, off, size, date.getTime() / 1e3), NULLS = new Array(156).join("\0"), encString = (buf, off, size, str) => str === void 0 ? !1 : (buf.write(str + NULLS, off, size, "utf8"), str.length !== Buffer.byteLength(str) || str.length > size);
@@ -35263,6 +35691,8 @@ var ReadEntry = class extends Minipass {
       case "OldExtendedHeader":
         this.meta = !0;
         break;
+      // NOTE: gnutar and bsdtar treat unrecognized types as 'File'
+      // it may be worth doing the same, but with a warning.
       default:
         this.ignore = !0;
     }
@@ -35288,7 +35718,7 @@ var warnMethod = (self2, code2, message, data = {}) => {
 };
 
 // node_modules/tar/dist/esm/parse.js
-var maxMetaEntrySize = 1024 * 1024, gzipHeader = Buffer.from([31, 139]), STATE = Symbol("state"), WRITEENTRY = Symbol("writeEntry"), READENTRY = Symbol("readEntry"), NEXTENTRY = Symbol("nextEntry"), PROCESSENTRY = Symbol("processEntry"), EX = Symbol("extendedHeader"), GEX = Symbol("globalExtendedHeader"), META = Symbol("meta"), EMITMETA = Symbol("emitMeta"), BUFFER2 = Symbol("buffer"), QUEUE = Symbol("queue"), ENDED = Symbol("ended"), EMITTEDEND = Symbol("emittedEnd"), EMIT = Symbol("emit"), UNZIP = Symbol("unzip"), CONSUMECHUNK = Symbol("consumeChunk"), CONSUMECHUNKSUB = Symbol("consumeChunkSub"), CONSUMEBODY = Symbol("consumeBody"), CONSUMEMETA = Symbol("consumeMeta"), CONSUMEHEADER = Symbol("consumeHeader"), CONSUMING = Symbol("consuming"), BUFFERCONCAT = Symbol("bufferConcat"), MAYBEEND = Symbol("maybeEnd"), WRITING = Symbol("writing"), ABORTED2 = Symbol("aborted"), DONE = Symbol("onDone"), SAW_VALID_ENTRY = Symbol("sawValidEntry"), SAW_NULL_BLOCK = Symbol("sawNullBlock"), SAW_EOF = Symbol("sawEOF"), CLOSESTREAM = Symbol("closeStream"), noop = () => !0, Parser = class extends import_events2.EventEmitter {
+var maxMetaEntrySize = 1024 * 1024, gzipHeader = Buffer.from([31, 139]), STATE = Symbol("state"), WRITEENTRY = Symbol("writeEntry"), READENTRY = Symbol("readEntry"), NEXTENTRY = Symbol("nextEntry"), PROCESSENTRY = Symbol("processEntry"), EX = Symbol("extendedHeader"), GEX = Symbol("globalExtendedHeader"), META = Symbol("meta"), EMITMETA = Symbol("emitMeta"), BUFFER2 = Symbol("buffer"), QUEUE = Symbol("queue"), ENDED = Symbol("ended"), EMITTEDEND = Symbol("emittedEnd"), EMIT = Symbol("emit"), UNZIP = Symbol("unzip"), CONSUMECHUNK = Symbol("consumeChunk"), CONSUMECHUNKSUB = Symbol("consumeChunkSub"), CONSUMEBODY = Symbol("consumeBody"), CONSUMEMETA = Symbol("consumeMeta"), CONSUMEHEADER = Symbol("consumeHeader"), CONSUMING = Symbol("consuming"), BUFFERCONCAT = Symbol("bufferConcat"), MAYBEEND = Symbol("maybeEnd"), WRITING = Symbol("writing"), ABORTED2 = Symbol("aborted"), DONE = Symbol("onDone"), SAW_VALID_ENTRY = Symbol("sawValidEntry"), SAW_NULL_BLOCK = Symbol("sawNullBlock"), SAW_EOF = Symbol("sawEOF"), CLOSESTREAM = Symbol("closeStream"), noop2 = () => !0, Parser = class extends import_events2.EventEmitter {
   file;
   strict;
   maxMetaEntrySize;
@@ -35318,9 +35748,9 @@ var maxMetaEntrySize = 1024 * 1024, gzipHeader = Buffer.from([31, 139]), STATE =
       (this[STATE] === "begin" || this[SAW_VALID_ENTRY] === !1) && this.warn("TAR_BAD_ARCHIVE", "Unrecognized archive format");
     }), opt.ondone ? this.on(DONE, opt.ondone) : this.on(DONE, () => {
       this.emit("prefinish"), this.emit("finish"), this.emit("end");
-    }), this.strict = !!opt.strict, this.maxMetaEntrySize = opt.maxMetaEntrySize || maxMetaEntrySize, this.filter = typeof opt.filter == "function" ? opt.filter : noop;
+    }), this.strict = !!opt.strict, this.maxMetaEntrySize = opt.maxMetaEntrySize || maxMetaEntrySize, this.filter = typeof opt.filter == "function" ? opt.filter : noop2;
     let isTBR = opt.file && (opt.file.endsWith(".tar.br") || opt.file.endsWith(".tbr"));
-    this.brotli = !opt.gzip && opt.brotli !== void 0 ? opt.brotli : isTBR ? void 0 : !1, this.on("end", () => this[CLOSESTREAM]()), typeof opt.onwarn == "function" && this.on("warn", opt.onwarn), typeof opt.onentry == "function" && this.on("entry", opt.onentry);
+    this.brotli = !opt.gzip && opt.brotli !== void 0 ? opt.brotli : isTBR ? void 0 : !1, this.on("end", () => this[CLOSESTREAM]()), typeof opt.onwarn == "function" && this.on("warn", opt.onwarn), typeof opt.onReadEntry == "function" && this.on("entry", opt.onReadEntry);
   }
   warn(code2, message, data = {}) {
     warnMethod(this, code2, message, data);
@@ -35420,6 +35850,7 @@ var maxMetaEntrySize = 1024 * 1024, gzipHeader = Buffer.from([31, 139]), STATE =
         this[EX] = ex, ex.linkpath = this[META].replace(/\0.*/, "");
         break;
       }
+      /* c8 ignore start */
       default:
         throw new Error("unknown meta: " + entry.type);
     }
@@ -35514,6 +35945,7 @@ var maxMetaEntrySize = 1024 * 1024, gzipHeader = Buffer.from([31, 139]), STATE =
         case "meta":
           position += this[CONSUMEMETA](chunk, position);
           break;
+        /* c8 ignore start */
         default:
           throw new Error("invalid state: " + this[STATE]);
       }
@@ -35536,10 +35968,10 @@ var stripTrailingSlashes = (str) => {
 };
 
 // node_modules/tar/dist/esm/list.js
-var onentryFunction = (opt) => {
-  let onentry = opt.onentry;
-  opt.onentry = onentry ? (e) => {
-    onentry(e), e.resume();
+var onReadEntryFunction = (opt) => {
+  let onReadEntry = opt.onReadEntry;
+  opt.onReadEntry = onReadEntry ? (e) => {
+    onReadEntry(e), e.resume();
   } : (e) => e.resume();
 }, filesFilter = (opt, files) => {
   let map = new Map(files.map((f) => [stripTrailingSlashes(f), !0])), filter = opt.filter, mapHas = (file, r = "") => {
@@ -35575,9 +36007,9 @@ var onentryFunction = (opt) => {
       }
   }
 }, listFile = (opt, _files) => {
-  let parse6 = new Parser(opt), readSize = opt.maxReadSize || 16 * 1024 * 1024, file = opt.file;
+  let parse5 = new Parser(opt), readSize = opt.maxReadSize || 16 * 1024 * 1024, file = opt.file;
   return new Promise((resolve2, reject) => {
-    parse6.on("error", reject), parse6.on("end", resolve2), import_node_fs2.default.stat(file, (er, stat2) => {
+    parse5.on("error", reject), parse5.on("end", resolve2), import_node_fs2.default.stat(file, (er, stat2) => {
       if (er)
         reject(er);
       else {
@@ -35585,12 +36017,12 @@ var onentryFunction = (opt) => {
           readSize,
           size: stat2.size
         });
-        stream.on("error", reject), stream.pipe(parse6);
+        stream.on("error", reject), stream.pipe(parse5);
       }
     });
   });
 }, list = makeCommand(listFileSync, listFile, (opt) => new Parser(opt), (opt) => new Parser(opt), (opt, files) => {
-  files?.length && filesFilter(opt, files), opt.noResume || onentryFunction(opt);
+  files?.length && filesFilter(opt, files), opt.noResume || onReadEntryFunction(opt);
 });
 
 // node_modules/tar/dist/esm/pack.js
@@ -35604,11 +36036,11 @@ var import_path2 = __toESM(require("path"), 1);
 var modeFix = (mode, isDir, portable) => (mode &= 4095, portable && (mode = (mode | 384) & -19), isDir && (mode & 256 && (mode |= 64), mode & 32 && (mode |= 8), mode & 4 && (mode |= 1)), mode);
 
 // node_modules/tar/dist/esm/strip-absolute-path.js
-var import_node_path4 = require("node:path"), { isAbsolute, parse: parse4 } = import_node_path4.win32, stripAbsolutePath = (path8) => {
-  let r = "", parsed = parse4(path8);
+var import_node_path4 = require("node:path"), { isAbsolute, parse: parse3 } = import_node_path4.win32, stripAbsolutePath = (path8) => {
+  let r = "", parsed = parse3(path8);
   for (; isAbsolute(path8) || parsed.root; ) {
     let root = path8.charAt(0) === "/" && path8.slice(0, 4) !== "//?/" ? "/" : parsed.root;
-    path8 = path8.slice(root.length), r += root, parsed = parse4(path8);
+    path8 = path8.slice(root.length), r += root, parsed = parse3(path8);
   }
   return [r, path8];
 };
@@ -35647,11 +36079,11 @@ var prefixPath = (path8, prefix) => prefix ? (path8 = normalizeWindowsPath(path8
   type;
   linkpath;
   stat;
-  /* c8 ignore start */
+  onWriteEntry;
   #hadError = !1;
   constructor(p, opt_ = {}) {
     let opt = dealias(opt_);
-    super(), this.path = normalizeWindowsPath(p), this.portable = !!opt.portable, this.maxReadSize = opt.maxReadSize || maxReadSize, this.linkCache = opt.linkCache || /* @__PURE__ */ new Map(), this.statCache = opt.statCache || /* @__PURE__ */ new Map(), this.preservePaths = !!opt.preservePaths, this.cwd = normalizeWindowsPath(opt.cwd || process.cwd()), this.strict = !!opt.strict, this.noPax = !!opt.noPax, this.noMtime = !!opt.noMtime, this.mtime = opt.mtime, this.prefix = opt.prefix ? normalizeWindowsPath(opt.prefix) : void 0, typeof opt.onwarn == "function" && this.on("warn", opt.onwarn);
+    super(), this.path = normalizeWindowsPath(p), this.portable = !!opt.portable, this.maxReadSize = opt.maxReadSize || maxReadSize, this.linkCache = opt.linkCache || /* @__PURE__ */ new Map(), this.statCache = opt.statCache || /* @__PURE__ */ new Map(), this.preservePaths = !!opt.preservePaths, this.cwd = normalizeWindowsPath(opt.cwd || process.cwd()), this.strict = !!opt.strict, this.noPax = !!opt.noPax, this.noMtime = !!opt.noMtime, this.mtime = opt.mtime, this.prefix = opt.prefix ? normalizeWindowsPath(opt.prefix) : void 0, this.onWriteEntry = opt.onWriteEntry, typeof opt.onwarn == "function" && this.on("warn", opt.onwarn);
     let pathWarn = !1;
     if (!this.preservePaths) {
       let [root, stripped] = stripAbsolutePath(this.path);
@@ -35688,6 +36120,7 @@ var prefixPath = (path8, prefix) => prefix ? (path8 = normalizeWindowsPath(path8
         return this[DIRECTORY]();
       case "SymbolicLink":
         return this[SYMLINK]();
+      // unsupported types are ignored.
       default:
         return this.end();
     }
@@ -35701,7 +36134,7 @@ var prefixPath = (path8, prefix) => prefix ? (path8 = normalizeWindowsPath(path8
   [HEADER]() {
     if (!this.stat)
       throw new Error("cannot write header before stat");
-    this.type === "Directory" && this.portable && (this.noMtime = !0), this.header = new Header({
+    this.type === "Directory" && this.portable && (this.noMtime = !0), this.onWriteEntry?.(this), this.header = new Header({
       path: this[PREFIX](this.path),
       // only apply the prefix to hard links.
       linkpath: this.type === "Link" && this.linkpath !== void 0 ? this[PREFIX](this.linkpath) : this.linkpath,
@@ -35907,12 +36340,13 @@ var prefixPath = (path8, prefix) => prefix ? (path8 = normalizeWindowsPath(path8
   ctime;
   linkpath;
   size;
+  onWriteEntry;
   warn(code2, message, data = {}) {
     return warnMethod(this, code2, message, data);
   }
   constructor(readEntry, opt_ = {}) {
     let opt = dealias(opt_);
-    super(), this.preservePaths = !!opt.preservePaths, this.portable = !!opt.portable, this.strict = !!opt.strict, this.noPax = !!opt.noPax, this.noMtime = !!opt.noMtime, this.readEntry = readEntry;
+    super(), this.preservePaths = !!opt.preservePaths, this.portable = !!opt.portable, this.strict = !!opt.strict, this.noPax = !!opt.noPax, this.noMtime = !!opt.noMtime, this.onWriteEntry = opt.onWriteEntry, this.readEntry = readEntry;
     let { type } = readEntry;
     if (type === "Unsupported")
       throw new Error("writing entry that should be ignored");
@@ -35922,7 +36356,7 @@ var prefixPath = (path8, prefix) => prefix ? (path8 = normalizeWindowsPath(path8
       let [root, stripped] = stripAbsolutePath(this.path);
       root && typeof stripped == "string" && (this.path = stripped, pathWarn = root);
     }
-    this.remain = readEntry.size, this.blockRemain = readEntry.startBlockSize, this.header = new Header({
+    this.remain = readEntry.size, this.blockRemain = readEntry.startBlockSize, this.onWriteEntry?.(this), this.header = new Header({
       path: this[PREFIX](this.path),
       linkpath: this.type === "Link" && this.linkpath !== void 0 ? this[PREFIX](this.linkpath) : this.linkpath,
       // only the permissions and setuid/setgid/sticky bitflags
@@ -36011,12 +36445,13 @@ var PackJob = class {
   filter;
   jobs;
   [WRITEENTRYCLASS];
+  onWriteEntry;
   [QUEUE2];
   [JOBS] = 0;
   [PROCESSING] = !1;
   [ENDED2] = !1;
   constructor(opt = {}) {
-    if (super(), this.opt = opt, this.file = opt.file || "", this.cwd = opt.cwd || process.cwd(), this.maxReadSize = opt.maxReadSize, this.preservePaths = !!opt.preservePaths, this.strict = !!opt.strict, this.noPax = !!opt.noPax, this.prefix = normalizeWindowsPath(opt.prefix || ""), this.linkCache = opt.linkCache || /* @__PURE__ */ new Map(), this.statCache = opt.statCache || /* @__PURE__ */ new Map(), this.readdirCache = opt.readdirCache || /* @__PURE__ */ new Map(), this[WRITEENTRYCLASS] = WriteEntry, typeof opt.onwarn == "function" && this.on("warn", opt.onwarn), this.portable = !!opt.portable, opt.gzip || opt.brotli) {
+    if (super(), this.opt = opt, this.file = opt.file || "", this.cwd = opt.cwd || process.cwd(), this.maxReadSize = opt.maxReadSize, this.preservePaths = !!opt.preservePaths, this.strict = !!opt.strict, this.noPax = !!opt.noPax, this.prefix = normalizeWindowsPath(opt.prefix || ""), this.linkCache = opt.linkCache || /* @__PURE__ */ new Map(), this.statCache = opt.statCache || /* @__PURE__ */ new Map(), this.readdirCache = opt.readdirCache || /* @__PURE__ */ new Map(), this.onWriteEntry = opt.onWriteEntry, this[WRITEENTRYCLASS] = WriteEntry, typeof opt.onwarn == "function" && this.on("warn", opt.onwarn), this.portable = !!opt.portable, opt.gzip || opt.brotli) {
       if (opt.gzip && opt.brotli)
         throw new TypeError("gzip and brotli are mutually exclusive");
       if (opt.gzip && (typeof opt.gzip != "object" && (opt.gzip = {}), this.portable && (opt.gzip.portable = !0), this.zip = new Gzip(opt.gzip)), opt.brotli && (typeof opt.brotli != "object" && (opt.brotli = {}), this.zip = new BrotliCompress(opt.brotli)), !this.zip)
@@ -36025,7 +36460,7 @@ var PackJob = class {
       zip.on("data", (chunk) => super.write(chunk)), zip.on("end", () => super.end()), zip.on("drain", () => this[ONDRAIN2]()), this.on("resume", () => zip.resume());
     } else
       this.on("drain", this[ONDRAIN2]);
-    this.noDirRecurse = !!opt.noDirRecurse, this.follow = !!opt.follow, this.noMtime = !!opt.noMtime, opt.mtime && (this.mtime = opt.mtime), this.filter = typeof opt.filter == "function" ? opt.filter : (_) => !0, this[QUEUE2] = new Yallist(), this[JOBS] = 0, this.jobs = Number(opt.jobs) || 4, this[PROCESSING] = !1, this[ENDED2] = !1;
+    this.noDirRecurse = !!opt.noDirRecurse, this.follow = !!opt.follow, this.noMtime = !!opt.noMtime, opt.mtime && (this.mtime = opt.mtime), this.filter = typeof opt.filter == "function" ? opt.filter : () => !0, this[QUEUE2] = new Yallist(), this[JOBS] = 0, this.jobs = Number(opt.jobs) || 4, this[PROCESSING] = !1, this[ENDED2] = !1;
   }
   [WRITE](chunk) {
     return super.write(chunk);
@@ -36033,11 +36468,9 @@ var PackJob = class {
   add(path8) {
     return this.write(path8), this;
   }
-  //@ts-ignore
-  end(path8) {
-    return path8 && this.add(path8), this[ENDED2] = !0, this[PROCESS2](), this;
+  end(path8, encoding, cb) {
+    return typeof path8 == "function" && (cb = path8, path8 = void 0), typeof encoding == "function" && (cb = encoding, encoding = void 0), path8 && this.add(path8), this[ENDED2] = !0, this[PROCESS2](), cb && cb(), this;
   }
-  //@ts-ignore
   write(path8) {
     if (this[ENDED2])
       throw new Error("write after end");
@@ -36132,7 +36565,8 @@ var PackJob = class {
       statCache: this.statCache,
       noMtime: this.noMtime,
       mtime: this.mtime,
-      prefix: this.prefix
+      prefix: this.prefix,
+      onWriteEntry: this.onWriteEntry
     };
   }
   [ENTRY](job) {
@@ -36221,7 +36655,7 @@ var createFileSync = (opt, files) => {
       file: import_node_path5.default.resolve(p.cwd, file.slice(1)),
       sync: !0,
       noResume: !0,
-      onentry: (entry) => p.add(entry)
+      onReadEntry: (entry) => p.add(entry)
     }) : p.add(file);
   }), p.end();
 }, addFilesAsync = async (p, files) => {
@@ -36230,7 +36664,7 @@ var createFileSync = (opt, files) => {
     file.charAt(0) === "@" ? await list({
       file: import_node_path5.default.resolve(String(p.cwd), file.slice(1)),
       noResume: !0,
-      onentry: (entry) => {
+      onReadEntry: (entry) => {
         p.add(entry);
       }
     }) : p.add(file);
@@ -36462,7 +36896,7 @@ var import_path7 = require("path"), platform3 = process.env.__TESTING_MKDIRP_PLA
 
 // node_modules/mkdirp/dist/mjs/use-native.js
 var import_fs6 = require("fs");
-var version2 = process.env.__TESTING_MKDIRP_NODE_VERSION__ || process.version, versArr = version2.replace(/^v/, "").split("."), hasNative = +versArr[0] > 10 || +versArr[0] == 10 && +versArr[1] >= 12, useNativeSync = hasNative ? (opts) => optsArg(opts).mkdirSync === import_fs6.mkdirSync : () => !1, useNative = Object.assign(hasNative ? (opts) => optsArg(opts).mkdir === import_fs6.mkdir : () => !1, {
+var version = process.env.__TESTING_MKDIRP_NODE_VERSION__ || process.version, versArr = version.replace(/^v/, "").split("."), hasNative = +versArr[0] > 10 || +versArr[0] == 10 && +versArr[1] >= 12, useNativeSync = hasNative ? (opts) => optsArg(opts).mkdirSync === import_fs6.mkdirSync : () => !1, useNative = Object.assign(hasNative ? (opts) => optsArg(opts).mkdir === import_fs6.mkdir : () => !1, {
   sync: useNativeSync
 });
 
@@ -36838,6 +37272,7 @@ var ONENTRY = Symbol("onEntry"), CHECKFS = Symbol("checkFs"), CHECKFS2 = Symbol(
       case "Directory":
       case "GNUDumpDir":
         entry.mode && (entry.mode = entry.mode | 448);
+      // eslint-disable-next-line no-fallthrough
       case "File":
       case "OldFile":
       case "ContiguousFile":
@@ -37305,7 +37740,7 @@ var replaceSync = (opt, files) => {
       file: import_node_path10.default.resolve(p.cwd, file.slice(1)),
       sync: !0,
       noResume: !0,
-      onentry: (entry) => p.add(entry)
+      onReadEntry: (entry) => p.add(entry)
     }) : p.add(file);
   }), p.end();
 }, addFilesAsync2 = async (p, files) => {
@@ -37314,7 +37749,7 @@ var replaceSync = (opt, files) => {
     file.charAt(0) === "@" ? await list({
       file: import_node_path10.default.resolve(String(p.cwd), file.slice(1)),
       noResume: !0,
-      onentry: (entry) => p.add(entry)
+      onReadEntry: (entry) => p.add(entry)
     }) : p.add(file);
   }
   p.end();
@@ -37356,10 +37791,10 @@ var SpigotArtifactArchiver = class _SpigotArtifactArchiver {
     "org/spigotmc/spigot-api/",
     "org/spigotmc/spigot/"
   ];
-  async createCacheArchiveForVersion(version3, destFilePath) {
+  async createCacheArchiveForVersion(version2, destFilePath) {
     if (!import_node_path11.default.isAbsolute(destFilePath))
       throw new Error("Destination path must be absolute");
-    let localMavenRepo = _SpigotArtifactArchiver.determineLocalMavenRepositoryPath(), files = await this.collectFilesFromMavenRepo(localMavenRepo, version3);
+    let localMavenRepo = _SpigotArtifactArchiver.determineLocalMavenRepositoryPath(), files = await this.collectFilesFromMavenRepo(localMavenRepo, version2);
     if (files.length === 0)
       throw new Error("No files found in local Maven repository");
     await create(
@@ -37380,10 +37815,10 @@ var SpigotArtifactArchiver = class _SpigotArtifactArchiver {
       cwd: localMavenRepo
     });
   }
-  async collectFilesFromMavenRepo(localMavenRepo, version3) {
+  async collectFilesFromMavenRepo(localMavenRepo, version2) {
     let files = [];
     for (let artifactDir of _SpigotArtifactArchiver.ARTIFACT_DIRS) {
-      let artifactPath = import_node_path11.default.join(localMavenRepo, artifactDir, version3);
+      let artifactPath = import_node_path11.default.join(localMavenRepo, artifactDir, version2);
       import_node_fs7.default.existsSync(artifactPath) && files.push(artifactPath);
     }
     let spigotParentArtifactDir = import_node_path11.default.join(localMavenRepo, "org", "spigotmc", "spigot-parent", "dev-SNAPSHOT");
@@ -37407,29 +37842,29 @@ var SpigotArtifactCache = class _SpigotArtifactCache {
   isSftpAvailable() {
     return this.sftpCache != null;
   }
-  async fetchAndExtractCacheForVersionIfExists(version3, tmpDir, logInfo2, logError2) {
+  async fetchAndExtractCacheForVersionIfExists(version2, tmpDir, logInfo2, logError2) {
     if (this.sftpCache == null)
       throw new Error("Cache is not available");
-    let cacheTmpFile = import_node_path12.default.join(tmpDir, `cache-${version3}`);
+    let cacheTmpFile = import_node_path12.default.join(tmpDir, `cache-${version2}`);
     try {
-      let cacheFileSize = await this.sftpCache.getSizeOfCacheForVersion(version3);
-      if (cacheFileSize !== null && logInfo2(`Downloading cache for version ${version3} from SFTP-Server (${_SpigotArtifactCache.prettifyFileSize(cacheFileSize)})...`), await this.sftpCache.fetchCacheForVersion(version3, cacheTmpFile))
+      let cacheFileSize = await this.sftpCache.getSizeOfCacheForVersion(version2);
+      if (cacheFileSize !== null && logInfo2(`Downloading cache for version ${version2} from SFTP-Server (${_SpigotArtifactCache.prettifyFileSize(cacheFileSize)})...`), await this.sftpCache.fetchCacheForVersion(version2, cacheTmpFile))
         return await this.artifactArchiver.extractCacheArchive(cacheTmpFile), !0;
     } catch (err) {
-      logError2(`Failed to fetch cache from SFTP-Server (version=${version3}): ${err?.toString()}`);
+      logError2(`Failed to fetch cache from SFTP-Server (version=${version2}): ${err?.toString()}`);
     } finally {
       await import_node_fs8.default.promises.rm(cacheTmpFile, { force: !0 });
     }
     return !1;
   }
-  async createAndUploadCacheForVersion(version3, tmpDir, logInfo2, logError2) {
+  async createAndUploadCacheForVersion(version2, tmpDir, logInfo2, logError2) {
     if (this.sftpCache == null)
       throw new Error("Cache is not available");
-    let cacheTmpFile = import_node_path12.default.join(tmpDir, `cache-${version3}`);
+    let cacheTmpFile = import_node_path12.default.join(tmpDir, `cache-${version2}`);
     try {
-      return await this.artifactArchiver.createCacheArchiveForVersion(version3, cacheTmpFile), logInfo2(`Uploading cache for version ${version3} to SFTP-Server (${_SpigotArtifactCache.prettifyFileSize((await import_node_fs8.default.promises.stat(cacheTmpFile)).size)})...`), await this.sftpCache.uploadCacheForVersion(version3, cacheTmpFile), !0;
+      return await this.artifactArchiver.createCacheArchiveForVersion(version2, cacheTmpFile), logInfo2(`Uploading cache for version ${version2} to SFTP-Server (${_SpigotArtifactCache.prettifyFileSize((await import_node_fs8.default.promises.stat(cacheTmpFile)).size)})...`), await this.sftpCache.uploadCacheForVersion(version2, cacheTmpFile), !0;
     } catch (err) {
-      return logError2(`Failed to upload cache to SFTP-Server (version=${version3}): ${err?.toString()}`), !1;
+      return logError2(`Failed to upload cache to SFTP-Server (version=${version2}): ${err?.toString()}`), !1;
     } finally {
       await import_node_fs8.default.promises.rm(cacheTmpFile, { force: !0 });
     }
@@ -37517,7 +37952,7 @@ var supportedBuildTools = {
   spigotmc: {
     url: "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar"
   }
-}, buildToolProvider = (ActionsCore.getInput("buildToolProvider") || "SpigotMC").toLowerCase(), versions = fixArgArr((ActionsCore.getInput("versions") || "latest").toLowerCase().split(",")), generateSrc = ActionsCore.getInput("generateSrc") == "true", generateDoc = ActionsCore.getInput("generateDoc") == "true", disableJavaCheck = ActionsCore.getInput("disableJavaCheck") == "true", remapped = ActionsCore.getInput("remapped") == "true", forceRun = ActionsCore.getInput("forceRun") == "true", threadCount = isNumeric(ActionsCore.getInput("threads")) ? parseInt(ActionsCore.getInput("threads"), 10) : import_node_os4.default.cpus().length, sftpCacheHost = ActionsCore.getInput("sftpCacheHost") || "", sftpCachePort = isNumeric(ActionsCore.getInput("sftpCachePort")) ? parseInt(ActionsCore.getInput("sftpCachePort"), 10) : 22, sftpCacheUser = ActionsCore.getInput("sftpCacheUser") || "", sftpCachePrivateKey = ActionsCore.getInput("sftpCachePrivateKey") || "", sftpCacheExpectedHostKey = ActionsCore.getInput("sftpCacheExpectedHostKey")?.trim() || null, workingDir = resetWorkingDir(), appLogFile = import_node_path14.default.join(workingDir.logs, "SpraxDev_Actions-SpigotMC.log"), appLogStream = import_node_fs10.default.createWriteStream(appLogFile, {
+}, buildToolProvider = (ActionsCore.getInput("buildToolProvider") || "SpigotMC").toLowerCase(), versions = fixArgArr((ActionsCore.getInput("versions") || "latest").toLowerCase().split(",")), generateSrc = ActionsCore.getInput("generateSrc") == "true", generateDoc = ActionsCore.getInput("generateDoc") == "true", disableJavaCheck = ActionsCore.getInput("disableJavaCheck") == "true", remapped = ActionsCore.getInput("remapped") == "true", finalJarOutputDir = ActionsCore.getInput("finalJarOutputDir") || "", forceRun = ActionsCore.getInput("forceRun") == "true", threadCount = isNumeric(ActionsCore.getInput("threads")) ? parseInt(ActionsCore.getInput("threads"), 10) : import_node_os4.default.cpus().length, sftpCacheHost = ActionsCore.getInput("sftpCacheHost") || "", sftpCachePort = isNumeric(ActionsCore.getInput("sftpCachePort")) ? parseInt(ActionsCore.getInput("sftpCachePort"), 10) : 22, sftpCacheUser = ActionsCore.getInput("sftpCacheUser") || "", sftpCachePrivateKey = ActionsCore.getInput("sftpCachePrivateKey") || "", sftpCacheExpectedHostKey = ActionsCore.getInput("sftpCacheExpectedHostKey")?.trim() || null, workingDir = resetWorkingDir(), appLogFile = import_node_path14.default.join(workingDir.logs, "SpraxDev_Actions-SpigotMC.log"), appLogStream = import_node_fs10.default.createWriteStream(appLogFile, {
   encoding: "utf-8",
   flags: "a"
   /* append */
@@ -37536,7 +37971,10 @@ async function run() {
       logInfo("Installed Java-Version:"), await runCmd("java", ["-version"], workingDir.base, appLogStream), logInfo(`
 Downloading '${buildTool.url}'...`), await downloadFile(buildTool.url, import_node_path14.default.join(workingDir.cache, "BuildTools.jar"));
       let gotTemplateDirectory = versions.length != 1, buildToolsArgs = ["-jar", "BuildTools.jar", "--compile", "Spigot", "--nogui"];
-      generateSrc && buildToolsArgs.push("--generate-source"), generateDoc && buildToolsArgs.push("--generate-docs"), disableJavaCheck && buildToolsArgs.push("--disable-java-check"), remapped && buildToolsArgs.push("--remapped");
+      if (generateSrc && buildToolsArgs.push("--generate-source"), generateDoc && buildToolsArgs.push("--generate-docs"), disableJavaCheck && buildToolsArgs.push("--disable-java-check"), remapped && buildToolsArgs.push("--remapped"), finalJarOutputDir) {
+        let outputDir = import_node_path14.default.isAbsolute(finalJarOutputDir) ? finalJarOutputDir : import_node_path14.default.resolve(finalJarOutputDir);
+        import_node_fs10.default.existsSync(outputDir) || import_node_fs10.default.mkdirSync(outputDir, { recursive: !0 }), buildToolsArgs.push("--output-dir"), buildToolsArgs.push(import_node_path14.default.isAbsolute(finalJarOutputDir) ? finalJarOutputDir : import_node_path14.default.resolve(finalJarOutputDir));
+      }
       let tasks = [];
       for (let ver of versions)
         tasks.push(async () => new Promise(async (resolveTask, rejectTask) => {
