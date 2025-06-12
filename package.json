@@ -39,19 +39,19 @@
     "async": "^3.2.6",
     "fs-extra": "^11.3.0",
     "n-readlines": "^1.0.1",
-    "ssh2-sftp-client": "^11.0.0",
+    "ssh2-sftp-client": "^12.0.0",
     "tar": "^7.4.3",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
+    "@tsconfig/node20": "^20.1.5",
     "@types/async": "^3.2.24",
     "@types/fs-extra": "^11.0.4",
     "@types/n-readlines": "^1.0.6",
-    "@types/node": "^20.17.22",
+    "@types/node": "^20.19.0",
     "@types/ssh2-sftp-client": "^9.0.4",
-    "esbuild": "^0.25.0",
+    "esbuild": "^0.25.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   }
 }
