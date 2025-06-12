@@ -10,10 +10,10 @@ var __commonJS = (cb, mod) => function() {
 var __export = (target, all) => {
   for (var name2 in all)
     __defProp(target, name2, { get: all[name2], enumerable: !0 });
-}, __copyProps = (to, from, except, desc) => {
+}, __copyProps = (to, from, except, desc2) => {
   if (from && typeof from == "object" || typeof from == "function")
     for (let key of __getOwnPropNames(from))
-      !__hasOwnProp.call(to, key) && key !== except && __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+      !__hasOwnProp.call(to, key) && key !== except && __defProp(to, key, { get: () => from[key], enumerable: !(desc2 = __getOwnPropDesc(from, key)) || desc2.enumerable });
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
@@ -55,10 +55,10 @@ var require_command = __commonJS({
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       k2 === void 0 && (k2 = k);
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) && (desc = { enumerable: !0, get: function() {
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
         return m[k];
-      } }), Object.defineProperty(o, k2, desc);
+      } }), Object.defineProperty(o, k2, desc2);
     } : function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), o[k2] = m[k];
     }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
@@ -116,10 +116,10 @@ var require_file_command = __commonJS({
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       k2 === void 0 && (k2 = k);
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) && (desc = { enumerable: !0, get: function() {
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
         return m[k];
-      } }), Object.defineProperty(o, k2, desc);
+      } }), Object.defineProperty(o, k2, desc2);
     } : function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), o[k2] = m[k];
     }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
@@ -5925,7 +5925,12 @@ var require_pool = __commonJS({
           timeout: connectTimeout,
           ...util.nodeHasAutoSelectFamily && autoSelectFamily ? { autoSelectFamily, autoSelectFamilyAttemptTimeout } : void 0,
           ...connect
-        })), this[kInterceptors] = options.interceptors && options.interceptors.Pool && Array.isArray(options.interceptors.Pool) ? options.interceptors.Pool : [], this[kConnections] = connections || null, this[kUrl] = util.parseOrigin(origin), this[kOptions] = { ...util.deepClone(options), connect, allowH2 }, this[kOptions].interceptors = options.interceptors ? { ...options.interceptors } : void 0, this[kFactory] = factory;
+        })), this[kInterceptors] = options.interceptors && options.interceptors.Pool && Array.isArray(options.interceptors.Pool) ? options.interceptors.Pool : [], this[kConnections] = connections || null, this[kUrl] = util.parseOrigin(origin), this[kOptions] = { ...util.deepClone(options), connect, allowH2 }, this[kOptions].interceptors = options.interceptors ? { ...options.interceptors } : void 0, this[kFactory] = factory, this.on("connectionError", (origin2, targets, error) => {
+          for (let target of targets) {
+            let idx = this[kClients].indexOf(target);
+            idx !== -1 && this[kClients].splice(idx, 1);
+          }
+        });
       }
       [kGetDispatcher]() {
         let dispatcher = this[kClients].find((dispatcher2) => !dispatcher2[kNeedDrain]);
@@ -6121,7 +6126,7 @@ var require_agent = __commonJS({
 var require_readable = __commonJS({
   "node_modules/undici/lib/api/readable.js"(exports2, module2) {
     "use strict";
-    var assert3 = require("assert"), { Readable } = require("stream"), { RequestAbortedError, NotSupportedError, InvalidArgumentError } = require_errors(), util = require_util(), { ReadableStreamFrom, toUSVString } = require_util(), Blob2, kConsume = Symbol("kConsume"), kReading = Symbol("kReading"), kBody = Symbol("kBody"), kAbort = Symbol("abort"), kContentType = Symbol("kContentType"), noop2 = () => {
+    var assert3 = require("assert"), { Readable } = require("stream"), { RequestAbortedError, NotSupportedError, InvalidArgumentError } = require_errors(), util = require_util(), { ReadableStreamFrom, toUSVString } = require_util(), Blob2, kConsume = Symbol("kConsume"), kReading = Symbol("kReading"), kBody = Symbol("kBody"), kAbort = Symbol("abort"), kContentType = Symbol("kContentType"), noop3 = () => {
     };
     module2.exports = class extends Readable {
       constructor({
@@ -6200,10 +6205,10 @@ var require_readable = __commonJS({
         return this.closed ? Promise.resolve(null) : new Promise((resolve2, reject) => {
           let signalListenerCleanup = signal ? util.addAbortListener(signal, () => {
             this.destroy();
-          }) : noop2;
+          }) : noop3;
           this.on("close", function() {
             signalListenerCleanup(), signal && signal.aborted ? reject(signal.reason || Object.assign(new Error("The operation was aborted"), { name: "AbortError" })) : resolve2(null);
-          }).on("error", noop2).on("data", function(chunk) {
+          }).on("error", noop3).on("data", function(chunk) {
             limit -= chunk.length, limit <= 0 && this.destroy();
           }).resume();
         });
@@ -7761,7 +7766,7 @@ var require_headers = __commonJS({
       makeIterator,
       isValidHeaderName,
       isValidHeaderValue
-    } = require_util2(), { webidl } = require_webidl(), assert3 = require("assert"), kHeadersMap = Symbol("headers map"), kHeadersSortedMap = Symbol("headers map sorted");
+    } = require_util2(), util = require("util"), { webidl } = require_webidl(), assert3 = require("assert"), kHeadersMap = Symbol("headers map"), kHeadersSortedMap = Symbol("headers map sorted");
     function isHTTPWhiteSpaceCharCode(code2) {
       return code2 === 10 || code2 === 13 || code2 === 9 || code2 === 32;
     }
@@ -8019,6 +8024,9 @@ var require_headers = __commonJS({
       [Symbol.toStringTag]: {
         value: "Headers",
         configurable: !0
+      },
+      [util.inspect.custom]: {
+        enumerable: !1
       }
     });
     webidl.converters.HeadersInit = function(V) {
@@ -10499,7 +10507,6 @@ var require_constants4 = __commonJS({
 var require_util6 = __commonJS({
   "node_modules/undici/lib/cookies/util.js"(exports2, module2) {
     "use strict";
-    var assert3 = require("assert"), { kHeadersList } = require_symbols();
     function isCTLExcludingHtab(value) {
       if (value.length === 0)
         return !1;
@@ -10577,20 +10584,13 @@ var require_util6 = __commonJS({
       }
       return out.join("; ");
     }
-    var kHeadersListNode;
-    function getHeadersList(headers) {
-      if (headers[kHeadersList])
-        return headers[kHeadersList];
-      kHeadersListNode || (kHeadersListNode = Object.getOwnPropertySymbols(headers).find(
-        (symbol) => symbol.description === "headers list"
-      ), assert3(kHeadersListNode, "Headers cannot be parsed"));
-      let headersList = headers[kHeadersListNode];
-      return assert3(headersList), headersList;
-    }
     module2.exports = {
       isCTLExcludingHtab,
-      stringify,
-      getHeadersList
+      validateCookieName,
+      validateCookiePath,
+      validateCookieValue,
+      toIMFDate,
+      stringify
     };
   }
 });
@@ -10685,7 +10685,7 @@ var require_parse = __commonJS({
 var require_cookies = __commonJS({
   "node_modules/undici/lib/cookies/index.js"(exports2, module2) {
     "use strict";
-    var { parseSetCookie } = require_parse(), { stringify, getHeadersList } = require_util6(), { webidl } = require_webidl(), { Headers } = require_headers();
+    var { parseSetCookie } = require_parse(), { stringify } = require_util6(), { webidl } = require_webidl(), { Headers } = require_headers();
     function getCookies(headers) {
       webidl.argumentLengthCheck(arguments, 1, { header: "getCookies" }), webidl.brandCheck(headers, Headers, { strict: !1 });
       let cookie = headers.get("cookie"), out = {};
@@ -10707,8 +10707,8 @@ var require_cookies = __commonJS({
     }
     function getSetCookies(headers) {
       webidl.argumentLengthCheck(arguments, 1, { header: "getSetCookies" }), webidl.brandCheck(headers, Headers, { strict: !1 });
-      let cookies = getHeadersList(headers).cookies;
-      return cookies ? cookies.map((pair) => parseSetCookie(Array.isArray(pair) ? pair[1] : pair)) : [];
+      let cookies = headers.getSetCookie();
+      return cookies ? cookies.map((pair) => parseSetCookie(pair)) : [];
     }
     function setCookie(headers, cookie) {
       webidl.argumentLengthCheck(arguments, 2, { header: "setCookie" }), webidl.brandCheck(headers, Headers, { strict: !1 }), cookie = webidl.converters.Cookie(cookie), stringify(cookie) && headers.append("Set-Cookie", stringify(cookie));
@@ -11776,10 +11776,10 @@ var require_lib = __commonJS({
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       k2 === void 0 && (k2 = k);
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) && (desc = { enumerable: !0, get: function() {
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
         return m[k];
-      } }), Object.defineProperty(o, k2, desc);
+      } }), Object.defineProperty(o, k2, desc2);
     } : function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), o[k2] = m[k];
     }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
@@ -12627,10 +12627,10 @@ var require_path_utils = __commonJS({
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       k2 === void 0 && (k2 = k);
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) && (desc = { enumerable: !0, get: function() {
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
         return m[k];
-      } }), Object.defineProperty(o, k2, desc);
+      } }), Object.defineProperty(o, k2, desc2);
     } : function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), o[k2] = m[k];
     }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
@@ -13354,10 +13354,10 @@ var require_platform = __commonJS({
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       k2 === void 0 && (k2 = k);
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) && (desc = { enumerable: !0, get: function() {
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
         return m[k];
-      } }), Object.defineProperty(o, k2, desc);
+      } }), Object.defineProperty(o, k2, desc2);
     } : function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), o[k2] = m[k];
     }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
@@ -13455,10 +13455,10 @@ var require_core = __commonJS({
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
       k2 === void 0 && (k2 = k);
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) && (desc = { enumerable: !0, get: function() {
+      var desc2 = Object.getOwnPropertyDescriptor(m, k);
+      (!desc2 || ("get" in desc2 ? !m.__esModule : desc2.writable || desc2.configurable)) && (desc2 = { enumerable: !0, get: function() {
         return m[k];
-      } }), Object.defineProperty(o, k2, desc);
+      } }), Object.defineProperty(o, k2, desc2);
     } : function(o, m, k, k2) {
       k2 === void 0 && (k2 = k), o[k2] = m[k];
     }), __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
@@ -15230,7 +15230,7 @@ var require_graceful_fs = __commonJS({
   "node_modules/graceful-fs/graceful-fs.js"(exports2, module2) {
     var fs11 = require("fs"), polyfills = require_polyfills(), legacy = require_legacy_streams(), clone = require_clone(), util = require("util"), gracefulQueue, previousSymbol;
     typeof Symbol == "function" && typeof Symbol.for == "function" ? (gracefulQueue = Symbol.for("graceful-fs.queue"), previousSymbol = Symbol.for("graceful-fs.previous")) : (gracefulQueue = "___graceful-fs.queue", previousSymbol = "___graceful-fs.previous");
-    function noop2() {
+    function noop3() {
     }
     function publishQueue(context, queue2) {
       Object.defineProperty(context, gracefulQueue, {
@@ -15239,7 +15239,7 @@ var require_graceful_fs = __commonJS({
         }
       });
     }
-    var debug = noop2;
+    var debug = noop3;
     util.debuglog ? debug = util.debuglog("gfs4") : /\bgfs4\b/i.test(process.env.NODE_DEBUG || "") && (debug = function() {
       var m = util.format.apply(util, arguments);
       m = "GFS4: " + m.split(/\n/).join(`
@@ -20050,7 +20050,7 @@ var require_bcrypt_pbkdf = __commonJS({
 // node_modules/cpu-features/build/Release/cpufeatures.node
 var require_cpufeatures = __commonJS({
   "node_modules/cpu-features/build/Release/cpufeatures.node"(exports2, module2) {
-    module2.exports = "./cpufeatures-BQHYZFM4.node";
+    module2.exports = "./cpufeatures-GVCOVLZP.node";
   }
 });
 
@@ -20623,7 +20623,7 @@ var require_utils5 = __commonJS({
 // node_modules/ssh2/lib/protocol/crypto/build/Release/sshcrypto.node
 var require_sshcrypto = __commonJS({
   "node_modules/ssh2/lib/protocol/crypto/build/Release/sshcrypto.node"(exports2, module2) {
-    module2.exports = "./sshcrypto-JA32PPSG.node";
+    module2.exports = "./sshcrypto-FT2U4C3H.node";
   }
 });
 
@@ -22636,7 +22636,7 @@ var require_agent2 = __commonJS({
       let combined = Buffer.allocUnsafe(buf1.length + buf2.length);
       return buf1.copy(combined, 0), buf2.copy(combined, buf1.length), combined;
     }
-    function noop2() {
+    function noop3() {
     }
     var EMPTY_BUF = Buffer.alloc(0), binaryParser = makeBufferParser(), BaseAgent = class {
       getIdentities(cb) {
@@ -23012,13 +23012,13 @@ var require_agent2 = __commonJS({
             }
           pubKey = pubKey.getPublicSSH();
           let type = 13, keyLen = pubKey.length, dataLen = data.length, p = 0, buf = Buffer.allocUnsafe(9 + keyLen + 4 + dataLen + 4);
-          return writeUInt32BE(buf, buf.length - 4, p), buf[p += 4] = type, writeUInt32BE(buf, keyLen, ++p), pubKey.copy(buf, p += 4), writeUInt32BE(buf, dataLen, p += keyLen), data.copy(buf, p += 4), writeUInt32BE(buf, flags, p += dataLen), typeof cb != "function" && (cb = noop2), this[SYM_REQS].push({ type, cb }), this.push(buf);
+          return writeUInt32BE(buf, buf.length - 4, p), buf[p += 4] = type, writeUInt32BE(buf, keyLen, ++p), pubKey.copy(buf, p += 4), writeUInt32BE(buf, dataLen, p += keyLen), data.copy(buf, p += 4), writeUInt32BE(buf, flags, p += dataLen), typeof cb != "function" && (cb = noop3), this[SYM_REQS].push({ type, cb }), this.push(buf);
         }
         getIdentities(cb) {
           if (this[SYM_MODE] !== 0)
             throw new Error("Client-only method called with server role");
           let type = 11, p = 0, buf = Buffer.allocUnsafe(5);
-          return writeUInt32BE(buf, buf.length - 4, p), buf[p += 4] = type, typeof cb != "function" && (cb = noop2), this[SYM_REQS].push({ type, cb }), this.push(buf);
+          return writeUInt32BE(buf, buf.length - 4, p), buf[p += 4] = type, typeof cb != "function" && (cb = noop3), this[SYM_REQS].push({ type, cb }), this.push(buf);
         }
         // Server->Client messages =================================================
         failureReply(req) {
@@ -23092,7 +23092,7 @@ var require_agent2 = __commonJS({
         this[SYM_AGENT] = agent, this[SYM_AGENT_KEYS] = null, this[SYM_AGENT_KEYS_IDX] = -1, this[SYM_AGENT_CBS] = null;
       }
       init(cb) {
-        if (typeof cb != "function" && (cb = noop2), this[SYM_AGENT_KEYS] === null)
+        if (typeof cb != "function" && (cb = noop3), this[SYM_AGENT_KEYS] === null)
           if (this[SYM_AGENT_CBS] === null) {
             this[SYM_AGENT_CBS] = [cb];
             let doCbs = (...args) => {
@@ -23323,17 +23323,17 @@ var require_handlers_misc = __commonJS({
       // Transport layer protocol ==================================================
       [MESSAGE.DISCONNECT]: (self2, payload) => {
         bufferParser.init(payload, 1);
-        let reason = bufferParser.readUInt32BE(), desc = bufferParser.readString(!0), lang = bufferParser.readString();
+        let reason = bufferParser.readUInt32BE(), desc2 = bufferParser.readString(!0), lang = bufferParser.readString();
         if (bufferParser.clear(), lang === void 0)
           return doFatalError(
             self2,
             "Inbound: Malformed DISCONNECT packet"
           );
         self2._debug && self2._debug(
-          `Inbound: Received DISCONNECT (${reason}, "${desc}")`
+          `Inbound: Received DISCONNECT (${reason}, "${desc2}")`
         );
         let handler = self2._handlers.DISCONNECT;
-        handler && handler(self2, reason, desc);
+        handler && handler(self2, reason, desc2);
       },
       [MESSAGE.IGNORE]: (self2, payload) => {
         self2._debug && self2._debug("Inbound: Received IGNORE");
@@ -24901,12 +24901,12 @@ var require_kex = __commonJS({
             all: void 0
           }, totalSize = 0;
           for (let prop of KEX_PROPERTY_NAMES) {
-            let base, val, desc, key;
+            let base, val, desc2, key;
             if (typeof prop == "string")
-              base = lists, val = obj[prop], desc = key = prop;
+              base = lists, val = obj[prop], desc2 = key = prop;
             else {
               let parent = prop[0];
-              base = lists[parent], key = prop[1], val = obj[parent][key], desc = `${parent}.${key}`;
+              base = lists[parent], key = prop[1], val = obj[parent][key], desc2 = `${parent}.${key}`;
             }
             let entry = { array: void 0, buffer: void 0 };
             if (Buffer.isBuffer(val))
@@ -24915,7 +24915,7 @@ var require_kex = __commonJS({
               if (typeof val == "string" && (val = val.split(",")), Array.isArray(val))
                 entry.array = val, entry.buffer = Buffer.from(val.join(","));
               else
-                throw new TypeError(`Invalid \`${desc}\` type: ${typeof val}`);
+                throw new TypeError(`Invalid \`${desc2}\` type: ${typeof val}`);
               totalSize += 4 + entry.buffer.length;
             }
             base[key] = entry;
@@ -25182,7 +25182,7 @@ var require_Protocol = __commonJS({
       // Request a reply
       1
     ]), NO_TERMINAL_MODES_BUFFER = Buffer.from([TERMINAL_MODE.TTY_OP_END]);
-    function noop2() {
+    function noop3() {
     }
     var Protocol = class {
       constructor(config) {
@@ -25205,13 +25205,13 @@ var require_Protocol = __commonJS({
         let onHeader = config.onHeader;
         this._onHeader = typeof onHeader == "function" ? (...args) => {
           onHeader(...args);
-        } : noop2;
+        } : noop3;
         let onPacket = config.onPacket;
         this._onPacket = typeof onPacket == "function" ? () => {
           onPacket();
-        } : noop2;
+        } : noop3;
         let onHandshakeComplete = config.onHandshakeComplete;
-        typeof onHandshakeComplete != "function" && (onHandshakeComplete = noop2);
+        typeof onHandshakeComplete != "function" && (onHandshakeComplete = noop3);
         let firstHandshake;
         this._onHandshakeComplete = (...args) => {
           this._debug && this._debug("Handshake completed"), firstHandshake === void 0 ? firstHandshake = !0 : firstHandshake = !1;
@@ -25348,10 +25348,10 @@ var require_Protocol = __commonJS({
           `Outbound: Sending CHANNEL_OPEN_CONFIRMATION (r:${remote}, l:${local})`
         ), sendPacket(this, this._packetRW.write.finalize(packet));
       }
-      channelOpenFail(remote, reason, desc) {
-        typeof desc != "string" && (desc = "");
-        let descLen = Buffer.byteLength(desc), p = this._packetRW.write.allocStart, packet = this._packetRW.write.alloc(13 + descLen + 4);
-        packet[p] = MESSAGE.CHANNEL_OPEN_FAILURE, writeUInt32BE(packet, remote, ++p), writeUInt32BE(packet, reason, p += 4), writeUInt32BE(packet, descLen, p += 4), p += 4, descLen && (packet.utf8Write(desc, p, descLen), p += descLen), writeUInt32BE(packet, 0, p), this._debug && this._debug(`Outbound: Sending CHANNEL_OPEN_FAILURE (r:${remote})`), sendPacket(this, this._packetRW.write.finalize(packet));
+      channelOpenFail(remote, reason, desc2) {
+        typeof desc2 != "string" && (desc2 = "");
+        let descLen = Buffer.byteLength(desc2), p = this._packetRW.write.allocStart, packet = this._packetRW.write.alloc(13 + descLen + 4);
+        packet[p] = MESSAGE.CHANNEL_OPEN_FAILURE, writeUInt32BE(packet, remote, ++p), writeUInt32BE(packet, reason, p += 4), writeUInt32BE(packet, descLen, p += 4), p += 4, descLen && (packet.utf8Write(desc2, p, descLen), p += descLen), writeUInt32BE(packet, 0, p), this._debug && this._debug(`Outbound: Sending CHANNEL_OPEN_FAILURE (r:${remote})`), sendPacket(this, this._packetRW.write.finalize(packet));
       }
       // ===========================================================================
       // Client-specific ===========================================================
@@ -26041,7 +26041,7 @@ var require_SFTP = __commonJS({
       end: () => {
       }
     };
-    function noop2() {
+    function noop3() {
     }
     var SFTP = class extends EventEmitter2 {
       constructor(client, chanInfo, cfg) {
@@ -26113,7 +26113,7 @@ var require_SFTP = __commonJS({
         (this.outgoing.state === "open" || this.outgoing.state === "eof") && (this.outgoing.state = "closing", this._protocol.channelClose(this.outgoing.id));
       }
       _init() {
-        this._init = noop2, this.server || sendOrBuffer(this, CLIENT_VERSION_BUFFER);
+        this._init = noop3, this.server || sendOrBuffer(this, CLIENT_VERSION_BUFFER);
       }
       // ===========================================================================
       // Client-specific ===========================================================
@@ -26945,7 +26945,7 @@ var require_SFTP = __commonJS({
       writeUInt32BE(out, reqid, 5), writeUInt32BE(out, handleLen, p), out.set(handle, p += 4), p += handleLen;
       for (let i = 7; i >= 0; --i)
         out[p + i] = pos2 & 255, pos2 /= 256;
-      writeUInt32BE(out, len, p += 8), typeof cb != "function" && (cb = noop2);
+      writeUInt32BE(out, len, p += 8), typeof cb != "function" && (cb = noop3);
       let req = req_ || {
         nb: 0,
         position,
@@ -28241,7 +28241,7 @@ var require_client2 = __commonJS({
       isWritable: isWritable2,
       onChannelOpenFailure,
       onCHANNEL_CLOSE
-    } = require_utils6(), bufferParser = makeBufferParser(), sigParser = makeBufferParser(), RE_OPENSSH = /^OpenSSH_(?:(?![0-4])\d)|(?:\d{2,})/, noop2 = (err) => {
+    } = require_utils6(), bufferParser = makeBufferParser(), sigParser = makeBufferParser(), RE_OPENSSH = /^OpenSSH_(?:(?![0-4])\d)|(?:\d{2,})/, noop3 = (err) => {
     }, Client = class extends EventEmitter2 {
       constructor() {
         super(), this.config = {
@@ -28366,10 +28366,10 @@ var require_client2 = __commonJS({
           hostVerifier,
           messageHandlers: {
             DEBUG: DEBUG_HANDLER,
-            DISCONNECT: (p, reason, desc) => {
+            DISCONNECT: (p, reason, desc2) => {
               if (reason !== DISCONNECT_REASON.BY_APPLICATION) {
-                desc || (desc = DISCONNECT_REASON_BY_VALUE[reason], desc === void 0 && (desc = `Unexpected disconnection reason: ${reason}`));
-                let err = new Error(desc);
+                desc2 || (desc2 = DISCONNECT_REASON_BY_VALUE[reason], desc2 === void 0 && (desc2 = `Unexpected disconnection reason: ${reason}`));
+                let err = new Error(desc2);
                 err.code = reason, this.emit("error", err);
               }
               sock.end();
@@ -29000,7 +29000,7 @@ var require_client2 = __commonJS({
           dstIP,
           dstPort
         };
-        return typeof cb != "function" && (cb = noop2), openChannel(this, "direct-tcpip", cfg, cb), this;
+        return typeof cb != "function" && (cb = noop3), openChannel(this, "direct-tcpip", cfg, cb), this;
       }
       openssh_noMoreSessions(cb) {
         if (!this._sock || !isWritable2(this._sock))
@@ -29056,7 +29056,7 @@ var require_client2 = __commonJS({
       openssh_forwardOutStreamLocal(socketPath, cb) {
         if (!this._sock || !isWritable2(this._sock))
           throw new Error("Not connected");
-        return typeof cb != "function" && (cb = noop2), !this.config.strictVendor || this.config.strictVendor && RE_OPENSSH.test(this._remoteVer) ? (openChannel(this, "direct-streamlocal@openssh.com", { socketPath }, cb), this) : (process.nextTick(
+        return typeof cb != "function" && (cb = noop3), !this.config.strictVendor || this.config.strictVendor && RE_OPENSSH.test(this._remoteVer) ? (openChannel(this, "direct-streamlocal@openssh.com", { socketPath }, cb), this) : (process.nextTick(
           cb,
           new Error(
             "strictVendor enabled and server is not OpenSSH or compatible version"
@@ -29328,7 +29328,7 @@ var require_client2 = __commonJS({
     function hostKeysProve(client, keys_, cb) {
       if (!client._sock || !isWritable2(client._sock))
         return;
-      if (typeof cb != "function" && (cb = noop2), !Array.isArray(keys_))
+      if (typeof cb != "function" && (cb = noop3), !Array.isArray(keys_))
         throw new TypeError("Invalid keys argument type");
       let keys = [];
       for (let key of keys_) {
@@ -29423,11 +29423,11 @@ var require_http_agents = __commonJS({
       }
       exports2[ctor === HttpAgent ? "SSHTTPAgent" : "SSHTTPSAgent"] = SSHAgent;
     }
-    function noop2() {
+    function noop3() {
     }
     function decorateStream(stream, ctor, options) {
       if (ctor === HttpAgent)
-        return stream.setKeepAlive = noop2, stream.setNoDelay = noop2, stream.setTimeout = noop2, stream.ref = noop2, stream.unref = noop2, stream.destroySoon = stream.destroy, stream;
+        return stream.setKeepAlive = noop3, stream.setNoDelay = noop3, stream.setTimeout = noop3, stream.ref = noop3, stream.unref = noop3, stream.destroySoon = stream.destroy, stream;
       options.socket = stream;
       let wrapped = tlsConnect(options), onClose = /* @__PURE__ */ (() => {
         let called = !1;
@@ -29722,10 +29722,10 @@ var require_server = __commonJS({
           debug,
           messageHandlers: {
             DEBUG: DEBUG_HANDLER,
-            DISCONNECT: (p, reason, desc) => {
+            DISCONNECT: (p, reason, desc2) => {
               if (reason !== DISCONNECT_REASON.BY_APPLICATION) {
-                desc || (desc = DISCONNECT_REASON_BY_VALUE[reason], desc === void 0 && (desc = `Unexpected disconnection reason: ${reason}`));
-                let err = new Error(desc);
+                desc2 || (desc2 = DISCONNECT_REASON_BY_VALUE[reason], desc2 === void 0 && (desc2 = `Unexpected disconnection reason: ${reason}`));
+                let err = new Error(desc2);
                 err.code = reason, this.emit("error", err);
               }
               socket.end();
@@ -30484,11 +30484,11 @@ var require_keygen = __commonJS({
           throw new Error("Invalid output key format");
       }
     }
-    function noop2() {
+    function noop3() {
     }
     module2.exports = {
       generateKeyPair: (keyType, opts, cb) => {
-        typeof opts == "function" && (cb = opts, opts = void 0), typeof cb != "function" && (cb = noop2);
+        typeof opts == "function" && (cb = opts, opts = void 0), typeof cb != "function" && (cb = noop3);
         let args = makeArgs(keyType, opts);
         generateKeyPair_(...args, (err, pub, priv) => {
           if (err)
@@ -31423,14 +31423,14 @@ var require_end_of_stream = __commonJS({
         }
       };
     }
-    function noop2() {
+    function noop3() {
     }
     function isRequest(stream) {
       return stream.setHeader && typeof stream.abort == "function";
     }
     function eos(stream, opts, callback) {
       if (typeof opts == "function") return eos(stream, null, opts);
-      opts || (opts = {}), callback = once(callback || noop2);
+      opts || (opts = {}), callback = once(callback || noop3);
       var readable = opts.readable || opts.readable !== !1 && stream.readable, writable = opts.writable || opts.writable !== !1 && stream.writable, onlegacyfinish = function() {
         stream.writable || onfinish();
       }, writableEnded = stream._writableState && stream._writableState.finished, onfinish = function() {
@@ -32134,7 +32134,7 @@ var require_pipeline = __commonJS({
       };
     }
     var _require$codes = require_errors3().codes, ERR_MISSING_ARGS = _require$codes.ERR_MISSING_ARGS, ERR_STREAM_DESTROYED = _require$codes.ERR_STREAM_DESTROYED;
-    function noop2(err) {
+    function noop3(err) {
       if (err) throw err;
     }
     function isRequest(stream) {
@@ -32168,7 +32168,7 @@ var require_pipeline = __commonJS({
       return from.pipe(to);
     }
     function popCallback(streams) {
-      return !streams.length || typeof streams[streams.length - 1] != "function" ? noop2 : streams.pop();
+      return !streams.length || typeof streams[streams.length - 1] != "function" ? noop3 : streams.pop();
     }
     function pipeline() {
       for (var _len = arguments.length, streams = new Array(_len), _key = 0; _key < _len; _key++)
@@ -32274,9 +32274,9 @@ var require_typedarray = __commonJS({
       } catch {
         return !1;
       }
-    }() ? defineProp = Object.defineProperty : defineProp = function(o, p, desc) {
+    }() ? defineProp = Object.defineProperty : defineProp = function(o, p, desc2) {
       if (!o === Object(o)) throw new TypeError("Object.defineProperty called on non-object");
-      return ECMAScript.HasProperty(desc, "get") && Object.prototype.__defineGetter__ && Object.prototype.__defineGetter__.call(o, p, desc.get), ECMAScript.HasProperty(desc, "set") && Object.prototype.__defineSetter__ && Object.prototype.__defineSetter__.call(o, p, desc.set), ECMAScript.HasProperty(desc, "value") && (o[p] = desc.value), o;
+      return ECMAScript.HasProperty(desc2, "get") && Object.prototype.__defineGetter__ && Object.prototype.__defineGetter__.call(o, p, desc2.get), ECMAScript.HasProperty(desc2, "set") && Object.prototype.__defineSetter__ && Object.prototype.__defineSetter__.call(o, p, desc2.set), ECMAScript.HasProperty(desc2, "value") && (o[p] = desc2.value), o;
     };
     var getOwnPropNames = Object.getOwnPropertyNames || function(o) {
       if (o !== Object(o)) throw new TypeError("Object.getOwnPropertyNames called on non-object");
@@ -32588,191 +32588,6 @@ var require_concat_stream = __commonJS({
   }
 });
 
-// node_modules/err-code/index.js
-var require_err_code = __commonJS({
-  "node_modules/err-code/index.js"(exports2, module2) {
-    "use strict";
-    function assign(obj, props) {
-      for (let key in props)
-        Object.defineProperty(obj, key, {
-          value: props[key],
-          enumerable: !0,
-          configurable: !0
-        });
-      return obj;
-    }
-    function createError(err, code2, props) {
-      if (!err || typeof err == "string")
-        throw new TypeError("Please pass an Error to err-code");
-      props || (props = {}), typeof code2 == "object" && (props = code2, code2 = void 0), code2 != null && (props.code = code2);
-      try {
-        return assign(err, props);
-      } catch {
-        props.message = err.message, props.stack = err.stack;
-        let ErrClass = function() {
-        };
-        return ErrClass.prototype = Object.create(Object.getPrototypeOf(err)), assign(new ErrClass(), props);
-      }
-    }
-    module2.exports = createError;
-  }
-});
-
-// node_modules/retry/lib/retry_operation.js
-var require_retry_operation = __commonJS({
-  "node_modules/retry/lib/retry_operation.js"(exports2, module2) {
-    function RetryOperation(timeouts, options) {
-      typeof options == "boolean" && (options = { forever: options }), this._originalTimeouts = JSON.parse(JSON.stringify(timeouts)), this._timeouts = timeouts, this._options = options || {}, this._maxRetryTime = options && options.maxRetryTime || 1 / 0, this._fn = null, this._errors = [], this._attempts = 1, this._operationTimeout = null, this._operationTimeoutCb = null, this._timeout = null, this._operationStart = null, this._options.forever && (this._cachedTimeouts = this._timeouts.slice(0));
-    }
-    module2.exports = RetryOperation;
-    RetryOperation.prototype.reset = function() {
-      this._attempts = 1, this._timeouts = this._originalTimeouts;
-    };
-    RetryOperation.prototype.stop = function() {
-      this._timeout && clearTimeout(this._timeout), this._timeouts = [], this._cachedTimeouts = null;
-    };
-    RetryOperation.prototype.retry = function(err) {
-      if (this._timeout && clearTimeout(this._timeout), !err)
-        return !1;
-      var currentTime = (/* @__PURE__ */ new Date()).getTime();
-      if (err && currentTime - this._operationStart >= this._maxRetryTime)
-        return this._errors.unshift(new Error("RetryOperation timeout occurred")), !1;
-      this._errors.push(err);
-      var timeout = this._timeouts.shift();
-      if (timeout === void 0)
-        if (this._cachedTimeouts)
-          this._errors.splice(this._errors.length - 1, this._errors.length), this._timeouts = this._cachedTimeouts.slice(0), timeout = this._timeouts.shift();
-        else
-          return !1;
-      var self2 = this, timer = setTimeout(function() {
-        self2._attempts++, self2._operationTimeoutCb && (self2._timeout = setTimeout(function() {
-          self2._operationTimeoutCb(self2._attempts);
-        }, self2._operationTimeout), self2._options.unref && self2._timeout.unref()), self2._fn(self2._attempts);
-      }, timeout);
-      return this._options.unref && timer.unref(), !0;
-    };
-    RetryOperation.prototype.attempt = function(fn, timeoutOps) {
-      this._fn = fn, timeoutOps && (timeoutOps.timeout && (this._operationTimeout = timeoutOps.timeout), timeoutOps.cb && (this._operationTimeoutCb = timeoutOps.cb));
-      var self2 = this;
-      this._operationTimeoutCb && (this._timeout = setTimeout(function() {
-        self2._operationTimeoutCb();
-      }, self2._operationTimeout)), this._operationStart = (/* @__PURE__ */ new Date()).getTime(), this._fn(this._attempts);
-    };
-    RetryOperation.prototype.try = function(fn) {
-      console.log("Using RetryOperation.try() is deprecated"), this.attempt(fn);
-    };
-    RetryOperation.prototype.start = function(fn) {
-      console.log("Using RetryOperation.start() is deprecated"), this.attempt(fn);
-    };
-    RetryOperation.prototype.start = RetryOperation.prototype.try;
-    RetryOperation.prototype.errors = function() {
-      return this._errors;
-    };
-    RetryOperation.prototype.attempts = function() {
-      return this._attempts;
-    };
-    RetryOperation.prototype.mainError = function() {
-      if (this._errors.length === 0)
-        return null;
-      for (var counts = {}, mainError = null, mainErrorCount = 0, i = 0; i < this._errors.length; i++) {
-        var error = this._errors[i], message = error.message, count = (counts[message] || 0) + 1;
-        counts[message] = count, count >= mainErrorCount && (mainError = error, mainErrorCount = count);
-      }
-      return mainError;
-    };
-  }
-});
-
-// node_modules/retry/lib/retry.js
-var require_retry = __commonJS({
-  "node_modules/retry/lib/retry.js"(exports2) {
-    var RetryOperation = require_retry_operation();
-    exports2.operation = function(options) {
-      var timeouts = exports2.timeouts(options);
-      return new RetryOperation(timeouts, {
-        forever: options && options.forever,
-        unref: options && options.unref,
-        maxRetryTime: options && options.maxRetryTime
-      });
-    };
-    exports2.timeouts = function(options) {
-      if (options instanceof Array)
-        return [].concat(options);
-      var opts = {
-        retries: 10,
-        factor: 2,
-        minTimeout: 1 * 1e3,
-        maxTimeout: 1 / 0,
-        randomize: !1
-      };
-      for (var key in options)
-        opts[key] = options[key];
-      if (opts.minTimeout > opts.maxTimeout)
-        throw new Error("minTimeout is greater than maxTimeout");
-      for (var timeouts = [], i = 0; i < opts.retries; i++)
-        timeouts.push(this.createTimeout(i, opts));
-      return options && options.forever && !timeouts.length && timeouts.push(this.createTimeout(i, opts)), timeouts.sort(function(a, b) {
-        return a - b;
-      }), timeouts;
-    };
-    exports2.createTimeout = function(attempt, opts) {
-      var random = opts.randomize ? Math.random() + 1 : 1, timeout = Math.round(random * opts.minTimeout * Math.pow(opts.factor, attempt));
-      return timeout = Math.min(timeout, opts.maxTimeout), timeout;
-    };
-    exports2.wrap = function(obj, options, methods) {
-      if (options instanceof Array && (methods = options, options = null), !methods) {
-        methods = [];
-        for (var key in obj)
-          typeof obj[key] == "function" && methods.push(key);
-      }
-      for (var i = 0; i < methods.length; i++) {
-        var method = methods[i], original = obj[method];
-        obj[method] = function(original2) {
-          var op = exports2.operation(options), args = Array.prototype.slice.call(arguments, 1), callback = args.pop();
-          args.push(function(err) {
-            op.retry(err) || (err && (arguments[0] = op.mainError()), callback.apply(this, arguments));
-          }), op.attempt(function() {
-            original2.apply(obj, args);
-          });
-        }.bind(obj, original), obj[method].options = options;
-      }
-    };
-  }
-});
-
-// node_modules/retry/index.js
-var require_retry2 = __commonJS({
-  "node_modules/retry/index.js"(exports2, module2) {
-    module2.exports = require_retry();
-  }
-});
-
-// node_modules/promise-retry/index.js
-var require_promise_retry = __commonJS({
-  "node_modules/promise-retry/index.js"(exports2, module2) {
-    "use strict";
-    var errcode = require_err_code(), retry = require_retry2(), hasOwn = Object.prototype.hasOwnProperty;
-    function isRetryError(err) {
-      return err && err.code === "EPROMISERETRY" && hasOwn.call(err, "retried");
-    }
-    function promiseRetry(fn, options) {
-      var temp, operation;
-      return typeof fn == "object" && typeof options == "function" && (temp = options, options = fn, fn = temp), operation = retry.operation(options), new Promise(function(resolve2, reject) {
-        operation.attempt(function(number) {
-          Promise.resolve().then(function() {
-            return fn(function(err) {
-              throw isRetryError(err) && (err = err.retried), errcode(new Error("Retrying"), "EPROMISERETRY", { retried: err });
-            }, number);
-          }).then(resolve2, function(err) {
-            isRetryError(err) && (err = err.retried, operation.retry(err || new Error())) || reject(err);
-          });
-        });
-      });
-    }
-    module2.exports = promiseRetry;
-  }
-});
-
 // node_modules/ssh2-sftp-client/src/constants.js
 var require_constants7 = __commonJS({
   "node_modules/ssh2-sftp-client/src/constants.js"(exports2, module2) {
@@ -33017,7 +32832,7 @@ var require_utils7 = __commonJS({
 var require_src = __commonJS({
   "node_modules/ssh2-sftp-client/src/index.js"(exports2, module2) {
     "use strict";
-    var { Client } = require_lib6(), fs11 = require("node:fs"), concat = require_concat_stream(), promiseRetry = require_promise_retry(), { join: join2, parse: parse5 } = require("node:path"), {
+    var { Client } = require_lib6(), fs11 = require("node:fs"), concat = require_concat_stream(), { join: join2, parse: parse5 } = require("node:path"), {
       globalListener,
       addTempListeners,
       removeTempListeners,
@@ -33033,7 +32848,7 @@ var require_src = __commonJS({
         end: () => console.log("Global end listener: end event raised"),
         close: () => console.log("Global close listener: close event raised")
       }) {
-        this.version = "11.0.0", this.client = new Client(), this.sftp = void 0, this.clientName = clientName, this.endCalled = !1, this.errorHandled = !1, this.closeHandled = !1, this.endHandled = !1, this.remotePlatform = "unix", this.debug = void 0, this.promiseLimit = 10, this.eventCallbacks = callbacks, this.client.on("close", globalListener(this, "close", this.eventCallbacks)), this.client.on("end", globalListener(this, "end", this.eventCallbacks)), this.client.on("error", globalListener(this, "error", this.eventCallbacks));
+        this.version = "12.0.0", this.client = new Client(), this.sftp = void 0, this.clientName = clientName, this.endCalled = !1, this.errorHandled = !1, this.closeHandled = !1, this.endHandled = !1, this.remotePlatform = "unix", this.debug = void 0, this.promiseLimit = 10, this.eventCallbacks = callbacks, this.client.on("close", globalListener(this, "close", this.eventCallbacks)), this.client.on("end", globalListener(this, "end", this.eventCallbacks)), this.client.on("error", globalListener(this, "error", this.eventCallbacks));
       }
       debugMsg(msg, obj) {
         this.debug && (obj ? this.debug(
@@ -33041,29 +32856,29 @@ var require_src = __commonJS({
         ) : this.debug(`CLIENT[${this.clientName}]: ${msg}`));
       }
       fmtError(err, name2 = "sftp", eCode, retryCount) {
-        let msg = "", code2 = "", retry = retryCount ? ` after ${retryCount} ${retryCount > 1 ? "attempts" : "attempt"}` : "";
+        let msg = "", code2 = "";
         if (err === void 0)
           msg = `${name2}: Undefined error - probably a bug!`, code2 = errorCode.generic;
         else if (typeof err == "string")
-          msg = `${name2}: ${err}${retry}`, code2 = eCode || errorCode.generic;
+          msg = `${name2}: ${err}`, code2 = eCode || errorCode.generic;
         else if (err.custom)
-          msg = `${name2}->${err.message}${retry}`, code2 = err.code;
+          msg = `${name2}->${err.message}`, code2 = err.code;
         else {
           switch (err.code) {
             case "ENOTFOUND": {
-              msg = `${name2}: Address lookup failed for host${retry}`;
+              msg = `${name2}: Address lookup failed for host`;
               break;
             }
             case "ECONNREFUSED": {
-              msg = `${name2}: Remote host refused connection${retry}`;
+              msg = `${name2}: Remote host refused connection`;
               break;
             }
             case "ECONNRESET": {
-              msg = `${name2}: Remote host has reset the connection: ${err.message}${retry}`;
+              msg = `${name2}: Remote host has reset the connection: ${err.message}`;
               break;
             }
             default:
-              msg = `${name2}: ${err.message}${retry}`;
+              msg = `${name2}: ${err.message}`;
           }
           code2 = err.code || errorCode.generic;
         }
@@ -33089,38 +32904,6 @@ var require_src = __commonJS({
         this.closeHandled = !1, this.endHandled = !1, this.errorHandled = !1;
       }
       /**
-       * @async
-       *
-       * Create a new SFTP connection to a remote SFTP server
-       *
-       * @param {Object} config - an SFTP configuration object
-       *
-       * @return {Promise<Object>} which will resolve to an sftp client object
-       */
-      getConnection(config) {
-        let doReady, listeners;
-        return new Promise((resolve2, reject) => {
-          listeners = addTempListeners(this, "getConnection", reject), doReady = () => {
-            resolve2(!0);
-          }, this.on("ready", doReady);
-          try {
-            this.client.connect(config);
-          } catch (err) {
-            reject(err);
-          }
-        }).finally(() => {
-          this.removeListener("ready", doReady), removeTempListeners(this, listeners, "getConnection");
-        });
-      }
-      getSftpChannel() {
-        return new Promise((resolve2, reject) => {
-          this.client.sftp((err, sftp) => {
-            err ? reject(this.fmtError(err, "getSftpChannel", err.code)) : (this.sftp = sftp, resolve2(sftp));
-          });
-        });
-      }
-      /**
-       * @async
        *
        * Create a new SFTP connection to a remote SFTP server.
        * The connection options are the same as those offered
@@ -33130,47 +32913,28 @@ var require_src = __commonJS({
        *
        * @return {Promise<Object>} which will resolve to an sftp client object
        */
-      async connect(config) {
-        let listeners;
-        try {
-          if (listeners = addTempListeners(this, "connect"), config.debug && (this.debug = config.debug, this.debugMsg("connect: Debugging turned on"), this.debugMsg(`ssh2-sftp-client Version: ${this.version} `, process.versions)), this.promiseLimit = config.promiseLimit ?? 10, this.sftp)
-            throw this.fmtError(
-              "An existing SFTP connection is already defined",
-              "connect",
-              errorCode.connect
-            );
-          let retryOpts = {
-            retries: config.retries ?? 1,
-            factor: config.retry_factor ?? 2,
-            minTimeout: config.retry_minTimeout ?? 25e3
-          };
-          await promiseRetry(retryOpts, async (retry, attempt) => {
-            try {
-              this.debugMsg(`connect: Connect attempt ${attempt}`), await this.getConnection(config);
-            } catch (err) {
-              switch (err.code) {
-                case "ENOTFOUND":
-                case "ECONNREFUSED":
-                case "ERR_SOCKET_BAD_PORT":
-                  throw err;
-                case void 0: {
-                  if (err.message.endsWith("All configured authentication methods failed") || err.message.startsWith("Cannot parse privateKey"))
-                    throw err;
-                  retry(err);
-                  break;
-                }
-                default:
-                  retry(err);
-              }
-            }
-          });
-          let sftp = await this.getSftpChannel();
-          return this.endCalled = !1, sftp;
-        } catch (err) {
-          throw this.end(), err.custom ? err : this.fmtError(err, "connect");
-        } finally {
-          removeTempListeners(this, listeners, "connect");
-        }
+      connect(config) {
+        let doReady, listeners;
+        return new Promise((resolve2, reject) => {
+          listeners = addTempListeners(this, "getConnection", reject), config.debug && (this.debug = config.debug, this.debugMsg("connect: Debugging turned on"), this.debugMsg(`ssh2-sftp-client Version: ${this.version} `, process.versions)), this.promiseLimit = config.promiseLimit ?? 10, doReady = () => {
+            this.client.sftp((err, sftp) => {
+              err ? reject(this.fmtError(err)) : (this.sftp = sftp, resolve2(sftp));
+            });
+          }, this.on("ready", doReady);
+          try {
+            this.sftp ? reject(
+              this.fmtError(
+                "An existing SFTP connection is already defined",
+                "connect",
+                errorCode.connect
+              )
+            ) : this.client.connect(config);
+          } catch (err) {
+            this.end(), reject(err);
+          }
+        }).finally(() => {
+          this.removeListener("ready", doReady), removeTempListeners(this, listeners, "getConnection");
+        });
       }
       /**
        * @async
@@ -34035,7 +33799,7 @@ var require_src = __commonJS({
         } catch (err) {
           throw err.custom ? err : this.fmtError(err.message, "createReadStream", err.code);
         } finally {
-          removeTempListeners(this, listeners, "createReadStreame");
+          removeTempListeners(this, listeners, "createReadStream");
         }
       }
       /**
@@ -35154,7 +34918,7 @@ var import_events2 = require("events");
 
 // node_modules/minizlib/dist/esm/index.js
 var import_assert = __toESM(require("assert"), 1), import_buffer = require("buffer");
-var import_zlib2 = __toESM(require("zlib"), 1);
+var realZlib2 = __toESM(require("zlib"), 1);
 
 // node_modules/minizlib/dist/esm/constants.js
 var import_zlib = __toESM(require("zlib"), 1), realZlibConstants = import_zlib.default.constants || { ZLIB_VERNUM: 4736 }, constants = Object.freeze(Object.assign(/* @__PURE__ */ Object.create(null), {
@@ -35267,7 +35031,10 @@ var import_zlib = __toESM(require("zlib"), 1), realZlibConstants = import_zlib.d
 }, realZlibConstants));
 
 // node_modules/minizlib/dist/esm/index.js
-var OriginalBufferConcat = import_buffer.Buffer.concat, _superWrite = Symbol("_superWrite"), ZlibError = class extends Error {
+var OriginalBufferConcat = import_buffer.Buffer.concat, desc = Object.getOwnPropertyDescriptor(import_buffer.Buffer, "concat"), noop = (args) => args, passthroughBufferConcat = desc?.writable === !0 || desc?.set !== void 0 ? (makeNoOp) => {
+  import_buffer.Buffer.concat = makeNoOp ? noop : OriginalBufferConcat;
+} : (_) => {
+}, _superWrite = Symbol("_superWrite"), ZlibError = class extends Error {
   code;
   errno;
   constructor(err) {
@@ -35300,7 +35067,7 @@ var OriginalBufferConcat = import_buffer.Buffer.concat, _superWrite = Symbol("_s
       throw new TypeError("invalid options for ZlibBase constructor");
     super(opts), this.#flushFlag = opts.flush ?? 0, this.#finishFlushFlag = opts.finishFlush ?? 0, this.#fullFlushFlag = opts.fullFlushFlag ?? 0;
     try {
-      this.#handle = new import_zlib2.default[mode](opts);
+      this.#handle = new realZlib2[mode](opts);
     } catch (er) {
       throw new ZlibError(er);
     }
@@ -35337,13 +35104,13 @@ var OriginalBufferConcat = import_buffer.Buffer.concat, _superWrite = Symbol("_s
     };
     let originalClose = this.#handle.close;
     this.#handle.close = () => {
-    }, import_buffer.Buffer.concat = (args) => args;
+    }, passthroughBufferConcat(!0);
     let result;
     try {
       let flushFlag = typeof chunk[_flushFlag] == "number" ? chunk[_flushFlag] : this.#flushFlag;
-      result = this.#handle._processChunk(chunk, flushFlag), import_buffer.Buffer.concat = OriginalBufferConcat;
+      result = this.#handle._processChunk(chunk, flushFlag), passthroughBufferConcat(!1);
     } catch (err) {
-      import_buffer.Buffer.concat = OriginalBufferConcat, this.#onError(new ZlibError(err));
+      passthroughBufferConcat(!1), this.#onError(new ZlibError(err));
     } finally {
       this.#handle && (this.#handle._handle = nativeHandle, nativeHandle.close = originalNativeClose, this.#handle.close = originalClose, this.#handle.removeAllListeners("error"));
     }
@@ -35951,7 +35718,7 @@ var warnMethod = (self2, code2, message, data = {}) => {
 };
 
 // node_modules/tar/dist/esm/parse.js
-var maxMetaEntrySize = 1024 * 1024, gzipHeader = Buffer.from([31, 139]), STATE = Symbol("state"), WRITEENTRY = Symbol("writeEntry"), READENTRY = Symbol("readEntry"), NEXTENTRY = Symbol("nextEntry"), PROCESSENTRY = Symbol("processEntry"), EX = Symbol("extendedHeader"), GEX = Symbol("globalExtendedHeader"), META = Symbol("meta"), EMITMETA = Symbol("emitMeta"), BUFFER2 = Symbol("buffer"), QUEUE = Symbol("queue"), ENDED = Symbol("ended"), EMITTEDEND = Symbol("emittedEnd"), EMIT = Symbol("emit"), UNZIP = Symbol("unzip"), CONSUMECHUNK = Symbol("consumeChunk"), CONSUMECHUNKSUB = Symbol("consumeChunkSub"), CONSUMEBODY = Symbol("consumeBody"), CONSUMEMETA = Symbol("consumeMeta"), CONSUMEHEADER = Symbol("consumeHeader"), CONSUMING = Symbol("consuming"), BUFFERCONCAT = Symbol("bufferConcat"), MAYBEEND = Symbol("maybeEnd"), WRITING = Symbol("writing"), ABORTED2 = Symbol("aborted"), DONE = Symbol("onDone"), SAW_VALID_ENTRY = Symbol("sawValidEntry"), SAW_NULL_BLOCK = Symbol("sawNullBlock"), SAW_EOF = Symbol("sawEOF"), CLOSESTREAM = Symbol("closeStream"), noop = () => !0, Parser = class extends import_events2.EventEmitter {
+var maxMetaEntrySize = 1024 * 1024, gzipHeader = Buffer.from([31, 139]), STATE = Symbol("state"), WRITEENTRY = Symbol("writeEntry"), READENTRY = Symbol("readEntry"), NEXTENTRY = Symbol("nextEntry"), PROCESSENTRY = Symbol("processEntry"), EX = Symbol("extendedHeader"), GEX = Symbol("globalExtendedHeader"), META = Symbol("meta"), EMITMETA = Symbol("emitMeta"), BUFFER2 = Symbol("buffer"), QUEUE = Symbol("queue"), ENDED = Symbol("ended"), EMITTEDEND = Symbol("emittedEnd"), EMIT = Symbol("emit"), UNZIP = Symbol("unzip"), CONSUMECHUNK = Symbol("consumeChunk"), CONSUMECHUNKSUB = Symbol("consumeChunkSub"), CONSUMEBODY = Symbol("consumeBody"), CONSUMEMETA = Symbol("consumeMeta"), CONSUMEHEADER = Symbol("consumeHeader"), CONSUMING = Symbol("consuming"), BUFFERCONCAT = Symbol("bufferConcat"), MAYBEEND = Symbol("maybeEnd"), WRITING = Symbol("writing"), ABORTED2 = Symbol("aborted"), DONE = Symbol("onDone"), SAW_VALID_ENTRY = Symbol("sawValidEntry"), SAW_NULL_BLOCK = Symbol("sawNullBlock"), SAW_EOF = Symbol("sawEOF"), CLOSESTREAM = Symbol("closeStream"), noop2 = () => !0, Parser = class extends import_events2.EventEmitter {
   file;
   strict;
   maxMetaEntrySize;
@@ -35981,7 +35748,7 @@ var maxMetaEntrySize = 1024 * 1024, gzipHeader = Buffer.from([31, 139]), STATE =
       (this[STATE] === "begin" || this[SAW_VALID_ENTRY] === !1) && this.warn("TAR_BAD_ARCHIVE", "Unrecognized archive format");
     }), opt.ondone ? this.on(DONE, opt.ondone) : this.on(DONE, () => {
       this.emit("prefinish"), this.emit("finish"), this.emit("end");
-    }), this.strict = !!opt.strict, this.maxMetaEntrySize = opt.maxMetaEntrySize || maxMetaEntrySize, this.filter = typeof opt.filter == "function" ? opt.filter : noop;
+    }), this.strict = !!opt.strict, this.maxMetaEntrySize = opt.maxMetaEntrySize || maxMetaEntrySize, this.filter = typeof opt.filter == "function" ? opt.filter : noop2;
     let isTBR = opt.file && (opt.file.endsWith(".tar.br") || opt.file.endsWith(".tbr"));
     this.brotli = !opt.gzip && opt.brotli !== void 0 ? opt.brotli : isTBR ? void 0 : !1, this.on("end", () => this[CLOSESTREAM]()), typeof opt.onwarn == "function" && this.on("warn", opt.onwarn), typeof opt.onReadEntry == "function" && this.on("entry", opt.onReadEntry);
   }
