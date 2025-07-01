@@ -44,7 +44,7 @@
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.5",
+    "@tsconfig/node20": "^20.1.6",
     "@types/async": "^3.2.24",
     "@types/fs-extra": "^11.0.4",
     "@types/n-readlines": "^1.0.6",
