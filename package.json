@@ -39,7 +39,7 @@
     "async": "^3.2.6",
     "fs-extra": "^11.3.0",
     "n-readlines": "^1.0.1",
-    "ssh2-sftp-client": "^12.0.0",
+    "ssh2-sftp-client": "^12.0.1",
     "tar": "^7.4.3",
     "xml-js": "^1.6.11"
   },
