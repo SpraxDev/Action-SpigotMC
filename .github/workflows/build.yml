@@ -28,7 +28,7 @@ jobs:
           node-version: 20
 
       # Setup JDK version
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 8
           distribution: temurin
@@ -38,7 +38,7 @@ jobs:
         with:
           versions: 1.8
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 23
           distribution: temurin
@@ -55,7 +55,7 @@ jobs:
           # These versions should match the ones above
           versions: latest
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 8
           distribution: temurin
@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Setup JDK version
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           # This version should probably match the ones from the 'run'-job
           java-version: 8
@@ -91,7 +91,7 @@ jobs:
           wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar
           java -jar BuildTools.jar --rev 1.8 --compile Spigot
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           # This version should probably match the ones from the 'run'-job
           java-version: 23
