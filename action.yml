@@ -47,22 +47,27 @@ inputs:
     required: false
     default: ''
     description: The host of the SFTP-Server to use as dedicated artifact cache
+    deprecationMessage: 'SFTP caching (and its options) will be removed in the next major release. Please create an issue, if you find this feature useful or have any questions!'
   sftpCachePort:
     required: false
     default: '22'
     description: The port of the SFTP-Server to use as dedicated artifact cache
+    deprecationMessage: 'SFTP caching (and its options) will be removed in the next major release. Please create an issue, if you find this feature useful or have any questions!'
   sftpCacheUser:
     required: false
     default: ''
     description: The username of the SFTP-Server to use as dedicated artifact cache
+    deprecationMessage: 'SFTP caching (and its options) will be removed in the next major release. Please create an issue, if you find this feature useful or have any questions!'
   sftpCachePrivateKey:
     required: false
     default: ''
     description: The private key of the SFTP-Server to use as dedicated artifact cache
+    deprecationMessage: 'SFTP caching (and its options) will be removed in the next major release. Please create an issue, if you find this feature useful or have any questions!'
   sftpCacheExpectedHostKey:
     required: false
     default: ''
     description: Setting this to the server's host key, will enable strictly checking the host key (something like `ssh-ed25519 [HASH]` is expected here)
+    deprecationMessage: 'SFTP caching (and its options) will be removed in the next major release. Please create an issue, if you find this feature useful or have any questions!'
 
 runs:
   using: node20

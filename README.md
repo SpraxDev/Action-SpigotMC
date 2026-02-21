@@ -26,7 +26,7 @@ Supported:
 * SpigotMC (using the latest version of the official BuildTools)
 
 You configure all the versions you want, and it'll compile all the missing versions automatically.
-By checking for a file in the local maven repository beforehand, build times can be reduces drastically.
+By checking for a file in the local maven repository beforehand, build times can be reduced drastically.
 
 
 ## Usage
@@ -76,6 +76,11 @@ as they are set automatically.
     buildToolProvider: SpigotMC # Optional
 
 
+    ##
+    # DEPRECATED: SFTP caching (and its options) will be removed in the next major release.
+    #             Please create an issue, if you find this feature useful or have any questions!
+    ##
+    
     # The host of the SFTP-Server to use as dedicated artifact cache
     sftpCacheHost: '' # Optional
     
@@ -95,6 +100,10 @@ as they are set automatically.
 ```
 
 ## Cache Spigot artifacts on a dedicated SFTP-Server
+> [!CAUTION]
+> SFTP caching (and its options) will be removed in the next major release.
+> Please create an issue, if you find this feature useful or have any questions!
+
 Using GitHub's `actions/cache` is already great but may not be enough for some use-cases,
 causing all those Spigot versions to be recompiled more often than necessary.
 
