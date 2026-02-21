@@ -70,5 +70,5 @@ inputs:
     deprecationMessage: 'SFTP caching (and its options) will be removed in the next major release. Please create an issue, if you find this feature useful or have any questions!'
 
 runs:
-  using: node20
+  using: node24
   main: dist/index.js
