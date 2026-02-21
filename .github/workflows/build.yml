@@ -27,17 +27,6 @@ jobs:
         with:
           node-version: 20
 
-      # Setup JDK version
-      - uses: actions/setup-java@v4
-        with:
-          java-version: 8
-          distribution: temurin
-
-      - name: Compile 1.8 spigot version
-        uses: ./
-        with:
-          versions: 1.8
-
       - uses: actions/setup-java@v4
         with:
           java-version: 23
@@ -55,17 +44,6 @@ jobs:
           # These versions should match the ones above
           versions: latest
 
-      - uses: actions/setup-java@v4
-        with:
-          java-version: 8
-          distribution: temurin
-
-      - name: Compile the same version again (1.8)
-        uses: ./
-        with:
-          # These versions should match the ones above
-          versions: 1.8
-
       - name: Upload logs
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
@@ -77,20 +55,6 @@ jobs:
   original-run:
     runs-on: ubuntu-latest
     steps:
-      # Setup JDK version
-      - uses: actions/setup-java@v4
-        with:
-          # This version should probably match the ones from the 'run'-job
-          java-version: 8
-          distribution: temurin
-
-      - name: Run original Spigot-BuildTools (1.8)
-        # These versions should match the ones from the 'run'-job
-        # Using '--compile Spigot' as this action does the same by default
-        run: |
-          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar
-          java -jar BuildTools.jar --rev 1.8 --compile Spigot
-
       - uses: actions/setup-java@v4
         with:
           # This version should probably match the ones from the 'run'-job
