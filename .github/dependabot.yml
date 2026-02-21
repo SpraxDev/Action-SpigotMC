@@ -9,6 +9,7 @@ updates:
       - dependency-name: '@types/*'
 
   - package-ecosystem: github-actions
+    target-branch: dev
     directory: /
     schedule:
       interval: monthly
