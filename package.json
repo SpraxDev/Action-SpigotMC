@@ -35,7 +35,7 @@
     "npm": ">=11.0.0"
   },
   "dependencies": {
-    "@actions/core": "^3.0.0",
+    "@actions/core": "^3.0.1",
     "async": "^3.2.6",
     "fs-extra": "^11.3.4",
     "n-readlines": "^3.4.1",
