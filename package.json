@@ -37,7 +37,7 @@
   "dependencies": {
     "@actions/core": "^3.0.0",
     "async": "^3.2.6",
-    "fs-extra": "^11.3.4",
+    "fs-extra": "^11.3.5",
     "n-readlines": "^3.4.1",
     "ssh2-sftp-client": "^12.1.1",
     "tar": "^7.5.13",
