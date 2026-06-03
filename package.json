@@ -35,12 +35,12 @@
     "npm": ">=11.0.0"
   },
   "dependencies": {
-    "@actions/core": "^3.0.0",
+    "@actions/core": "^3.0.1",
     "async": "^3.2.6",
-    "fs-extra": "^11.3.4",
+    "fs-extra": "^11.3.5",
     "n-readlines": "^3.4.1",
     "ssh2-sftp-client": "^12.1.1",
-    "tar": "^7.5.13",
+    "tar": "^7.5.16",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
@@ -48,10 +48,10 @@
     "@types/async": "^3.2.25",
     "@types/fs-extra": "^11.0.4",
     "@types/n-readlines": "^1.0.6",
-    "@types/node": "^24.12.0",
+    "@types/node": "^24.12.4",
     "@types/ssh2-sftp-client": "^9.0.6",
-    "esbuild": "^0.27.4",
+    "esbuild": "^0.28.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }
