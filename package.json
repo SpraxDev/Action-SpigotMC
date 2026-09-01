@@ -52,7 +52,7 @@
     "@types/ssh2-sftp-client": "^9.0.6",
     "esbuild": "^0.28.2",
     "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "allowScripts": {
     "cpu-features@0.0.10": true,
